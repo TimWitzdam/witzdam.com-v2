@@ -4,14 +4,18 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
 ---
 
 <Layout>
-  <section class="mt-20">
-    <div class="text-center mb-16 px-6 max-w-6xl mx-auto">
-      <h1 class="text-5xl font-bold mb-4">👋 Hey I'm Tim</h1>
-      <p>
+  <section
+    class="mt-20 md:flex md:items-center md:justify-between max-w-6xl mx-auto px-6"
+  >
+    <div class="text-center mb-16 md:text-left w-fit basis-1/2">
+      <h1 class="text-5xl font-bold mb-4 w-fit">👋 Hey I'm Tim</h1>
+      <p class="md:w-1/2">
         I'm Tim Witzdam, a full time student from Germany who also loves
         building cool things using code.
       </p>
-      <div class="flex justify-center items-center gap-4 mt-4">
+      <div
+        class="flex justify-center items-center gap-4 mt-4 md:justify-start w-fit"
+      >
         <a
           href="mailto:contact@witzdam.com"
           class="flex items-center gap-2 opacity-60 underline underline-offset-4"
@@ -28,23 +32,23 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
         </a>
       </div>
     </div>
-    <div class="grid place-items-center relative w-fit mx-auto">
+    <div class="grid place-items-center relative w-fit mx-auto h-[300px]">
       <img
         src="/images/pfp.png"
         alt="Tim Witzdam"
-        class="rounded-full w-40 h-40 mt-8"
+        class="rounded-full w-40 h-40 mt-8 object-contain"
       />
       <div class="hidden min-[400px]:block">
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-20 left-4 -rotate-6 scale-100 opacity-[53%]"
+          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 left-4 -rotate-6 scale-100 opacity-[53%]"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-20 -right-2 rotate-[20deg] scale-50 opacity-[17%]"
+          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 -right-2 rotate-[20deg] scale-50 opacity-[17%]"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute bottom-4 -right-14 rotate-[20deg] scale-75 opacity-[27%]"
+          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute bottom-20 -right-20 rotate-[20deg] scale-75 opacity-[27%]"
         >
         </div>
         <div

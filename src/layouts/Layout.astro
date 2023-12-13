@@ -1,5 +1,21 @@
 ---
-
+const routes: {
+  name: String;
+  path: string;
+}[] = [
+  {
+    name: "Home",
+    path: "/",
+  },
+  {
+    name: "Projects",
+    path: "/projects",
+  },
+  {
+    name: "Tools",
+    path: "/tools",
+  },
+];
 ---
 
 <!doctype html>
@@ -12,6 +28,52 @@
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
-    <slot />
+    <header class="pt-4 px-6 max-w-6xl mx-auto">
+      <div class="flex justify-center items-center gap-4">
+        {
+          routes.map((route) => (
+            <a
+              href={route.path}
+              class="rounded-lg py-1 px-4 group hover:bg-[#2E2E2E] transition-colors"
+            >
+              <span class="opacity-60 group-hover:opacity-100 transition-opacity">
+                {route.name}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
+
+<style is:global>
+  * {
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      Segoe UI,
+      Roboto,
+      Helvetica Neue,
+      Arial,
+      Noto Sans,
+      sans-serif,
+      Apple Color Emoji,
+      Segoe UI Emoji,
+      Segoe UI Symbol,
+      Noto Color Emoji;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    color: white;
+  }
+  html {
+    background-color: #161616;
+  }
+</style>

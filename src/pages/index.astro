@@ -3,18 +3,47 @@ import Layout from "../layouts/Layout.astro";
 import LinkArrow from "../../public/icons/link-arrow.svg?raw";
 ---
 
+<script>
+  import gsap from "gsap";
+
+  const particles = document.querySelectorAll(".particle");
+
+  const toOptions = {
+    duration: 0.6,
+    ease: "power4.out",
+  };
+
+  particles.forEach((particle) => {
+    if (particle instanceof HTMLElement) {
+      const xTo = gsap.quickTo(particle, "x", toOptions);
+      const yTo = gsap.quickTo(particle, "y", toOptions);
+
+      const offset = Number(particle.dataset.offset);
+
+      document.addEventListener("mousemove", (e) => {
+        const { clientX, clientY } = e;
+        const { height, width, left, top } = particle.getBoundingClientRect();
+        const x = clientX - (left + width / 2);
+        const y = clientY - (top + height / 2);
+        xTo(x * (offset - 0.001));
+        yTo(y * (offset - 0.001));
+      });
+    }
+  });
+</script>
+
 <Layout>
   <section
     class="mt-20 md:flex md:items-center md:justify-between max-w-6xl mx-auto px-6"
   >
-    <div class="text-center mb-16 md:text-left w-fit basis-1/2">
-      <h1 class="text-5xl font-bold mb-4 w-fit">👋 Hey I'm Tim</h1>
-      <p class="md:w-1/2">
-        I'm Tim Witzdam, a full time student from Germany who also loves
+    <div class="text-center mb-16 md:text-left md:w-fit">
+      <h1 class="text-5xl font-bold mb-4">👋 Hey I'm Tim</h1>
+      <p class="">
+        I'm Tim Witzdam, a full time student from Germany <br />who also loves
         building cool things using code.
       </p>
       <div
-        class="flex justify-center items-center gap-4 mt-4 md:justify-start w-fit"
+        class="flex justify-center items-center gap-4 mt-4 md:justify-start md:w-fit"
       >
         <a
           href="mailto:contact@witzdam.com"
@@ -38,33 +67,40 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
         alt="Tim Witzdam"
         class="rounded-full w-40 h-40 mt-8 object-contain"
       />
-      <div class="hidden min-[400px]:block">
+      <div class="hidden min-[400px]:block -z-10">
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 left-4 -rotate-6 scale-100 opacity-[53%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 left-4 -rotate-6 scale-100 opacity-[53%]"
+          data-offset="0.0257"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 -right-2 rotate-[20deg] scale-50 opacity-[17%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 -right-2 rotate-[20deg] scale-50 opacity-[17%]"
+          data-offset="0.060"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute bottom-20 -right-20 rotate-[20deg] scale-75 opacity-[27%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute bottom-20 -right-20 rotate-[20deg] scale-75 opacity-[27%]"
+          data-offset="0.044"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-10 -right-28 rotate-[-8deg] scale-100 opacity-[37%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-10 -right-28 rotate-[-8deg] scale-100 opacity-[37%]"
+          data-offset="0.0238"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 right-0 rotate-[14deg] scale-[30%] opacity-[71%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 right-0 rotate-[14deg] scale-[30%] opacity-[71%]"
+          data-offset="0.042"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 -left-14 rotate-[-10deg] scale-[55%] opacity-[27%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 -left-14 rotate-[-10deg] scale-[55%] opacity-[27%]"
+          data-offset="0.055"
         >
         </div>
         <div
-          class="rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-32 -left-20 rotate-[-40deg] scale-75 opacity-[53%]"
+          class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-32 -left-20 rotate-[-40deg] scale-75 opacity-[53%]"
+          data-offset="0.021"
         >
         </div>
       </div>

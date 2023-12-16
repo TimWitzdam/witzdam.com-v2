@@ -1,6 +1,7 @@
 ---
 import TechStackItem from "./TechStackItem.astro";
 import Link from "./Link.astro";
+import Card from "./Card.astro";
 
 interface Props {
   number: string;
@@ -22,15 +23,7 @@ const { number, name, description, image, website_url, case_study_url } =
   <p class="text-center mb-4 text-6xl font-black out opacity-60 md:hidden">
     {number}
   </p>
-  <div
-    class="p-8 md:flex md:gap-4 bg-opacity-60 bg-gradient-to-b from-[#252525] to-[#1B1B1B] rounded-[3rem] relative"
-  >
-    <div
-      class="absolute -inset-[1px] bg-gradient-to-b from-white to-[#ffffff66] rounded-[3rem] -z-10 p-2 opacity-30"
-      style="pointer-events: none;"
-    >
-    </div>
-
+  <Card>
     <div class="hidden md:block md:absolute md:-top-10 md:-left-5 -z-10">
       <span class="text-6xl font-black out opacity-60">{number}</span>
     </div>
@@ -84,7 +77,7 @@ const { number, name, description, image, website_url, case_study_url } =
       <Link text="Visit the website" href={website_url} />
       <Link text="Read case study" href={case_study_url} />
     </div>
-  </div>
+  </Card>
 </div>
 
 <style>

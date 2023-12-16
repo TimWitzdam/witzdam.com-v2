@@ -28,13 +28,22 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
         xTo(x * (offset - 0.001));
         yTo(y * (offset - 0.001));
       });
+
+      const startOpacity = Number(particle.dataset.startOpacity);
+
+      document.addEventListener("scroll", (e) => {
+        particle.style.opacity = (
+          startOpacity -
+          window.scrollY / 500
+        ).toString();
+      });
     }
   });
 </script>
 
 <Layout>
   <section
-    class="mt-20 md:flex md:items-center md:justify-between max-w-6xl mx-auto px-6"
+    class="mt-20 md:flex md:items-center md:justify-between max-w-4xl mx-auto px-6"
   >
     <div class="text-center mb-16 md:text-left md:w-fit">
       <h1 class="text-5xl font-bold mb-4">👋 Hey I'm Tim</h1>
@@ -71,36 +80,43 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 left-4 -rotate-6 scale-100 opacity-[53%]"
           data-offset="0.0257"
+          data-start-opacity="0.53"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute -bottom-4 -right-2 rotate-[20deg] scale-50 opacity-[17%]"
           data-offset="0.060"
+          data-start-opacity="0.17"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute bottom-20 -right-20 rotate-[20deg] scale-75 opacity-[27%]"
           data-offset="0.044"
+          data-start-opacity="0.27"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-10 -right-28 rotate-[-8deg] scale-100 opacity-[37%]"
           data-offset="0.0238"
+          data-start-opacity="0.37"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 right-0 rotate-[14deg] scale-[30%] opacity-[71%]"
           data-offset="0.042"
+          data-start-opacity="0.71"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-0 -left-14 rotate-[-10deg] scale-[55%] opacity-[27%]"
           data-offset="0.055"
+          data-start-opacity="0.27"
         >
         </div>
         <div
           class="particle rounded-lg bg-[#D9D9D9] w-12 h-12 absolute top-32 -left-20 rotate-[-40deg] scale-75 opacity-[53%]"
           data-offset="0.021"
+          data-start-opacity="0.53"
         >
         </div>
       </div>

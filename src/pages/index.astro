@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import LinkArrow from "../../public/icons/link-arrow.svg?raw";
+import Link from "../components/Link.astro";
 ---
 
 <script>
@@ -54,20 +54,8 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
       <div
         class="flex justify-center items-center gap-4 mt-4 md:justify-start md:w-fit"
       >
-        <a
-          href="mailto:contact@witzdam.com"
-          class="flex items-center gap-2 opacity-60 underline underline-offset-4"
-        >
-          <Fragment set:html={LinkArrow} />
-          <span>Email me</span>
-        </a>
-        <a
-          href="/tools"
-          class="flex items-center gap-2 opacity-60 underline underline-offset-4"
-        >
-          <Fragment set:html={LinkArrow} />
-          <span>Useful tools</span>
-        </a>
+        <Link text="Email me" href="mailto:contact@witzdam.com" />
+        <Link text="Useful tools" href="/tools" />
       </div>
     </div>
     <div class="grid place-items-center relative w-fit mx-auto h-[300px]">

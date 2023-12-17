@@ -1,14 +1,18 @@
 ---
+interface Props {
+  animated?: boolean;
+}
 
+const { animated } = Astro.props;
 ---
 
-<div
-  class="p-8 bg-opacity-60 bg-gradient-to-b from-[#252525] to-[#1B1B1B] rounded-[3rem] relative"
->
+<div class="p-8 rounded-[3rem] relative" class:list={[{ card: animated }]}>
   <div
-    class="absolute -inset-[1px] bg-gradient-to-b from-white to-[#ffffff66] rounded-[3rem] -z-10 p-2 opacity-30"
-    style="pointer-events: none;"
+    class="card-background absolute -inset-[1px] bg-gradient-to-b from-[#252525] to-[#1B1B1B] rounded-[3rem] -z-10 p-2 border border-white border-opacity-30"
+    style="pointer-events: none; transform-origin: center center;"
   >
   </div>
-  <slot />
+  <div class="card-content">
+    <slot />
+  </div>
 </div>

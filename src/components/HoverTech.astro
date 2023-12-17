@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string;
+  image: {
+    src: string;
+    alt: string;
+  };
+  size: string;
+}
+
+const { name, image, size } = Astro.props;
+---
+
+<div class="group">
+  <img
+    src={image.src}
+    alt={image.alt}
+    width={size}
+    class="group-hover:-translate-y-4 transition-transform -mb-2 mx-auto"
+  />
+  <p class="opacity-0 group-hover:opacity-100 transition-opacity text-center">
+    {name}
+  </p>
+</div>

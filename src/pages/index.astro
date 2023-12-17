@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import Link from "../components/Link.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import Card from "../components/Card.astro";
+import HoverTech from "../components/HoverTech.astro";
+import MailIcon from "../../public/icons/mail.svg?raw";
 ---
 
 <script>
@@ -129,7 +131,142 @@ import Card from "../components/Card.astro";
       case_study_url="/projects/cryptodisplay"
     />
   </section>
-  <section class="mt-28 max-w-4xl mx-auto px-6">
-    <Card />
+  <section
+    class="mt-28 max-w-4xl mx-auto px-6 grid grid-cols-1 grid-rows-1 gap-8 root-container"
+  >
+    <div class="T">
+      <div class="L">
+        <Card>
+          <img
+            src="/images/location.webp"
+            alt="Location Map"
+            class="rounded-[3rem] mb-6"
+          />
+          <p class="font-bold text-2xl text-center">Bottrop, Germany</p>
+          <p class="opacity-60 text-center">21:29:45</p>
+        </Card>
+        <Card>
+          <div class="flex items-center gap-6">
+            <img
+              src="/images/music.webp"
+              alt="Head & Heart by Joel Corry"
+              class="rounded-xl"
+              width="60"
+            />
+            <div>
+              <p class="font-bold text-xl">Head & Heart</p>
+              <p class="opacity-60">Joel Corry and MNEK</p>
+            </div>
+          </div>
+        </Card>
+        <Card>
+          <div class="flex items-center gap-6">
+            <img
+              src="/images/tech/github.svg"
+              alt="GitHub Logo"
+              class="rounded-xl"
+              width="60"
+            />
+            <div>
+              <p class="font-bold text-xl">Github</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <Card>
+        <p class="font-bold text-2xl text-center mb-10">Tech I love</p>
+        <div class="relative h-[600px] w-full">
+          <div class="absolute top-0 left-0">
+            <HoverTech
+              size="70"
+              name="Python"
+              image={{ src: "/images/tech/python.svg", alt: "Python 3 Logo" }}
+            />
+          </div>
+          <div class="absolute top-0 right-4">
+            <HoverTech
+              size="40"
+              name="JavaScript"
+              image={{
+                src: "/images/tech/javascript.svg",
+                alt: "Javascript Logo",
+              }}
+            />
+          </div>
+        </div>
+      </Card>
+    </div>
+    <div class="B">
+      <Card>
+        <p class="font-bold text-xl text-center mb-4">CodePen</p>
+        <img
+          src="/images/tech/codepen.svg"
+          alt="CodePen Logo"
+          width="90"
+          class="mx-auto"
+        />
+      </Card>
+      <Card>
+        <div class="flex justify-between">
+          <div>
+            <p class="font-bold text-3xl mb-1">Reach out to me!</p>
+            <a
+              href="mailto:tim@witzdam.com"
+              class="opacity-60 flex items-center gap-2"
+            >
+              <span>tim@witzdam.com</span>
+              <Fragment set:html={MailIcon} />
+            </a>
+          </div>
+          <img
+            src="/images/waving.webp"
+            alt="Waving Emoji"
+            width="120"
+            class="my-4"
+          />
+        </div>
+      </Card>
+    </div>
   </section>
 </Layout>
+
+<style>
+  .root-container {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1.6fr 0.4fr;
+    gap: 2em 2em;
+    grid-template-areas:
+      "T"
+      "B";
+  }
+  .T {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-rows: 1fr;
+    gap: 2em 2em;
+    grid-template-areas: "L .";
+    grid-area: T;
+  }
+  .L {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.3fr 0.1fr 0.1fr;
+    gap: 2em 2em;
+    grid-template-areas:
+      "."
+      "."
+      ".";
+    grid-area: L;
+  }
+  .B {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    grid-template-rows: 1fr;
+    gap: 2em 2em;
+    grid-template-areas: ". .";
+    grid-area: B;
+  }
+</style>

@@ -253,7 +253,9 @@ import MailIcon from "../../public/icons/mail.svg?raw";
         />
       </Card>
       <Card animated>
-        <div class="flex justify-between">
+        <div
+          class="flex flex-col-reverse gap-6 items-center sm:flex-row sm:gap-0 sm:items-start justify-between"
+        >
           <div>
             <p class="font-bold text-4xl mb-1">Reach out to me!</p>
             <a
@@ -314,5 +316,40 @@ import MailIcon from "../../public/icons/mail.svg?raw";
     gap: 2em 2em;
     grid-template-areas: ". .";
     grid-area: B;
+  }
+
+  @media (max-width: 890px) {
+    .root-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 0.1fr;
+      grid-template-areas:
+        "T"
+        "B";
+    }
+    .T {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      gap: 2em 2em;
+      grid-template-areas: "L";
+      grid-area: T;
+    }
+    .L {
+      grid-template-columns: 1fr;
+      grid-template-rows: 0.3fr 0.1fr 0.1fr;
+      gap: 2em 2em;
+      grid-template-areas:
+        "."
+        "."
+        ".";
+      grid-area: L;
+    }
+    .B {
+      height: fit-content;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      gap: 2em 2em;
+      grid-template-areas: ".";
+      grid-area: B;
+    }
   }
 </style>

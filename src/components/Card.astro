@@ -7,7 +7,10 @@ interface Props {
 const { animated, spotify } = Astro.props;
 ---
 
-<div class="p-8 rounded-[3rem] relative" class:list={[{ card: animated }]}>
+<div
+  class="p-8 rounded-[3rem] relative"
+  class:list={[{ "card hover:scale-[1.02] transition-transform": animated }]}
+>
   <div class:list={[{ "card-b": animated }]}></div>
   <div
     class="card-background absolute -inset-[1px] rounded-[3rem] -z-10 p-2 border border-white border-opacity-30"

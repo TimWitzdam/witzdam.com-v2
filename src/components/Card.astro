@@ -1,15 +1,22 @@
 ---
 interface Props {
   animated?: boolean;
+  spotify?: boolean;
 }
 
-const { animated } = Astro.props;
+const { animated, spotify } = Astro.props;
 ---
 
 <div class="p-8 rounded-[3rem] relative" class:list={[{ card: animated }]}>
-  <div class="card-b"></div>
+  <div class:list={[{ "card-b": animated }]}></div>
   <div
-    class="card-background absolute -inset-[1px] bg-gradient-to-b from-[#252525] to-[#1B1B1B] rounded-[3rem] -z-10 p-2 border border-white border-opacity-30"
+    class="card-background absolute -inset-[1px] rounded-[3rem] -z-10 p-2 border border-white border-opacity-30"
+    class:list={[
+      {
+        "bg-gradient-to-bl from-[#1db95430] to-[#1db95400]": spotify,
+        "bg-gradient-to-b from-[#252525] to-[#1B1B1B]": !spotify,
+      },
+    ]}
     style="pointer-events: none; transform-origin: center center;"
   >
   </div>

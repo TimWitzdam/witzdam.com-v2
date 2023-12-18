@@ -7,6 +7,7 @@ const { animated } = Astro.props;
 ---
 
 <div class="p-8 rounded-[3rem] relative" class:list={[{ card: animated }]}>
+  <div class="card-b"></div>
   <div
     class="card-background absolute -inset-[1px] bg-gradient-to-b from-[#252525] to-[#1B1B1B] rounded-[3rem] -z-10 p-2 border border-white border-opacity-30"
     style="pointer-events: none; transform-origin: center center;"
@@ -16,3 +17,29 @@ const { animated } = Astro.props;
     <slot />
   </div>
 </div>
+
+<style>
+  .card:hover .card-b {
+    opacity: 1;
+  }
+
+  .card-b {
+    border-radius: inherit;
+    content: "";
+    height: 100%;
+    left: 0px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    transition: opacity 500ms;
+    width: 100%;
+  }
+
+  .card-b {
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+  }
+</style>

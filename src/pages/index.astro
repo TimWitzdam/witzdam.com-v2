@@ -51,8 +51,11 @@ import MailIcon from "../../public/icons/mail.svg?raw";
   cards.forEach((card) => {
     if (card instanceof HTMLElement) {
       const cardBackground = card.querySelector(".card-background");
-      const xTo = gsap.quickTo(cardBackground, "x", toOptions);
-      const yTo = gsap.quickTo(cardBackground, "y", toOptions);
+      const cardBefore = card.querySelector(".card-b");
+      const xToBG = gsap.quickTo(cardBackground, "x", toOptions);
+      const yToBG = gsap.quickTo(cardBackground, "y", toOptions);
+      const xToBefore = gsap.quickTo(cardBefore, "x", toOptions);
+      const yToBefore = gsap.quickTo(cardBefore, "y", toOptions);
 
       card.addEventListener("mousemove", (e) => {
         const { clientX, clientY } = e;
@@ -60,16 +63,31 @@ import MailIcon from "../../public/icons/mail.svg?raw";
           cardBackground.getBoundingClientRect();
         const x = clientX - (left + width / 2);
         const y = clientY - (top + height / 2);
-        xTo(x * 0.05);
-        yTo(y * 0.05);
+        xToBG(x * 0.05);
+        yToBG(y * 0.05);
+        xToBefore(x * 0.05);
+        yToBefore(y * 0.05);
       });
 
       card.addEventListener("mouseleave", (e) => {
-        xTo(0);
-        yTo(0);
+        xToBG(0);
+        yToBG(0);
+        xToBefore(0);
+        yToBefore(0);
       });
     }
   });
+
+  document.getElementById("cards").onmousemove = (e) => {
+    for (const card of document.getElementsByClassName("card")) {
+      const rect = card.getBoundingClientRect(),
+        x = e.clientX - rect.left,
+        y = e.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    }
+  };
 </script>
 
 <Layout>
@@ -160,6 +178,7 @@ import MailIcon from "../../public/icons/mail.svg?raw";
   </section>
   <section
     class="mt-28 max-w-4xl mx-auto px-6 grid grid-cols-1 grid-rows-1 gap-8 root-container"
+    id="cards"
   >
     <div class="T">
       <div class="L">

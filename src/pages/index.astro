@@ -161,20 +161,23 @@ import MailIcon from "../../public/icons/mail.svg?raw";
   </section>
   <section class="mt-28 max-w-4xl mx-auto px-6">
     <h1 class="text-4xl font-bold">🤝 My projects</h1>
-    <p class="mb-12 mt-2 text-[#A2A2A2]">
+    <p class="mb-24 mt-2 text-[#A2A2A2]">
       are helping exactly <b>85.654.743</b> people
     </p>
-    <ProjectCard
-      number="01"
-      name="CryptoDisplay"
-      description="Discord Bot that displays crypto prices for over 5 million users"
-      image={{
-        src: "/images/cryptodisplay.png",
-        alt: "CryptoDisplay Website Screenshot",
-      }}
-      website_url="https://cryptodisplay.net"
-      case_study_url="/projects/cryptodisplay"
-    />
+    <div class="px-6">
+      <ProjectCard
+        number="01"
+        logo="/images/cryptodisplay-logo.webp"
+        name="CryptoDisplay"
+        description="Discord Bot that displays crypto prices for over 5 million users"
+        image={{
+          src: "/images/cryptodisplay.png",
+          alt: "CryptoDisplay Website Screenshot",
+        }}
+        website_url="https://cryptodisplay.net"
+        case_study_url="/projects/cryptodisplay"
+      />
+    </div>
   </section>
   <section
     class="mt-28 max-w-4xl mx-auto px-6 grid grid-cols-1 grid-rows-1 gap-8 root-container"

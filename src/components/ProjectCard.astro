@@ -2,9 +2,11 @@
 import TechStackItem from "./TechStackItem.astro";
 import Link from "./Link.astro";
 import Card from "./Card.astro";
+import BaseButton from "./BaseButton.astro";
 
 interface Props {
   number: string;
+  logo: string;
   name: string;
   description: string;
   image: {
@@ -15,68 +17,40 @@ interface Props {
   case_study_url: string;
 }
 
-const { number, name, description, image, website_url, case_study_url } =
+const { number, logo, name, description, image, website_url, case_study_url } =
   Astro.props;
 ---
 
 <div>
-  <p class="text-center mb-4 text-6xl font-black out opacity-60 md:hidden">
-    {number}
-  </p>
-  <Card>
-    <div class="hidden md:block md:absolute md:-top-10 md:-left-5 -z-10">
+  <Card noPadding>
+    <div class="absolute -top-7 -right-6 -z-20">
       <span class="text-6xl font-black out opacity-60">{number}</span>
     </div>
-    <p class="text-2xl font-bold mb-2">{name}</p>
-    <p class="opacity-60 mb-6">{description}</p>
+    <div class="px-8 pt-8 mb-10">
+      <img
+        src={logo}
+        alt={name}
+        class="rounded-full object-cover mb-4"
+        width="45"
+        height="45"
+      />
+      <p class="text-3xl font-bold mb-2">{name}</p>
+      <p class="opacity-60 mb-6 text-lg">{description}</p>
+      <div class="flex flex-col gap-4 md:flex-row md:items-center">
+        <a href={case_study_url}>
+          <BaseButton text="Read case study" arrow />
+        </a>
+        <a href={website_url}>
+          <BaseButton text="Visit the website" arrow />
+        </a>
+      </div>
+    </div>
     <img
       src={image.src}
       alt={image.alt}
-      width="150"
-      class="rounded-xl mx-auto mb-4"
+      class="rounded-xl mx-auto px-4"
+      width="600"
     />
-    <span class="opacity-60 mb-4">Tech stack:</span>
-    <div class="grid grid-cols-2 grid-rows-1 gap-4">
-      <TechStackItem
-        name="Python"
-        image={{
-          src: "/images/tech/python.svg",
-          alt: "Python Logo",
-        }}
-      />
-      <TechStackItem
-        name="Javascript"
-        image={{
-          src: "/images/tech/javascript.svg",
-          alt: "Javascript Logo",
-        }}
-      />
-      <TechStackItem
-        name="Postgres"
-        image={{
-          src: "/images/tech/postgres.svg",
-          alt: "Postgres Logo",
-        }}
-      />
-      <TechStackItem
-        name="Nuxt 3"
-        image={{
-          src: "/images/tech/nuxt_3.svg",
-          alt: "Nuxt 3 Logo",
-        }}
-      />
-      <TechStackItem
-        name="Vue JS"
-        image={{
-          src: "/images/tech/vue.svg",
-          alt: "Vue JS Logo",
-        }}
-      />
-    </div>
-    <div class="mt-6 flex flex-col gap-4 text-lg">
-      <Link text="Visit the website" href={website_url} />
-      <Link text="Read case study" href={case_study_url} />
-    </div>
   </Card>
 </div>
 

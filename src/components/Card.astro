@@ -2,14 +2,20 @@
 interface Props {
   animated?: boolean;
   spotify?: boolean;
+  noPadding?: boolean;
 }
 
-const { animated, spotify } = Astro.props;
+const { animated, spotify, noPadding } = Astro.props;
 ---
 
 <div
   class="p-8 rounded-[3rem] relative"
-  class:list={[{ "card hover:scale-[1.02] transition-transform": animated }]}
+  class:list={[
+    {
+      "card hover:scale-[1.02] transition-transform": animated,
+      "p-0": noPadding,
+    },
+  ]}
 >
   <div class:list={[{ "card-b": animated }]}></div>
   <div

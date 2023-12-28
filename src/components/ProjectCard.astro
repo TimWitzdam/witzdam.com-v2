@@ -12,6 +12,7 @@ interface Props {
   image: {
     src: string;
     alt: string;
+    right?: boolean;
   };
   website_url: string;
   case_study_url: string;
@@ -48,7 +49,10 @@ const { number, logo, name, description, image, website_url, case_study_url } =
     <img
       src={image.src}
       alt={image.alt}
-      class="rounded-xl mx-auto px-4"
+      class="rounded-xl"
+      class:list={[
+        { "ml-auto pl-10": image.right, "mx-auto px-4": !image.right },
+      ]}
       width="600"
     />
   </Card>

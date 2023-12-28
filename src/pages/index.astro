@@ -5,6 +5,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Card from "../components/Card.astro";
 import HoverTech from "../components/HoverTech.astro";
 import MailIcon from "../../public/icons/mail.svg?raw";
+import LinkArrow from "../../public/icons/link-arrow.svg?raw";
 ---
 
 <script>
@@ -95,9 +96,9 @@ import MailIcon from "../../public/icons/mail.svg?raw";
     class="mt-20 md:flex md:items-center md:justify-between max-w-4xl mx-auto px-6"
   >
     <div class="text-center mb-16 md:text-left md:w-fit">
-      <h1 class="text-5xl font-bold mb-4">👋 Hey I'm Tim</h1>
-      <p class="">
-        I'm Tim Witzdam, a full time student from Germany <br />who also loves
+      <h1 class="text-5xl font-bold mb-4 md:text-6xl">👋 Hey I'm Tim</h1>
+      <p class="text-lg max-w-[400px] mx-auto">
+        I'm Tim Witzdam, a full time student from Germany who also loves
         building cool things using code.
       </p>
       <div
@@ -160,8 +161,8 @@ import MailIcon from "../../public/icons/mail.svg?raw";
     </div>
   </section>
   <section class="mt-28 max-w-4xl mx-auto px-6">
-    <h1 class="text-4xl font-bold">🤝 My projects</h1>
-    <p class="mb-24 mt-2 text-[#A2A2A2]">
+    <h2 class="text-5xl font-bold">🤝 My projects</h2>
+    <p class="mb-24 mt-4 text-[#A2A2A2] text-xl">
       are helping exactly <b>85.654.743</b> people
     </p>
     <div class="px-6">
@@ -237,8 +238,8 @@ import MailIcon from "../../public/icons/mail.svg?raw";
             </div>
           </div>
         </Card>
-        <Card animated>
-          <div class="flex items-center gap-6">
+        <Card animated link="https://github.com/TimWitzdam">
+          <div class="flex items-center gap-6 w-full">
             <img
               src="/images/tech/github.svg"
               alt="GitHub Logo"
@@ -247,6 +248,12 @@ import MailIcon from "../../public/icons/mail.svg?raw";
             />
             <div>
               <p class="font-bold text-2xl">Github</p>
+            </div>
+            <div
+              class="flex items-center gap-2 opacity-0 ml-auto -translate-x-full group-hover/card:opacity-60 group-hover/card:translate-x-0 transition-all"
+            >
+              <span>Check it out</span>
+              <Fragment set:html={LinkArrow} />
             </div>
           </div>
         </Card>
@@ -355,28 +362,35 @@ import MailIcon from "../../public/icons/mail.svg?raw";
       </Card>
     </div>
     <div class="B">
-      <Card animated>
-        <p class="font-bold text-2xl text-center mb-4">CodePen</p>
-        <img
-          src="/images/tech/codepen.svg"
-          alt="CodePen Logo"
-          width="90"
-          class="mx-auto"
-        />
+      <Card animated link="https://codepen.io/TimWitzdam">
+        <div class="group-hover/card:-translate-y-3 transition-transform">
+          <p class="font-bold text-2xl text-center mb-4">CodePen</p>
+          <img
+            src="/images/tech/codepen.svg"
+            alt="CodePen Logo"
+            width="90"
+            class="mx-auto group-hover/card:scale-75 transition-all"
+          />
+        </div>
+        <div
+          class="absolute whitespace-nowrap left-1/2 transform -translate-x-1/2 flex items-center gap-2 opacity-0 mt-2 -translate-y-7 group-hover/card:opacity-60 group-hover/card:-translate-y-5 transition-all"
+        >
+          <span>Check it out</span>
+          <Fragment set:html={LinkArrow} />
+        </div>
       </Card>
-      <Card animated>
+      <Card animated link="mailto:tim@witzdam.com">
         <div
           class="flex flex-col-reverse gap-6 items-center sm:flex-row sm:gap-0 sm:items-start justify-between"
         >
           <div>
             <p class="font-bold text-4xl mb-1">Reach out to me!</p>
-            <a
-              href="mailto:tim@witzdam.com"
-              class="opacity-60 flex items-center gap-2"
+            <div
+              class="opacity-60 flex items-center gap-2 text-lg justify-center md:justify-start"
             >
               <span>tim@witzdam.com</span>
               <Fragment set:html={MailIcon} />
-            </a>
+            </div>
           </div>
           <img
             src="/images/waving.webp"

@@ -9,7 +9,7 @@ const { text, href } = Astro.props;
 ---
 
 <div
-  class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+  class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity text-lg"
 >
   <Fragment set:html={LinkArrow} />
   <a href={href}>{text}</a>

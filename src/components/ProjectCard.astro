@@ -13,11 +13,9 @@ interface Props {
     right?: boolean;
   };
   website_url: string;
-  case_study_url: string;
 }
 
-const { number, logo, name, description, image, website_url, case_study_url } =
-  Astro.props;
+const { number, logo, name, description, image, website_url } = Astro.props;
 ---
 
 <div>
@@ -35,14 +33,9 @@ const { number, logo, name, description, image, website_url, case_study_url } =
       />
       <p class="text-3xl font-bold mb-2">{name}</p>
       <p class="opacity-60 mb-6 text-lg">{description}</p>
-      <div class="flex flex-col gap-4 md:flex-row md:items-center">
-        <a href={case_study_url}>
-          <BaseButton text="Read case study" arrow />
-        </a>
-        <a href={website_url}>
-          <BaseButton text="Visit the website" arrow />
-        </a>
-      </div>
+      <a href={website_url}>
+        <BaseButton text="Visit the website" arrow />
+      </a>
     </div>
     <img
       src={image.src}

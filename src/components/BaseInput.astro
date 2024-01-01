@@ -1,0 +1,46 @@
+---
+interface Props {
+  id: string;
+  type: string;
+  placeholder: string;
+  value?: string;
+}
+
+const { id, type, placeholder, value } = Astro.props;
+---
+
+<script define:vars={{ id }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById(id);
+    const button = input.nextElementSibling;
+
+    button.addEventListener("click", () => {
+      input.value = "";
+      input.focus();
+    });
+  });
+</script>
+
+<div
+  class="relative border-2 border-white w-fit rounded-xl focus-within:bg-white focus-within:bg-opacity-10 transition-all flex items-center pr-4"
+>
+  <input
+    class="outline-none bg-transparent p-3 px-6"
+    id={id}
+    type={type}
+    placeholder={placeholder}
+    value={value}
+  />
+  <button
+    class="input-clear rounded-full w-6 h-6 grid place-content-center bg-white text-black font-bold text-sm transition-transform ease-in-out"
+  >
+    X
+  </button>
+</div>
+
+<style>
+  input:placeholder-shown + button {
+    transform: scale(0);
+    pointer-events: none;
+  }
+</style>

@@ -33,7 +33,7 @@ const { number, logo, name, description, image, website_url } = Astro.props;
       />
       <p class="text-3xl font-bold mb-2">{name}</p>
       <p class="opacity-60 mb-6 text-lg">{description}</p>
-      <a href={website_url}>
+      <a href={website_url} target="_blank">
         <BaseButton text="Visit the website" arrow />
       </a>
     </div>

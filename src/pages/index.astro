@@ -60,6 +60,7 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
 
       card.addEventListener("mousemove", (e) => {
         const { clientX, clientY } = e;
+        if (cardBackground === null || cardBefore === null) return;
         const { height, width, left, top } =
           cardBackground.getBoundingClientRect();
         const x = clientX - (left + width / 2);
@@ -79,16 +80,21 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
     }
   });
 
-  document.getElementById("cards").onmousemove = (e) => {
-    for (const card of document.getElementsByClassName("card")) {
-      const rect = card.getBoundingClientRect(),
-        x = e.clientX - rect.left,
-        y = e.clientY - rect.top;
+  const cardsWrapper = document.getElementById("cards");
+  if (cardsWrapper) {
+    cardsWrapper.onmousemove = (e) => {
+      for (const card of document.getElementsByClassName("card")) {
+        const rect = card.getBoundingClientRect(),
+          x = e.clientX - rect.left,
+          y = e.clientY - rect.top;
 
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    }
-  };
+        if (card instanceof HTMLElement) {
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        }
+      }
+    };
+  }
 
   const currentDate = new Date();
   const timeFormatter = new Intl.DateTimeFormat("en-US", {
@@ -113,6 +119,17 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
   }, 1000);
 </script>
 
+<title>Tim Witzdam</title>
+<meta
+  name="description"
+  content="Hey I'm Tim Witzdam, a full time student from Germany who also loves building cool things using code."
+/>
+<meta name="og:title" content="Tim Witzdam" />
+<meta
+  name="og:description"
+  content="Hey I'm Tim Witzdam, a full time student from Germany who also loves building cool things using code."
+/>
+<meta name="og:image" content="https://witzdam.com/pfp.webp" />
 <Layout>
   <section
     class="mt-20 md:flex md:items-center md:justify-between max-w-4xl mx-auto px-6"
@@ -132,9 +149,10 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
     </div>
     <div class="grid place-items-center relative w-fit mx-auto h-[300px]">
       <img
-        src="/images/pfp.png"
+        src="/images/pfp.webp"
         alt="Tim Witzdam"
         class="rounded-full w-40 h-40 mt-8 object-contain"
+        fetchpriority="high"
       />
       <div class="hidden min-[400px]:block -z-10">
         <div
@@ -195,7 +213,7 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
           name="CryptoDisplay"
           description="Discord Bot that displays Crypto Prices for over 5 Million Users"
           image={{
-            src: "/images/cryptodisplay.png",
+            src: "/images/cryptodisplay.webp",
             alt: "CryptoDisplay Website Screenshot",
           }}
           website_url="https://cryptodisplay.net"
@@ -208,7 +226,7 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
           name="AgencyLabs"
           description="Lead Generation AI for Agencies and Freelancers"
           image={{
-            src: "/images/agencylabs.png",
+            src: "/images/agencylabs.webp",
             alt: "AgencyLabs Website Screenshot",
           }}
           website_url="https://agencylabs.ai"
@@ -216,11 +234,11 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
       </div>
       <ProjectCard
         number="03"
-        logo="/images/preis-pilot-logo.png"
+        logo="/images/preis-pilot-logo.webp"
         name="PreisPilot"
         description="Price Comparison Website for German Shops"
         image={{
-          src: "/images/preis-pilot.png",
+          src: "/images/preis-pilot.webp",
           alt: "PreisPilot Website Screenshot",
           right: true,
         }}

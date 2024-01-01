@@ -3,18 +3,21 @@ interface Props {
   animated?: boolean;
   spotify?: boolean;
   noPadding?: boolean;
-  link?: string;
+  link?: {
+    url: string;
+    label: string;
+  };
 }
 
 const { animated, spotify, noPadding, link } = Astro.props;
 ---
 
 <div
-  class="p-8 rounded-[3rem] relative group/card h-fit"
+  class="rounded-[3rem] relative group/card h-fit"
   class:list={[
     {
       "card hover:scale-[1.02] transition-transform": animated,
-      "p-0": noPadding,
+      "p-8": !noPadding,
     },
   ]}
 >
@@ -30,7 +33,15 @@ const { animated, spotify, noPadding, link } = Astro.props;
     style="pointer-events: none; transform-origin: center center;"
   >
   </div>
-  {link && <a href={link} class="absolute w-full h-full top-0 left-0 z-10" />}
+  {
+    link && (
+      <a
+        href={link.url}
+        class="absolute w-full h-full top-0 left-0 z-10"
+        aria-label={link.label}
+      />
+    )
+  }
   <div class="card-content">
     <slot />
   </div>

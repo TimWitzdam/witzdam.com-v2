@@ -89,6 +89,28 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
       card.style.setProperty("--mouse-y", `${y}px`);
     }
   };
+
+  const currentDate = new Date();
+  const timeFormatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Berlin",
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
+  const localTimeElement = document.getElementById("local-time");
+  const currentLocalTime = timeFormatter.format(currentDate);
+  if (localTimeElement instanceof HTMLElement) {
+    localTimeElement.innerText = currentLocalTime;
+  }
+  setInterval(() => {
+    const currentDate = new Date();
+    const currentLocalTime = timeFormatter.format(currentDate);
+    if (localTimeElement instanceof HTMLElement) {
+      localTimeElement.innerText = currentLocalTime;
+    }
+  }, 1000);
 </script>
 
 <Layout>
@@ -219,7 +241,7 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
             class="rounded-[3rem] mb-6"
           />
           <p class="font-bold text-3xl text-center">Bottrop, Germany</p>
-          <p class="opacity-60 text-center text-xl">21:29:45</p>
+          <p class="opacity-60 text-center text-xl" id="local-time"></p>
         </Card>
         <Card animated spotify>
           <div class="flex items-center gap-6">
@@ -235,7 +257,13 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
             </div>
           </div>
         </Card>
-        <Card animated link="https://github.com/TimWitzdam">
+        <Card
+          animated
+          link={{
+            url: "https://github.com/TimWitzdam",
+            label: "Tim's GitHub Account",
+          }}
+        >
           <div class="flex items-center gap-6 w-full">
             <img
               src="/images/tech/github.svg"
@@ -359,7 +387,13 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
       </Card>
     </div>
     <div class="B">
-      <Card animated link="https://codepen.io/TimWitzdam">
+      <Card
+        animated
+        link={{
+          url: "https://codepen.io/TimWitzdam",
+          label: "Tim's CodePen Account",
+        }}
+      >
         <div class="group-hover/card:-translate-y-3 transition-transform">
           <p class="font-bold text-2xl text-center mb-4">CodePen</p>
           <img
@@ -376,7 +410,10 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
           <Fragment set:html={LinkArrow} />
         </div>
       </Card>
-      <Card animated link="mailto:tim@witzdam.com">
+      <Card
+        animated
+        link={{ url: "mailto:tim@witzdam.com", label: "tim@witzdam.com" }}
+      >
         <div
           class="flex flex-col-reverse gap-6 items-center sm:flex-row sm:gap-0 sm:items-start justify-between"
         >

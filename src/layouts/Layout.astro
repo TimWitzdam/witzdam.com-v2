@@ -1,4 +1,9 @@
 ---
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
 const routes: {
   name: String;
   path: string;
@@ -8,12 +13,12 @@ const routes: {
     path: "/",
   },
   {
-    name: "Projects",
-    path: "/projects",
-  },
-  {
     name: "Tools",
     path: "/tools",
+  },
+  {
+    name: "Projects",
+    path: "/projects",
   },
 ];
 ---
@@ -31,16 +36,25 @@ const routes: {
     <header class="pt-4 px-6 max-w-6xl mx-auto">
       <div class="flex justify-center items-center gap-4">
         {
-          routes.map((route) => (
-            <a
-              href={route.path}
-              class="rounded-lg py-1 px-4 group hover:bg-[#2E2E2E] transition-colors"
-            >
-              <span class="opacity-60 group-hover:opacity-100 transition-opacity">
-                {route.name}
-              </span>
-            </a>
-          ))
+          routes.map((route) =>
+            route.path === current ? (
+              <a
+                href={route.path}
+                class="rounded-lg py-1 px-4 group bg-[#2E2E2E] transition-colors"
+              >
+                <span class="">{route.name}</span>
+              </a>
+            ) : (
+              <a
+                href={route.path}
+                class="rounded-lg py-1 px-4 group hover:bg-[#2E2E2E] transition-colors"
+              >
+                <span class="opacity-60 group-hover:opacity-100 transition-opacity">
+                  {route.name}
+                </span>
+              </a>
+            )
+          )
         }
       </div>
     </header>

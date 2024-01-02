@@ -1,0 +1,54 @@
+---
+import Tool from "../../components/Tool.astro";
+import Layout from "../../layouts/Layout.astro";
+
+let totalUses = "";
+
+const tools = [
+  {
+    name: "Website Word Counter",
+    description: "Count the words on a website",
+    slug: "website-word-counter",
+    uses: 0,
+  },
+];
+
+await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.status !== "ok") {
+      totalUses = " Error";
+    } else {
+      for (const tool of data.data.tools) {
+        const foundTool = tools.find((t) => t.slug === tool.slug);
+        if (foundTool) {
+          foundTool.uses = tool.uses;
+        }
+      }
+      totalUses = ` ${data.data.total_uses}`;
+    }
+  });
+---
+
+<Layout>
+  <section class="mt-20 max-w-4xl mx-auto px-6">
+    <h1 class="font-bold text-4xl text-center mb-4">🛠️ Tim's Tools</h1>
+    <p class="text-center text-lg mb-6">
+      Here's a list of various tools my friends and me found helpful while
+      developing stuff.
+    </p>
+    <p class="text-center">Total uses: {totalUses}</p>
+  </section>
+  <section class="mt-10 mb-16 max-w-4xl mx-auto px-6">
+    {
+      tools.map((tool) => (
+        <Tool
+          name={tool.name}
+          description={tool.description}
+          slug={tool.slug}
+          uses={tool.uses.toString()}
+        />
+      ))
+    }
+  </section>
+</Layout>

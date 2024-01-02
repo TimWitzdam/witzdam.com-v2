@@ -1,0 +1,36 @@
+---
+import Card from "../components/Card.astro";
+import LinkArrow from "../../public/icons/link-arrow.svg?raw";
+
+interface Props {
+  name: string;
+  slug: string;
+  description: string;
+  uses: string;
+}
+
+const { name, slug, description, uses } = Astro.props;
+---
+
+<Card
+  animated
+  link={{
+    url: `/tools/${slug}`,
+    label: `${name}`,
+  }}
+  lessRounded
+>
+  <h2 class="font-bold text-2xl mb-2">
+    {name}
+  </h2>
+  <p>{description}</p>
+  <div class="mt-2 flex items-center justify-between">
+    <span class="opacity-60">{uses} uses</span>
+    <div
+      class="flex items-center gap-2 opacity-60 group-hover/card:opacity-100 transition-all"
+    >
+      <span>Use tool</span>
+      <Fragment set:html={LinkArrow} />
+    </div>
+  </div>
+</Card>

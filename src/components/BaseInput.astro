@@ -4,9 +4,10 @@ interface Props {
   type: string;
   placeholder: string;
   value?: string;
+  fullWidth?: boolean;
 }
 
-const { id, type, placeholder, value } = Astro.props;
+const { id, type, placeholder, value, fullWidth } = Astro.props;
 ---
 
 <script define:vars={{ id }}>
@@ -23,23 +24,24 @@ const { id, type, placeholder, value } = Astro.props;
 
 <div
   class="relative border-2 border-white w-fit rounded-xl focus-within:bg-white focus-within:bg-opacity-10 transition-all flex items-center pr-4"
+  class:list={[{ "w-full": fullWidth }]}
 >
   <input
-    class="outline-none bg-transparent p-3 px-6"
+    class="outline-none bg-transparent p-3 px-6 w-full"
     id={id}
     type={type}
     placeholder={placeholder}
     value={value}
   />
-  <button
-    class="input-clear rounded-full w-6 h-6 grid place-content-center bg-white text-black font-bold text-sm transition-transform ease-in-out"
+  <div
+    class="input-clear rounded-full w-6 h-6 grid place-content-center bg-white text-black font-bold text-sm transition-transform ease-in-out ml-auto cursor-pointer"
   >
     X
-  </button>
+  </div>
 </div>
 
 <style>
-  input:placeholder-shown + button {
+  input:placeholder-shown + div {
     transform: scale(0);
     pointer-events: none;
   }

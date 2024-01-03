@@ -1,6 +1,6 @@
 ---
 interface Props {
-  current: string;
+  current?: string;
 }
 
 const { current } = Astro.props;
@@ -21,6 +21,8 @@ const routes: {
     path: "/projects",
   },
 ];
+
+Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
 ---
 
 <!doctype html>

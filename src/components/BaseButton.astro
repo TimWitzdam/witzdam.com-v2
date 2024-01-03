@@ -2,21 +2,38 @@
 import ArrowIcon from "../../public/icons/link-arrow.svg?raw";
 interface Props {
   text: string;
+  textColor?: string;
   id?: string;
   fullWidth?: boolean;
   arrow?: boolean;
+  icon?: boolean;
 }
-const { text, id, fullWidth, arrow } = Astro.props;
+const { text, textColor, id, fullWidth, arrow, icon } = Astro.props;
 ---
 
 <button
-  class="bg-[#444444] text-white px-8 py-3 rounded-xl text-lg hover:scale-105 transition-transform"
+  class="bg-[#444444] text-white px-8 py-3 rounded-xl text-lg hover:scale-105 transition-transform flex justify-center items-center gap-2"
   id={id}
   class:list={[
-    { "w-full": fullWidth, "flex justify-between items-center gap-4": arrow },
+    {
+      "w-full": fullWidth,
+      "text-[#FF4747]": textColor === "red",
+      "text-[#00FF29]": textColor === "green",
+    },
   ]}
 >
-  <span class="font-medium">{text}</span>
+  <slot name="before-icon" />
+  <span
+    class="font-medium"
+    class:list={[
+      {
+        "w-full": fullWidth && !icon,
+        "text-[#FF4747]": textColor === "red",
+        "text-[#00FF29]": textColor === "green",
+      },
+    ]}>{text}</span
+  >
+  <slot name="after-icon" />
   {
     arrow ? (
       <div class="rotate-[39.81deg]">

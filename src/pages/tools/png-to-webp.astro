@@ -293,51 +293,51 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       dragDropArea.classList.add("hidden");
       document.querySelector("#loading").classList.remove("hidden");
 
-      // Counter to keep track of processed files
-      let processedFilesCount = 0;
+      const fetchPromises = [];
 
       for (let file of files) {
         let formData = new FormData();
         formData.append("image", file);
 
-        fetch(api_address + "/tools/png-to-webp", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            // Check if the response is JSON (error) or a blob/image (success)
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.includes("application/json")) {
-              return response.json();
-            } else {
-              return response.blob();
-            }
+        fetchPromises.push(
+          fetch(api_address + "/tools/png-to-webp", {
+            method: "POST",
+            body: formData,
           })
-          .then((data) => {
-            if (data instanceof Blob) {
-              const imageURL = URL.createObjectURL(data);
-              filesContent.appendChild(addImageBox(imageURL, file.name));
-            } else {
-              controlsElement.classList.add("hidden");
-              filesElement.classList.add("hidden");
-              dragDropArea.classList.remove("hidden");
-              alert(data.message);
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          })
-          .finally(() => {
-            // Increment the counter for each processed file
-            processedFilesCount++;
-
-            // Check if all files are processed
-            if (processedFilesCount === files.length) {
-              // Hide the loading element when all files are processed
-              document.querySelector("#loading").classList.add("hidden");
-            }
-          });
+            .then((response) => {
+              // Check if the response is JSON (error) or a blob/image (success)
+              const contentType = response.headers.get("content-type");
+              if (contentType && contentType.includes("application/json")) {
+                return response.json();
+              } else {
+                return response.blob();
+              }
+            })
+            .then((data) => {
+              if (data instanceof Blob) {
+                const imageURL = URL.createObjectURL(data);
+                filesContent.appendChild(addImageBox(imageURL, file.name));
+              } else {
+                controlsElement.classList.add("hidden");
+                filesElement.classList.add("hidden");
+                dragDropArea.classList.remove("hidden");
+                alert(data.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            })
+        );
       }
+
+      // Use Promise.all to wait for all promises to settle before hiding the loading spinner
+      Promise.all(fetchPromises)
+        .then(() => {
+          document.querySelector("#loading").classList.add("hidden");
+        })
+        .catch((error) => {
+          console.error("Error in Promise.all:", error);
+        });
     }
 
     function drop(e) {

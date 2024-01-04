@@ -11,6 +11,12 @@ const tools = [
     slug: "website-word-counter",
     uses: 0,
   },
+  {
+    name: "PNG To WEBP Converter",
+    description: "Convert PNG images to WEBP",
+    slug: "png-to-webp",
+    uses: 0,
+  },
 ];
 
 await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
@@ -49,7 +55,9 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
     </p>
     <p class="text-center">Total uses: {totalUses}</p>
   </section>
-  <section class="mt-10 mb-16 max-w-4xl mx-auto px-6">
+  <section
+    class="mt-10 mb-16 max-w-4xl mx-auto px-6 grid md:grid-cols-2 grid-rows-1 gap-4"
+  >
     {
       tools.map((tool) => (
         <Tool

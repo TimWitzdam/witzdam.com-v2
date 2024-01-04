@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import BaseInput from "../../components/BaseInput.astro";
 import BaseButton from "../../components/BaseButton.astro";
 import UploadIcon from "../../../public/icons/upload.svg?raw";
 import LockIcon from "../../../public/icons/lock.svg?raw";
@@ -344,15 +343,15 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
   });
 </script>
 
-<title>Website Word Counter - Tim's Tools</title>
+<title>PNG To WEBP Image Converter - Tim's Tools</title>
 <meta
   name="description"
-  content="Website Word Counter lets you count the words on a website/page completely for free. It also shows you the most used words on the website."
+  content="PNG To WEBP Image Converter lets you convert PNG images to WEBP images. It's completely free and has a privacy mode built in."
 />
-<meta name="og:title" content="Website Word Counter - Tim's Tools" />
+<meta name="og:title" content="PNG To WEBP Image Converter - Tim's Tools" />
 <meta
   name="og:description"
-  content="Website Word Counter lets you count the words on a website/page completely for free. It also shows you the most used words on the website."
+  content="PNG To WEBP Image Converter lets you convert PNG images to WEBP images. It's completely free and has a privacy mode built in."
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
@@ -429,28 +428,6 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       id="files"
       class="hidden border-2 border-white rounded-xl p-6 flex flex-col gap-6"
     >
-      <!-- <div
-        class="flex flex-col items-center justify-between gap-4 w-full min-[360px]:flex-row"
-      >
-        <div class="flex gap-2">
-          <div class="border border-white rounded-xl p-2">
-            <img
-              src="/images/location.webp"
-              class="object-contain w-[55px] h-[55px]"
-            />
-          </div>
-          <div>
-            <b class="text-lg">long-image-name.png</b>
-            <div class="flex items-center flex-wrap gap-2">
-              <p>Ready to download</p>
-              <Fragment set:html={ConfirmedCheckmarkIcon} />
-            </div>
-          </div>
-        </div>
-        <button>
-          <Fragment set:html={DeleteCrossIcon} />
-        </button>
-      </div> -->
     </div>
 
     <label

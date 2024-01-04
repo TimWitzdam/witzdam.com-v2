@@ -213,17 +213,29 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         return;
       }
 
+      // Check if the file is an image
+      if (!file.type.startsWith("image/")) {
+        alert("Please upload an image file.");
+        return;
+      }
+
       let imageBox = document.querySelector("#files");
 
       // Load the data into an image
       new Promise(function (resolve, reject) {
-        let rawImage = new Image();
+        let reader = new FileReader();
 
-        rawImage.addEventListener("load", function () {
-          resolve(rawImage);
-        });
+        reader.onload = function (e) {
+          let rawImage = new Image();
 
-        rawImage.src = URL.createObjectURL(file);
+          rawImage.addEventListener("load", function () {
+            resolve(rawImage);
+          });
+
+          rawImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
       })
         .then(function (rawImage) {
           // Convert image to webp ObjectURL via a canvas blob

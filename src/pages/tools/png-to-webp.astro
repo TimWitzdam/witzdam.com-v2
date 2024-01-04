@@ -23,6 +23,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
   document.addEventListener("DOMContentLoaded", () => {
     const controlsElement = document.querySelector("#controls");
     const filesElement = document.querySelector("#files");
+    const filesContent = document.querySelector("#files-content");
     const fileSelector = document.querySelector("input[type=file]");
     const dragDropArea = document.querySelector("#dragDropArea");
     let privacyCheckbox = document.querySelector("#privacy-checkbox");
@@ -168,19 +169,14 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     privacyCheckbox.addEventListener("change", togglePrivacyMode);
 
     function clearImages() {
-      let filesElement = document.querySelector("#files");
-      let controlsElement = document.querySelector("#controls");
-      let dragDropArea = document.querySelector("#dragDropArea");
-
-      filesElement.innerHTML = "";
+      filesContent.innerHTML = "";
       filesElement.classList.add("hidden");
       controlsElement.classList.add("hidden");
       dragDropArea.classList.remove("hidden");
     }
 
     function downloadImages() {
-      let filesElement = document.querySelector("#files");
-      let images = filesElement.querySelectorAll("img");
+      let images = filesContent.querySelectorAll("img");
 
       for (let image of images) {
         let link = document.createElement("a");
@@ -295,6 +291,10 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       controlsElement.classList.remove("hidden");
       filesElement.classList.remove("hidden");
       dragDropArea.classList.add("hidden");
+      document.querySelector("#loading").classList.remove("hidden");
+
+      // Counter to keep track of processed files
+      let processedFilesCount = 0;
 
       for (let file of files) {
         let formData = new FormData();
@@ -316,7 +316,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
           .then((data) => {
             if (data instanceof Blob) {
               const imageURL = URL.createObjectURL(data);
-              filesElement.appendChild(addImageBox(imageURL, file.name));
+              filesContent.appendChild(addImageBox(imageURL, file.name));
             } else {
               controlsElement.classList.add("hidden");
               filesElement.classList.add("hidden");
@@ -326,6 +326,16 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
           })
           .catch((error) => {
             console.error("Error:", error);
+          })
+          .finally(() => {
+            // Increment the counter for each processed file
+            processedFilesCount++;
+
+            // Check if all files are processed
+            if (processedFilesCount === files.length) {
+              // Hide the loading element when all files are processed
+              document.querySelector("#loading").classList.add("hidden");
+            }
           });
       }
     }
@@ -424,10 +434,16 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         </BaseButton>
       </div>
     </div>
-    <div
-      id="files"
-      class="hidden border-2 border-white rounded-xl p-6 flex flex-col gap-6"
-    >
+    <div id="files" class="hidden border-2 border-white rounded-xl p-6">
+      <div id="files-content" class="flex flex-col gap-6"></div>
+      <div id="loading" class="hidden my-6">
+        <div class="flex justify-center">
+          <div
+            class="animate-spin rounded-full h-16 w-16 border-b-2 border-white"
+          >
+          </div>
+        </div>
+      </div>
     </div>
 
     <label

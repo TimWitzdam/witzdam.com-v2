@@ -29,6 +29,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     let privacyCheckbox = document.querySelector("#privacy-checkbox");
 
     function addImageBox(imageSrc, fileName) {
+      fileName = fileName.replace(/\.[^/.]+$/, "") + ".webp";
       let imageBox = document.createElement("div");
       imageBox.classList.add(
         "flex",
@@ -147,6 +148,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       if (filesElement.children.length === 0) {
         filesElement.classList.add("hidden");
         controlsElement.classList.add("hidden");
+        controlsElement.classList.remove("flex");
         dragDropArea.classList.remove("hidden");
       }
     }
@@ -172,6 +174,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       filesContent.innerHTML = "";
       filesElement.classList.add("hidden");
       controlsElement.classList.add("hidden");
+      controlsElement.classList.remove("flex");
       dragDropArea.classList.remove("hidden");
     }
 
@@ -267,6 +270,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 
     function processFiles(files) {
       controlsElement.classList.remove("hidden");
+      controlsElement.classList.add("flex");
       filesElement.classList.remove("hidden");
       dragDropArea.classList.add("hidden");
 
@@ -289,6 +293,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     // API image processing (default)
     function apiProcessFiles(files) {
       controlsElement.classList.remove("hidden");
+      controlsElement.classList.add("flex");
       filesElement.classList.remove("hidden");
       dragDropArea.classList.add("hidden");
       document.querySelector("#loading").classList.remove("hidden");
@@ -319,6 +324,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
                 filesContent.appendChild(addImageBox(imageURL, file.name));
               } else {
                 controlsElement.classList.add("hidden");
+                controlsElement.classList.remove("flex");
                 filesElement.classList.add("hidden");
                 dragDropArea.classList.remove("hidden");
                 alert(data.message);
@@ -399,7 +405,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       </p>
     </div>
     <div
-      class="hidden flex items-center gap-4 flex-col md:flex-row-reverse whitespace-nowrap mb-6"
+      class="hidden items-center gap-4 flex-col md:flex-row-reverse whitespace-nowrap mb-6"
       id="controls"
     >
       <div

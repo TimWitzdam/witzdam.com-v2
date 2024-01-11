@@ -1,0 +1,211 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BaseInput from "../../components/BaseInput.astro";
+import BaseButton from "../../components/BaseButton.astro";
+import CrossIcon from "../../../public/icons/cross.svg?raw";
+import SwapIcon from "../../../public/icons/swap.svg?raw";
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+
+const selectOptions = [
+  {
+    value: "bin",
+    text: "Binary",
+  },
+  {
+    value: "hex",
+    text: "Hexadecimal",
+  },
+  {
+    value: "dec",
+    text: "Decimal",
+  },
+];
+
+const from = Astro.url.pathname.split("/")[2].split("-")[0];
+const to = Astro.url.pathname.split("/")[2].split("-")[2];
+---
+
+<script define:vars={{ api_address }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputValue = document.getElementById("input-value");
+    const hexValue = document.getElementById("hex-value");
+    const decValue = document.getElementById("dec-value");
+    const copyHex = document.getElementById("copy-hex");
+    const copyDec = document.getElementById("copy-dec");
+    const resetButton = document.getElementById("reset-button");
+    const swapButton = document.getElementById("swap-button");
+    const toSelect = document.getElementById("to-select");
+    const fromSelect = document.getElementById("from-select");
+
+    inputValue.addEventListener("input", (e) => {
+      let value = e.target.value;
+      value = value.replace(/[^01]/g, ""); // replace anything that isn't 0 or 1 with ''
+      e.target.value = value;
+
+      if (value.length > 0) {
+        const hex = BigInt("0b" + value).toString(16);
+        hexValue.value = `0x${hex}`;
+
+        const dec = BigInt("0b" + value).toString(10);
+        decValue.value = dec;
+      } else {
+        hexValue.value = "";
+        decValue.value = "";
+      }
+    });
+
+    // Clear when clear button is clicked inside BaseInput
+    inputValue.addEventListener("change", (e) => {
+      hexValue.value = "";
+      decValue.value = "";
+    });
+
+    resetButton.addEventListener("click", () => {
+      inputValue.value = "";
+      hexValue.value = "";
+      decValue.value = "";
+    });
+
+    swapButton.addEventListener("click", () => {
+      const from = fromSelect.value;
+      const to = toSelect.value;
+      window.location.href = `/tools/${to}-to-${from}`;
+    });
+
+    copyHex.addEventListener("click", () => {
+      const tempInput = document.createElement("input");
+      tempInput.value = hexValue.value;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+    });
+
+    copyDec.addEventListener("click", () => {
+      const tempInput = document.createElement("input");
+      tempInput.value = decValue.value;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+    });
+
+    toSelect.addEventListener("change", () => {
+      console.log("toSelect change");
+      const from = fromSelect.value;
+      const to = toSelect.value;
+      window.location.href = `/tools/${from}-to-${to}`;
+    });
+
+    fromSelect.addEventListener("change", () => {
+      console.log("fromSelect change");
+      const from = fromSelect.value;
+      const to = toSelect.value;
+      window.location.href = `/tools/${from}-to-${to}`;
+    });
+  });
+</script>
+
+<title>Binary To Hexadecimal Converter - Tim's Tools</title>
+<meta
+  name="description"
+  content="Converts binary to hexadecimal and hexadecimal to binary. Updates the result live as you type."
+/>
+<meta name="og:title" content="Binary To Hexadecimal Converter - Tim's Tools" />
+<meta
+  name="og:description"
+  content="Converts binary to hexadecimal and hexadecimal to binary. Updates the result live as you type."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-bold mb-4">Binary To Hexadecimal Converter</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Converts binary to hexadecimal and hexadecimal to binary.
+      </p>
+    </div>
+
+    <div class="max-w-xl mx-auto text-lg">
+      <div class="flex gap-4 mb-4">
+        <div class="w-1/2">
+          <label for="from-select" class="text-xl font-bold">From</label>
+          <select
+            id="from-select"
+            class="mt-2 w-full bg-transparent p-4 border-2 border-white rounded-xl outline-none focus-within:bg-white focus-within:bg-opacity-10 transition-all"
+          >
+            {
+              selectOptions.map((option) =>
+                option.value == to ? null : (
+                  <option value={option.value} selected={option.value === from}>
+                    {option.text}
+                  </option>
+                )
+              )
+            }
+          </select>
+        </div>
+        <div class="w-1/2">
+          <label for="to-select" class="text-xl font-bold">To</label>
+          <select
+            id="to-select"
+            class="mt-2 w-full bg-transparent p-4 border-2 border-white rounded-xl outline-none focus-within:bg-white focus-within:bg-opacity-10 transition-all"
+          >
+            {
+              selectOptions.map((option) =>
+                option.value == from ? null : (
+                  <option value={option.value} selected={option.value === to}>
+                    {option.text}
+                  </option>
+                )
+              )
+            }
+          </select>
+        </div>
+      </div>
+      <label for="input-value" class="text-xl font-bold">Binary value</label>
+      <div class="mt-2 flex flex-col gap-4 mb-4 md:flex-row">
+        <BaseInput
+          id="input-value"
+          type="text"
+          placeholder="01011010"
+          inputMode="numeric"
+          pattern="[0-1]*"
+          fullWidth
+        />
+      </div>
+      <div class="mb-10 flex flex-col items-center gap-4 sm:flex-row">
+        <BaseButton text="Reset" id="reset-button" fullWidth icon>
+          <Fragment set:html={CrossIcon} slot="before-icon" />
+        </BaseButton>
+        <BaseButton text="Swap" id="swap-button" fullWidth icon>
+          <Fragment set:html={SwapIcon} slot="before-icon" />
+        </BaseButton>
+      </div>
+      <div class="mb-4">
+        <label for="dec-value" class="text-xl font-bold">Decimal value</label>
+        <div
+          class="mt-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row"
+        >
+          <BaseInput id="dec-value" type="text" disabled fullWidth />
+          <div class="w-full mt-2 sm:w-fit sm:mt-0">
+            <BaseButton text="Copy value" id="copy-dec" fullWidth />
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="hex-value" class="text-xl font-bold"
+          >Hexadecimal value</label
+        >
+        <div
+          class="mt-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row"
+        >
+          <BaseInput id="hex-value" type="text" disabled fullWidth />
+          <div class="w-full mt-2 sm:w-fit sm:mt-0">
+            <BaseButton text="Copy value" id="copy-hex" fullWidth />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

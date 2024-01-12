@@ -20,6 +20,10 @@ const selectOptions = [
 
 const from = Astro.url.pathname.split("/")[2].split("-")[0];
 const to = Astro.url.pathname.split("/")[2].split("-")[2];
+
+fetch(`${api_address}/tools/${from}-to-${to}`, {
+  method: "POST",
+});
 ---
 
 <script define:vars={{ api_address }}>

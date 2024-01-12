@@ -36,15 +36,24 @@ const to = Astro.url.pathname.split("/")[2].split("-")[2];
 
     inputValue.addEventListener("input", (e) => {
       let value = e.target.value;
-      value = value.replace(/[^01]/g, ""); // replace anything that isn't 0 or 1 with ''
+      // replace all non-hex characters with empty string but it can start with 0x
+      value = value.replace(/[^0-9a-fA-Fx]/g, "");
       e.target.value = value;
 
       if (value.length > 0) {
-        const hex = BigInt("0b" + value).toString(16);
-        firstValue.value = `0x${hex}`;
+        if (value == "0x") {
+          value = "0x0";
+        }
+        if (value.startsWith("0x")) {
+          value = value.slice(2);
+        }
 
-        const dec = BigInt("0b" + value).toString(10);
-        secondValue.value = dec;
+        const decimal = parseInt(value, 16);
+
+        const binary = decimal.toString(2);
+
+        firstValue.value = binary;
+        secondValue.value = decimal;
       } else {
         firstValue.value = "";
         secondValue.value = "";
@@ -97,23 +106,22 @@ const to = Astro.url.pathname.split("/")[2].split("-")[2];
   });
 </script>
 
-<title>Binary To Hexadecimal Converter - Tim's Tools</title>
+<title>Hexadecimal To Binary Converter - Tim's Tools</title>
 <meta
   name="description"
-  content="Converts binary to hexadecimal. Updates the result live as you type."
+  content="Converts hexadecimal to binary. Updates the result live as you type."
 />
-<meta name="og:title" content="Binary To Hexadecimal Converter - Tim's Tools" />
+<meta name="og:title" content="Hexadecimal To Binary Converter - Tim's Tools" />
 <meta
   name="og:description"
-  content="Converts binary to hexadecimal. Updates the result live as you type."
+  content="Converts hexadecimal to binary. Updates the result live as you type."
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
     <div class="text-center mb-10">
-      <h1 class="text-5xl font-bold mb-4">Binary To Hexadecimal Converter</h1>
-      <p class="text-lg md:w-2/3 mx-auto">Converts binary to hexadecimal.</p>
+      <h1 class="text-5xl font-bold mb-4">Hexadecimal To Binary Converter</h1>
+      <p class="text-lg md:w-2/3 mx-auto">Converts hexadecimal to binary.</p>
     </div>
-
     <div class="max-w-xl mx-auto text-lg">
       <div class="flex gap-4 mb-4">
         <div class="w-1/2">
@@ -151,16 +159,11 @@ const to = Astro.url.pathname.split("/")[2].split("-")[2];
           </select>
         </div>
       </div>
-      <label for="input-value" class="text-xl font-bold">Binary value</label>
+      <label for="input-value" class="text-xl font-bold"
+        >Hexadecimal value</label
+      >
       <div class="mt-2 flex flex-col gap-4 mb-4 md:flex-row">
-        <BaseInput
-          id="input-value"
-          type="text"
-          placeholder="01011010"
-          inputMode="numeric"
-          pattern="[0-1]*"
-          fullWidth
-        />
+        <BaseInput id="input-value" type="text" placeholder="0x1D" fullWidth />
       </div>
       <div class="mb-10 flex flex-col items-center gap-4 sm:flex-row">
         <BaseButton text="Reset" id="reset-button" fullWidth icon>
@@ -171,9 +174,7 @@ const to = Astro.url.pathname.split("/")[2].split("-")[2];
         </BaseButton>
       </div>
       <div class="mb-4">
-        <label for="first-value" class="text-xl font-bold"
-          >Hexadecimal value</label
-        >
+        <label for="first-value" class="text-xl font-bold">Binary value</label>
         <div
           class="mt-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row"
         >

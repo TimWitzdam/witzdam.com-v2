@@ -42,6 +42,7 @@ const {
     button.addEventListener("click", () => {
       input.value = "";
       input.focus();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
     });
   });
 </script>

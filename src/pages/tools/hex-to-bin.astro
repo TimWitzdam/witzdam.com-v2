@@ -21,9 +21,33 @@ const selectOptions = [
 const from = Astro.url.pathname.split("/")[2].split("-")[0];
 const to = Astro.url.pathname.split("/")[2].split("-")[2];
 
+const fromOption = selectOptions.find((option) => option.value === from);
+const toOption = selectOptions.find((option) => option.value === to);
+
+if (!fromOption || !toOption) {
+  return Astro.redirect("/tools");
+}
+
 fetch(`${api_address}/tools/${from}-to-${to}`, {
   method: "POST",
 });
+
+function getName(direction: string, small?: boolean) {
+  if (!fromOption || !toOption) return "";
+  if (direction === "from") {
+    if (small) {
+      return fromOption.text[0].toLowerCase() + fromOption.text.slice(1);
+    } else {
+      return fromOption.text;
+    }
+  } else {
+    if (small) {
+      return toOption.text[0].toLowerCase() + toOption.text.slice(1);
+    } else {
+      return toOption.text;
+    }
+  }
+}
 ---
 
 <script define:vars={{ api_address }}>
@@ -110,21 +134,31 @@ fetch(`${api_address}/tools/${from}-to-${to}`, {
   });
 </script>
 
-<title>Hexadecimal To Binary Converter - Tim's Tools</title>
+<title>
+  {getName("from")} To {getName("to")} Converter - Tim's Tools
+</title>
 <meta
   name="description"
-  content="Converts hexadecimal to binary. Updates the result live as you type."
+  content=`Converts ${getName("from", true)} to ${getName("to", true)}. Updates the result live as you type.`
 />
-<meta name="og:title" content="Hexadecimal To Binary Converter - Tim's Tools" />
+<meta
+  name="og:title"
+  content=`Converts ${getName("from")} to ${getName("to")}. Updates the result live as you type.`
+/>
 <meta
   name="og:description"
-  content="Converts hexadecimal to binary. Updates the result live as you type."
+  content=`Converts ${getName("from", true)} to ${getName("to", true)}. Updates the result live as you type.`
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
     <div class="text-center mb-10">
-      <h1 class="text-5xl font-bold mb-4">Hexadecimal To Binary Converter</h1>
-      <p class="text-lg md:w-2/3 mx-auto">Converts hexadecimal to binary.</p>
+      <h1 class="text-5xl font-bold mb-4">
+        {getName("from")} To {getName("to")} Converter
+      </h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Converts {getName("from", true)} to
+        {getName("to", true)}.
+      </p>
     </div>
     <div class="max-w-xl mx-auto text-lg">
       <div class="flex gap-4 mb-4">
@@ -164,7 +198,7 @@ fetch(`${api_address}/tools/${from}-to-${to}`, {
         </div>
       </div>
       <label for="input-value" class="text-xl font-bold"
-        >Hexadecimal value</label
+        >{getName("from")} value</label
       >
       <div class="mt-2 flex flex-col gap-4 mb-4 md:flex-row">
         <BaseInput id="input-value" type="text" placeholder="0x1D" fullWidth />
@@ -178,7 +212,9 @@ fetch(`${api_address}/tools/${from}-to-${to}`, {
         </BaseButton>
       </div>
       <div class="mb-4">
-        <label for="first-value" class="text-xl font-bold">Binary value</label>
+        <label for="first-value" class="text-xl font-bold"
+          >{getName("to")} value</label
+        >
         <div
           class="mt-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row"
         >

@@ -56,6 +56,11 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       document.execCommand("copy");
       document.body.removeChild(tempInput);
     });
+
+    document.getElementById("clear")?.addEventListener("click", () => {
+      editor.setValue("");
+      result.setValue("");
+    });
   });
 </script>
 

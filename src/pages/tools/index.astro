@@ -63,7 +63,8 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
       }
       totalUses = ` ${data.data.total_uses}`;
     }
-  });
+  })
+  .catch((err) => console.log(err));
 ---
 
 <title>Tim's Tools</title>

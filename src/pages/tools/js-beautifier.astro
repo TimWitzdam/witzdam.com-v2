@@ -9,7 +9,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
   import.meta.env.MODE === "production" &&
     fetch(`${api_address}/tools/js-beautifier`, {
       method: "POST",
-    });
+    }).catch((err) => console.log(err));
 }
 ---
 

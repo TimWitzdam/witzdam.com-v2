@@ -32,7 +32,7 @@ if (!fromOption || !toOption) {
   import.meta.env.MODE === "production" &&
     fetch(`${api_address}/tools/${from}-to-${to}`, {
       method: "POST",
-    });
+    }).catch((err) => console.log(err));
 }
 
 function getName(direction: string, small?: boolean) {

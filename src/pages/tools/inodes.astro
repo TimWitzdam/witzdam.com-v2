@@ -31,6 +31,17 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       // blockgroesse = 2  # KiB
       // adressgroesse = 32  # Bit
 
+      fetch(api_address + "/tools/inodes", {
+        method: "POST",
+        //mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          input_text: textarea.value,
+        }),
+      });
+
       const regex = /(\d+)\s*#?\s*(GiB|KiB|Bit|Datenblöcken)/g;
       const matches = input.matchAll(regex);
       const numbers = [];
@@ -111,7 +122,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       >
         <textarea
           class="outline-none bg-transparent p-3 px-6 w-full"
-          placeholder="Exercise description"
+          placeholder="Exercise description \n\ne.g: Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.)          "
           rows="10"></textarea>
       </div>
       <div class="mb-6">

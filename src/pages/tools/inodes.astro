@@ -1,0 +1,131 @@
+---
+import BaseButton from "../../components/BaseButton.astro";
+import Layout from "../../layouts/Layout.astro";
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+---
+
+<script define:vars={{ api_address }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textarea = document.querySelector("textarea");
+    const button = document.querySelector("button");
+    const result = document.querySelector("#result");
+    const addresses = document.querySelector("#addresses");
+    const maxFileSizeOneBlock = document.querySelector("#maxFileSizeOneBlock");
+    const maxFileSizeTwoBlocks = document.querySelector(
+      "#maxFileSizeTwoBlocks"
+    );
+
+    // Input: Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.
+    // find all numbers like that:
+    // festplatte = 128  # GiB
+    // datenbloecke = 16
+    // blockgroesse = 2  # KiB
+    // adressgroesse = 32  # Bit
+
+    button.addEventListener("click", () => {
+      const input = textarea.value;
+      // find all numbers like that:
+      // festplatte = 128  # GiB
+      // datenbloecke = 16
+      // blockgroesse = 2  # KiB
+      // adressgroesse = 32  # Bit
+
+      const regex = /(\d+)\s*#?\s*(GiB|KiB|Bit|Datenblöcken)/g;
+      const matches = input.matchAll(regex);
+      const numbers = [];
+      for (const match of matches) {
+        const number = match[1];
+        const unit = match[2];
+        numbers.push(parseInt(number));
+      }
+
+      if (numbers.length !== 4) {
+        alert(
+          "Please paste in the exercise description! (e.g. Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.)"
+        );
+        return;
+      }
+
+      const [festplatte, datenbloecke, blockgroesse, adressgroesse] = numbers;
+
+      function calculateAddressesPerBlock(blockSize, addressSize) {
+        return Math.floor(blockSize / (addressSize / 8));
+      }
+
+      function calculateMaxFileSizeOneBlock() {
+        const totalBlocks = addressesPerBlockA + datenbloecke;
+        return (totalBlocks * blockgroesse) / 1024;
+      }
+
+      function calculateMaxFileSizeTwoBlocks() {
+        const totalBlocks =
+          addressesPerBlockA +
+          datenbloecke +
+          addressesPerBlockA * addressesPerBlockA;
+        return (totalBlocks * blockgroesse) / 1024;
+      }
+
+      // a) Berechnen Sie, wie viele Adressen ein Verwaltungsblock aufnehmen kann.
+      const addressesPerBlockA = calculateAddressesPerBlock(
+        blockgroesse * 1024,
+        adressgroesse
+      );
+
+      // b) 1. Es steht nur ein einfach indirekter Verwaltungsblock zur Verfügung (in MiB)
+      const maxFileSizeOneBlockB = calculateMaxFileSizeOneBlock();
+
+      // b) 2. Es steht ein einfach sowie ein zweifach indirekter Verwaltungsblock zur Verfügung (in MiB)
+      const maxFileSizeTwoBlocksB = calculateMaxFileSizeTwoBlocks();
+
+      addresses.innerText = addressesPerBlockA;
+      maxFileSizeOneBlock.innerText = maxFileSizeOneBlockB;
+      maxFileSizeTwoBlocks.innerText = maxFileSizeTwoBlocksB;
+
+      result.classList.remove("hidden");
+    });
+  });
+</script>
+
+<title>Inodes Calculator - Filesystems - Tim's Tools</title>
+<meta
+  name="description"
+  content="Calculates inodes for the exercises of University Essen Duisburg"
+/>
+<meta name="og:title" content="Inodes Calculator - Filesystems - Tim's Tools" />
+<meta
+  name="og:description"
+  content="Calculates inodes for the exercises of University Essen Duisburg"
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-bold mb-4">Inodes Calculator</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Calculates inodes for the exercises of University Essen Duisburg
+      </p>
+    </div>
+    <div class="max-w-xl mx-auto text-lg">
+      <div
+        class="mb-4 w-full relative border-2 border-white rounded-xl focus-within:bg-white focus-within:bg-opacity-10 transition-all flex items-center pr-4"
+      >
+        <textarea
+          class="outline-none bg-transparent p-3 px-6 w-full"
+          placeholder="Exercise description"
+          rows="10"></textarea>
+      </div>
+      <div class="mb-6">
+        <BaseButton text="Calculate" fullWidth />
+      </div>
+
+      <div class="hidden" id="result">
+        <p>a) <br /><span id="addresses"></span> Adressen</p>
+        <br />
+        <p>b)</p>
+        <p>1. <br /><span id="maxFileSizeOneBlock"></span> MiB</p>
+        <br />
+        <p>2. <br /><span id="maxFileSizeTwoBlocks"></span> MiB</p>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,6 +1,6 @@
 ---
 import BaseButton from "../../components/BaseButton.astro";
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../../layouts/Tool.astro";
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
@@ -8,7 +8,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 <script define:vars={{ api_address }}>
   document.addEventListener("DOMContentLoaded", () => {
     const textarea = document.querySelector("textarea");
-    const button = document.querySelector("button");
+    const button = document.querySelector("#calculate-button");
     const result = document.querySelector("#result");
     const addresses = document.querySelector("#addresses");
     const maxFileSizeOneBlock = document.querySelector("#maxFileSizeOneBlock");
@@ -113,7 +113,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     <div class="text-center mb-10">
       <h1 class="text-5xl font-bold mb-4">Inodes Calculator</h1>
       <p class="text-lg md:w-2/3 mx-auto">
-        Calculates inodes for the exercises of University Essen Duisburg
+        (2024) Calculates inodes for the exercises of University Essen Duisburg
       </p>
     </div>
     <div class="max-w-xl mx-auto text-lg">
@@ -126,7 +126,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
           rows="10"></textarea>
       </div>
       <div class="mb-6">
-        <BaseButton text="Calculate" fullWidth />
+        <BaseButton id="calculate-button" text="Calculate" fullWidth />
       </div>
 
       <div class="hidden" id="result">

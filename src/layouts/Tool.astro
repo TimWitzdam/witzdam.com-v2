@@ -1,0 +1,278 @@
+---
+import BurgerMenuIcon from "../../public/icons/burger-menu.svg?raw";
+import { tool_categories } from "../glob_vars";
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+
+interface Link {
+  name: string;
+  path?: string;
+  id: number;
+  links?: {
+    name: string;
+    path: string;
+  }[];
+}
+
+const routes: Link[] = [
+  {
+    name: "Home",
+    path: "/tools",
+    id: Math.floor(Math.random() * 999999),
+  },
+];
+
+for (const category of tool_categories) {
+  if (category.sub_categories) {
+    routes.push({
+      name: category.name,
+      id: Math.floor(Math.random() * 999999),
+      path: `/tools/${category.slug}`,
+      links: category.sub_categories.map((sub_category) => ({
+        name: sub_category.name,
+        path: `/tools/${category.slug}/${sub_category.slug}`,
+      })),
+    });
+  } else {
+    routes.push({
+      name: category.name,
+      path: `/tools/${category.slug}`,
+      id: Math.floor(Math.random() * 999999),
+    });
+  }
+}
+
+Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
+---
+
+<script define:vars={{ routes }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    document
+      .getElementById("burger-menu-button")
+      ?.addEventListener("click", () => {
+        openBurgerMenu();
+      });
+
+    // Add an event listener to the close button
+    document
+      .getElementById("close-dropdown-button")
+      ?.addEventListener("click", () => {
+        closeBurgerMenu();
+      });
+
+    const dropdown = document.getElementById("dropdown");
+    const links = document.querySelectorAll(".link");
+
+    function openBurgerMenu() {
+      dropdown?.classList.remove("translate-x-full");
+      dropdown?.classList.add("translate-x-0");
+      for (const link of links) {
+        link.classList.remove("translate-x-full");
+        link.classList.add("translate-x-0");
+      }
+    }
+
+    function closeBurgerMenu() {
+      for (const link of links) {
+        link.classList.remove("translate-x-0");
+        link.classList.add("translate-x-full");
+      }
+      dropdown?.classList.remove("translate-x-0");
+      dropdown?.classList.add("translate-x-full");
+    }
+
+    const subMenuElements = [];
+
+    for (const link of routes) {
+      if (link.links) {
+        subMenuElements.push(document.getElementById(`submenu-${link.id}`));
+      }
+    }
+
+    subMenuElements.forEach((subMenu) => {
+      subMenu?.addEventListener("click", () => {
+        const solutionsSubItems = document.querySelector(
+          `#${subMenu.id} + .solutions-sub-items`
+        );
+        subMenu.classList.toggle("link-active");
+        if (solutionsSubItems?.classList.contains("hidden")) {
+          solutionsSubItems.classList.remove("hidden");
+          solutionsSubItems.classList.add("block");
+        } else {
+          solutionsSubItems?.classList.add("hidden");
+          solutionsSubItems?.classList.remove("block");
+        }
+      });
+    });
+
+    for (var index = 0; index < links.length; index++) {
+      links[index].style.transitionDelay = index * 100 + "ms";
+    }
+  });
+</script>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/images/pfp.webp" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="og:image" content="https://witzdam.com/images/pfp.webp" />
+  </head>
+  <body>
+    <header class="pt-4 px-6 max-w-6xl mx-auto">
+      <div class="hidden md:flex justify-center items-center gap-4">
+        {
+          routes.map((route) =>
+            route.path === current ? (
+              <a
+                href={route.path}
+                class="rounded-lg py-1 px-4 group bg-[#2E2E2E] transition-colors"
+              >
+                <span class="">{route.name}</span>
+              </a>
+            ) : (
+              <a
+                href={route.path}
+                class="rounded-lg py-1 px-4 group hover:bg-[#2E2E2E] transition-colors"
+              >
+                <span class="opacity-60 group-hover:opacity-100 transition-opacity">
+                  {route.name}
+                </span>
+              </a>
+            )
+          )
+        }
+      </div>
+      <div class="flex justify-between md:hidden">
+        <a href="/">
+          <img
+            src="/images/pfp.webp"
+            alt="Tim Witzdam"
+            width="90"
+            height="90"
+            class="object-contain"
+          />
+        </a>
+
+        <div class="ml-auto w-8 h-8 m-4 shrink-0">
+          <button id="burger-menu-button" aria-label="Menu"
+            ><Fragment set:html={BurgerMenuIcon} /></button
+          >
+        </div>
+      </div>
+
+      <div
+        id="dropdown"
+        class="fixed top-0 right-0 bg-[#444444] w-full z-50 h-full translate-x-full transition-all duration-500 ease-in-out overflow-y-scroll"
+      >
+        <div class="mb-4 px-6 pt-6 flex justify-between">
+          <a href="/">
+            <img
+              src="/images/pfp.webp"
+              alt="Tim Witzdam"
+              width="90"
+              height="90"
+              class="object-contain"
+            />
+          </a>
+          <button
+            class="bg-gray-500 w-16 h-16 rounded-full text-white grid place-content-center ml-auto"
+            id="close-dropdown-button"
+          >
+            <span class="block text-2xl font-extralight">✕</span>
+          </button>
+        </div>
+        <div class="px-6">
+          {
+            routes.map((route) =>
+              route.links ? (
+                <div class="text-3xl block font-bold ">
+                  <button
+                    class="flex justify-between items-center w-full py-4 transition-transform duration-500 ease-out translate-x-full link link--dropdown"
+                    id={`submenu-${route.id}`}
+                  >
+                    <span>{route.name}</span>
+                  </button>
+                  <div class="hidden solutions-sub-items">
+                    {route.links.map((link) => (
+                      <a
+                        class="py-3 px-4 text-xl block font-light"
+                        href={link.path}
+                      >
+                        {link.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  class="font-bold py-4 text-3xl block transition-transform duration-500 ease-out translate-x-full link"
+                  class:list={[
+                    {
+                      "text-primary":
+                        route.path !== "/" &&
+                        route.path &&
+                        Astro.url.pathname.includes(route.path),
+                    },
+                    {
+                      "text-primary":
+                        Astro.url.pathname === "/" && route.path === "/",
+                    },
+                  ]}
+                  id={route.name}
+                  href={route.path}
+                >
+                  {route.name}
+                </a>
+              )
+            )
+          }
+        </div>
+      </div>
+    </header>
+    <main class="min-h-screen mb-36">
+      <slot />
+    </main>
+    <footer class="bg-[#252525]">
+      <div class="max-w-6xl mx-auto p-6">
+        <p class="text-center">
+          Copyright © 2024 Tim Witzdam. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  * {
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      Segoe UI,
+      Roboto,
+      Helvetica Neue,
+      Arial,
+      Noto Sans,
+      sans-serif,
+      Apple Color Emoji,
+      Segoe UI Emoji,
+      Segoe UI Symbol,
+      Noto Color Emoji;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    color: white;
+  }
+  html {
+    background-color: #161616;
+    overflow-x: hidden;
+  }
+</style>

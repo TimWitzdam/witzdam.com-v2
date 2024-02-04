@@ -18,21 +18,14 @@ const selectOptions = [
   },
 ];
 
-const from = Astro.url.pathname.split("/")[2].split("-")[0];
-const to = Astro.url.pathname.split("/")[2].split("-")[2];
+const from = Astro.url.pathname.split("/")[4].split("-")[0];
+const to = Astro.url.pathname.split("/")[4].split("-")[2];
 
 const fromOption = selectOptions.find((option) => option.value === from);
 const toOption = selectOptions.find((option) => option.value === to);
 
 if (!fromOption || !toOption) {
   return Astro.redirect("/tools");
-}
-
-{
-  import.meta.env.MODE === "production" &&
-    fetch(`${api_address}/tools/${from}-to-${to}`, {
-      method: "POST",
-    }).catch((err) => console.log(err));
 }
 
 function getName(direction: string, small?: boolean) {
@@ -53,7 +46,7 @@ function getName(direction: string, small?: boolean) {
 }
 ---
 
-<script define:vars={{ api_address }}>
+<script define:vars={{ api_address, from, to }}>
   document.addEventListener("DOMContentLoaded", () => {
     const inputValue = document.getElementById("input-value");
     const firstValue = document.getElementById("first-value");
@@ -64,8 +57,15 @@ function getName(direction: string, small?: boolean) {
     const swapButton = document.getElementById("swap-button");
     const toSelect = document.getElementById("to-select");
     const fromSelect = document.getElementById("from-select");
+    var first = false;
 
     inputValue.addEventListener("input", (e) => {
+      if (!first) {
+        fetch(`${api_address}/tools/${from}-to-${to}`, {
+          method: "POST",
+        }).catch((err) => console.log(err));
+        first = true;
+      }
       let value = e.target.value;
       // replace all non-hex characters with empty string but it can start with 0x
       value = value.replace(/[^0-9a-fA-Fx]/g, "");

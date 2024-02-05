@@ -57,3 +57,69 @@ export const tool_categories: ToolCategory[] = [
     ],
   },
 ];
+
+interface Tool {
+  name: string;
+  description: string;
+  url: string;
+  popular?: boolean;
+  uses?: string;
+}
+
+export const tools: Tool[] = [
+  {
+    name: "Website Word Counter",
+    description: "Count the words on a website",
+    url: "/tools/web/seo/website-word-counter",
+    popular: true,
+  },
+  {
+    name: "PNG To WEBP Converter",
+    description: "Convert PNG images to WEBP",
+    url: "/tools/convert/image/png-to-webp",
+    popular: true,
+  },
+  {
+    name: "JPG To WEBP Converter",
+    description: "Convert JPG images to WEBP",
+    url: "/tools/convert/image/jpg-to-webp",
+  },
+  {
+    name: "JPEG To WEBP Converter",
+    description: "Convert JPEG images to WEBP",
+    url: "/tools/convert/image/jpeg-to-webp",
+  },
+  {
+    name: "WEBP To PNG Converter",
+    description: "Convert WEBP images to PNG",
+    url: "/tools/convert/image/webp-to-png",
+  },
+  {
+    name: "Binary To Hexadecimal Converter",
+    description: "Convert Binary numbers to Hexadecimal",
+    url: "/tools/convert/number/bin-to-hex",
+    popular: true,
+  },
+  {
+    name: "Hexadecimal To Binary Converter",
+    description: "Convert Hexadecimal numbers to Binary",
+    url: "/tools/convert/number/hex-to-bin",
+  },
+  {
+    name: "JavaScript Beautifier",
+    description: "Format and prettify your JS code",
+    url: "/tools/coding/formatter/js-beautifier",
+    popular: true,
+  },
+  {
+    name: "Inodes Calculator",
+    description:
+      "Calculates inodes for the exercises of University Essen Duisburg",
+    url: "/tools/inodes",
+  },
+  {
+    name: "Random ID Generator",
+    description: "Generate a unique and random ID",
+    url: "/tools/coding/generator/random-id-generator",
+  },
+];

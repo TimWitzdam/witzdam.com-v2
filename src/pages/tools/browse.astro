@@ -1,0 +1,65 @@
+---
+import Tool from "../../components/Tool.astro";
+import Layout from "../../layouts/Layout.astro";
+import { tools } from "../../glob_vars";
+import BaseInput from "../../components/BaseInput.astro";
+import BaseButton from "../../components/BaseButton.astro";
+import Card from "../../components/Card.astro";
+import ArrowIcon from "../../../public/icons/link-arrow.svg?raw";
+
+let totalUses = "";
+
+for (const tool of tools) {
+  tool.uses = "0";
+}
+
+await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.status !== "ok") {
+      totalUses = " Error";
+    } else {
+      for (const tool of data.data.tools) {
+        const foundTool = tools.find(
+          (t) => t.url.split("/")[t.url.split("/").length - 1] === tool.slug
+        );
+        if (foundTool) {
+          foundTool.uses = tool.uses;
+        }
+      }
+      totalUses = ` ${data.data.total_uses}`;
+    }
+  })
+  .catch((err) => console.log(err));
+---
+
+<title>Tim's Tools</title>
+<meta
+  name="description"
+  content="Tim's Tools is a collection of tools my friends and me found helpful while developing applications. All tools are free to use."
+/>
+<meta name="og:title" content="Tim's Tools" />
+<meta
+  name="og:description"
+  content="Tim's Tools is a collection of tools my friends and me found helpful while developing applications. All tools are free to use."
+/>
+<Layout current="/tools">
+  <section class="mt-20 max-w-4xl mx-auto px-6">
+    <h1 class="font-bold text-4xl text-center mb-4">Browse tools</h1>
+    <p class="text-center">Total uses: {totalUses}</p>
+  </section>
+  <section
+    class="mt-10 mb-16 max-w-4xl mx-auto px-6 grid md:grid-cols-2 grid-rows-1 gap-4"
+  >
+    {
+      tools.map((tool) => (
+        <Tool
+          name={tool.name}
+          description={tool.description}
+          url={tool.url}
+          uses={tool.uses?.toString() || "0"}
+        />
+      ))
+    }
+  </section>
+</Layout>

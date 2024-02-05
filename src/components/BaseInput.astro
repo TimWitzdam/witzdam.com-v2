@@ -18,6 +18,7 @@ interface Props {
     | null;
   pattern?: string;
   disabled?: boolean;
+  autocomplete?: string;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   inputMode,
   pattern,
   disabled,
+  autocomplete,
 } = Astro.props;
 ---
 
@@ -60,6 +62,7 @@ const {
     inputmode={inputMode}
     pattern={pattern}
     disabled={disabled}
+    autocomplete={autocomplete}
   />
   {
     !disabled && (

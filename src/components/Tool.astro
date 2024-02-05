@@ -4,18 +4,18 @@ import LinkArrow from "../../public/icons/link-arrow.svg?raw";
 
 interface Props {
   name: string;
-  slug: string;
+  url: string;
   description: string;
   uses: string;
 }
 
-const { name, slug, description, uses } = Astro.props;
+const { name, url, description, uses } = Astro.props;
 ---
 
 <Card
   animated
   link={{
-    url: `/tools/${slug}`,
+    url: `${url}`,
     label: `${name}`,
   }}
   lessRounded

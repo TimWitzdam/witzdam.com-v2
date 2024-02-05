@@ -1,72 +1,17 @@
 ---
 import Tool from "../../components/Tool.astro";
 import Layout from "../../layouts/Layout.astro";
+import { tools } from "../../glob_vars";
+import BaseInput from "../../components/BaseInput.astro";
+import BaseButton from "../../components/BaseButton.astro";
+import Card from "../../components/Card.astro";
+import ArrowIcon from "../../../public/icons/link-arrow.svg?raw";
 
 let totalUses = "";
 
-const tools = [
-  {
-    name: "Website Word Counter",
-    description: "Count the words on a website",
-    slug: "website-word-counter",
-    uses: 0,
-  },
-  {
-    name: "PNG To WEBP Converter",
-    description: "Convert PNG images to WEBP",
-    slug: "png-to-webp",
-    uses: 0,
-  },
-  {
-    name: "JPG To WEBP Converter",
-    description: "Convert JPG images to WEBP",
-    slug: "jpg-to-webp",
-    uses: 0,
-  },
-  {
-    name: "JPEG To WEBP Converter",
-    description: "Convert JPEG images to WEBP",
-    slug: "jpeg-to-webp",
-    uses: 0,
-  },
-  {
-    name: "WEBP To PNG Converter",
-    description: "Convert WEBP images to PNG",
-    slug: "webp-to-png",
-    uses: 0,
-  },
-  {
-    name: "Binary To Hexadecimal Converter",
-    description: "Convert Binary numbers to Hexadecimal",
-    slug: "bin-to-hex",
-    uses: 0,
-  },
-  {
-    name: "Hexadecimal To Binary Converter",
-    description: "Convert Hexadecimal numbers to Binary",
-    slug: "hex-to-bin",
-    uses: 0,
-  },
-  {
-    name: "JavaScript Beautifier",
-    description: "Format and prettify your JS code",
-    slug: "js-beautifier",
-    uses: 0,
-  },
-  {
-    name: "Inodes Calculator",
-    description:
-      "Calculates inodes for the exercises of University Essen Duisburg",
-    slug: "inodes",
-    uses: 0,
-  },
-  {
-    name: "Random ID Generator",
-    description: "Generate a unique and random ID",
-    slug: "random-id-generator",
-    uses: 0,
-  },
-];
+for (const tool of tools) {
+  tool.uses = "0";
+}
 
 await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
   .then((res) => res.json())
@@ -75,7 +20,9 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
       totalUses = " Error";
     } else {
       for (const tool of data.data.tools) {
-        const foundTool = tools.find((t) => t.slug === tool.slug);
+        const foundTool = tools.find(
+          (t) => t.url.split("/")[t.url.split("/").length - 1] === tool.slug
+        );
         if (foundTool) {
           foundTool.uses = tool.uses;
         }
@@ -105,18 +52,80 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
     </p>
     <p class="text-center">Total uses: {totalUses}</p>
   </section>
-  <section
-    class="mt-10 mb-16 max-w-4xl mx-auto px-6 grid md:grid-cols-2 grid-rows-1 gap-4"
-  >
-    {
-      tools.map((tool) => (
-        <Tool
-          name={tool.name}
-          description={tool.description}
-          slug={tool.slug}
-          uses={tool.uses.toString()}
-        />
-      ))
-    }
+  <section class="mt-10 max-w-4xl mx-auto px-6">
+    <BaseInput
+      id="search"
+      type="text"
+      placeholder="Search for a tool"
+      autocomplete="off"
+      fullWidth
+    />
+    <div class="mt-6 flex flex-col gap-6 md:flex-row">
+      <div class="w-full">
+        <Card
+          rounded1
+          noPadding
+          link={{ url: "/tools/browse", label: "Browse tools" }}
+          animated
+        >
+          <div class="flex justify-between items-center p-4 px-8">
+            <p class="text-xl font-bold">Browse tools</p>
+            <div class="rotate-[39.81deg]">
+              <Fragment set:html={ArrowIcon} />
+            </div>
+          </div>
+        </Card>
+      </div>
+      <div class="w-full">
+        <Card
+          rounded1
+          noPadding
+          link={{ url: "/tools/categories", label: "Browse categories" }}
+          animated
+        >
+          <div class="flex justify-between items-center p-4 px-8">
+            <p class="text-xl font-bold">Browse categories</p>
+            <div class="rotate-[39.81deg]">
+              <Fragment set:html={ArrowIcon} />
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </section>
+  <section class="mt-10 max-w-4xl mx-auto px-6">
+    <h2 class="font-bold text-4xl mb-10">Most popular</h2>
+    <div class="grid md:grid-cols-2 grid-rows-1 gap-4">
+      {
+        tools.map(
+          (tool) =>
+            tool.popular && (
+              <Tool
+                name={tool.name}
+                description={tool.description}
+                url={tool.url}
+                uses={tool.uses?.toString() || "0"}
+              />
+            )
+        )
+      }
+    </div>
+    <a href="/tools/browse" class="mx-auto w-fit block mt-8">
+      <BaseButton text="View all" />
+    </a>
+  </section>
+  <section class="mt-20">
+    <Card noPadding noRounded>
+      <div class="max-w-4xl mx-auto px-6 py-10 text-center">
+        <h2 class="font-bold text-4xl mb-4">APIs needed?</h2>
+        <p class="md:w-1/2 mx-auto text-lg">
+          If you need any of these tools as an API or want to explore more of
+          what I do, check out my API collection.
+        </p>
+        <a href="/api" class="mx-auto w-fit block mt-8">
+          <BaseButton text="Explore APIs (coming soon)" />
+        </a>
+      </div>
+    </Card>
   </section>
 </Layout>

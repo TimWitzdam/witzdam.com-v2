@@ -1,0 +1,40 @@
+---
+import Card from "../components/Card.astro";
+import LinkArrow from "../../public/icons/link-arrow.svg?raw";
+
+interface Props {
+  name: string;
+  url: string;
+  icon: string;
+}
+
+const { name, url, icon } = Astro.props;
+---
+
+<Card
+  animated
+  link={{
+    url: `${url}`,
+    label: `${name}`,
+  }}
+  lessRounded
+  noPadding
+>
+  <div class="py-10 px-6">
+    <div class="group-hover/card:-translate-y-3 transition-transform">
+      <p class="font-bold text-xl text-center mb-4 -mt-4">{name}</p>
+      <img
+        src={`/icons/categories/${icon}.svg`}
+        alt={name}
+        width="60"
+        class="mx-auto group-hover/card:scale-75 transition-all"
+      />
+    </div>
+    <div
+      class="absolute whitespace-nowrap left-1/2 transform -translate-x-1/2 flex items-center gap-2 opacity-0 mt-2 -translate-y-7 group-hover/card:opacity-60 group-hover/card:-translate-y-3 transition-all"
+    >
+      <span>Check it out</span>
+      <Fragment set:html={LinkArrow} />
+    </div>
+  </div>
+</Card>

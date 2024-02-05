@@ -29,7 +29,7 @@ const { animated, spotify, noPadding, lessRounded, rounded1, noRounded, link } =
     class:list={[
       {
         "card-b": animated,
-        "rounded-[3rem]": !lessRounded,
+        "rounded-[3rem]": !lessRounded && !rounded1 && !noRounded,
         "rounded-[2rem]": lessRounded,
         "rounded-[1rem]": rounded1,
         "rounded-none": noRounded,
@@ -43,7 +43,7 @@ const { animated, spotify, noPadding, lessRounded, rounded1, noRounded, link } =
       {
         "bg-gradient-to-bl from-[#1db95430] to-[#1db95400]": spotify,
         "bg-gradient-to-b from-[#252525] to-[#1B1B1B]": !spotify,
-        "rounded-[3rem]": !lessRounded,
+        "rounded-[3rem]": !lessRounded && !rounded1 && !noRounded,
         "rounded-[2rem]": lessRounded,
         "rounded-[1rem]": rounded1,
         "rounded-none": noRounded,

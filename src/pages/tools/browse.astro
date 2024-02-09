@@ -5,8 +5,28 @@ import { tools } from "../../glob_vars";
 
 let totalUses = "";
 
+const categoryFilter: String | null = Astro.url.searchParams.get("cat") || null;
+const subCategoryFilter: String | null =
+  Astro.url.searchParams.get("sub") || null;
+
 for (const tool of tools) {
   tool.uses = "0";
+}
+
+function getFiltered() {
+  if (categoryFilter && subCategoryFilter) {
+    return tools.filter(
+      (tool) =>
+        tool.url.split("/")[2] === categoryFilter &&
+        tool.url.split("/")[3] === subCategoryFilter
+    );
+  } else if (categoryFilter) {
+    return tools.filter((tool) => tool.url.split("/")[2] === categoryFilter);
+  } else if (subCategoryFilter) {
+    return tools.filter((tool) => tool.url.split("/")[3] === subCategoryFilter);
+  } else {
+    return tools;
+  }
 }
 
 await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
@@ -48,14 +68,41 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
     class="mt-10 mb-16 max-w-4xl mx-auto px-6 grid md:grid-cols-2 grid-rows-1 gap-4"
   >
     {
-      tools.map((tool) => (
-        <Tool
-          name={tool.name}
-          description={tool.description}
-          url={tool.url}
-          uses={tool.uses?.toString() || "0"}
-        />
-      ))
+      categoryFilter && subCategoryFilter
+        ? getFiltered().map((tool) => (
+            <Tool
+              name={tool.name}
+              description={tool.description}
+              url={tool.url}
+              uses={tool.uses?.toString() || "0"}
+            />
+          ))
+        : categoryFilter
+          ? getFiltered().map((tool) => (
+              <Tool
+                name={tool.name}
+                description={tool.description}
+                url={tool.url}
+                uses={tool.uses?.toString() || "0"}
+              />
+            ))
+          : subCategoryFilter
+            ? getFiltered().map((tool) => (
+                <Tool
+                  name={tool.name}
+                  description={tool.description}
+                  url={tool.url}
+                  uses={tool.uses?.toString() || "0"}
+                />
+              ))
+            : tools.map((tool) => (
+                <Tool
+                  name={tool.name}
+                  description={tool.description}
+                  url={tool.url}
+                  uses={tool.uses?.toString() || "0"}
+                />
+              ))
     }
   </section>
 </Layout>

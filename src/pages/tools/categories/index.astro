@@ -1,7 +1,7 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { tool_categories } from "../../glob_vars";
-import ToolCategory from "../../components/ToolCategory.astro";
+import Layout from "../../../layouts/Layout.astro";
+import { tool_categories } from "../../../glob_vars";
+import ToolCategory from "../../../components/ToolCategory.astro";
 ---
 
 <title>Tim's Tools</title>
@@ -25,7 +25,7 @@ import ToolCategory from "../../components/ToolCategory.astro";
       tool_categories.map((category) => (
         <ToolCategory
           name={category.name}
-          url={`/tools/${category.slug}`}
+          url={`/tools/categories/${category.slug}`}
           icon={category.slug}
         />
       ))

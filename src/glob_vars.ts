@@ -2,7 +2,7 @@ interface ToolCategory {
   name: string;
   description: string;
   slug: string;
-  sub_categories?: {
+  sub_categories: {
     name: string;
     description: string;
     slug: string;

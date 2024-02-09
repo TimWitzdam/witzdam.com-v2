@@ -158,11 +158,11 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
         <Card
           rounded1
           noPadding
-          link={{ url: "/tools/browse", label: "Browse tools" }}
+          link={{ url: "/tools/categories", label: "Browse categories" }}
           animated
         >
           <div class="flex justify-between items-center p-4 px-8">
-            <p class="text-xl font-bold">Browse tools</p>
+            <p class="text-xl font-bold">Browse categories</p>
             <div class="rotate-[39.81deg]">
               <Fragment set:html={ArrowIcon} />
             </div>
@@ -173,11 +173,11 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
         <Card
           rounded1
           noPadding
-          link={{ url: "/tools/categories", label: "Browse categories" }}
+          link={{ url: "/tools/browse", label: "Browse tools" }}
           animated
         >
           <div class="flex justify-between items-center p-4 px-8">
-            <p class="text-xl font-bold">Browse categories</p>
+            <p class="text-xl font-bold">Browse tools</p>
             <div class="rotate-[39.81deg]">
               <Fragment set:html={ArrowIcon} />
             </div>

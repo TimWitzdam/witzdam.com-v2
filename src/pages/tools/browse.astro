@@ -1,5 +1,6 @@
 ---
 import Tool from "../../components/Tool.astro";
+import BaseInput from "../../components/BaseInput.astro";
 import Layout from "../../layouts/Layout.astro";
 import { tools } from "../../glob_vars";
 
@@ -55,6 +56,108 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
   .catch((err) => console.log(err));
 ---
 
+<script define:vars={{ tools }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("search");
+    const toolsContainer = document.getElementById("search-tools");
+    const hideWhenSearch = document.querySelectorAll(".hide-when-search");
+    const totalUses = document.getElementById("total-uses");
+
+    function createTool(id, name, description, url, label, uses) {
+      const e = document.createElement("div");
+      e.innerHTML = `
+        <div id="tool-${id}" class="h-full relative group/card card hover:scale-[1.02] transition-transform p-8">
+      <div class="card-b rounded-[2rem]"></div>
+      <div
+        class="card-background absolute -inset-[1px] -z-10 p-2 border border-white border-opacity-30 rounded-[2rem] bg-gradient-to-b from-[#252525] to-[#1B1B1B]"
+        style="pointer-events: none; transform-origin: center center;"
+      >
+      </div>
+      <a
+        href="${url}"
+        class="absolute w-full h-full top-0 left-0 z-10"
+        aria-label="${label}"></a>
+      <div class="card-content">
+        <h2 class="font-bold text-2xl mb-2">${name}</h2>
+        <p>${description}</p>
+        <div class="mt-2 flex items-center justify-between">
+          <span class="opacity-60">${uses} uses</span>
+          <div
+            class="flex items-center gap-2 opacity-60 group-hover/card:opacity-100 transition-all"
+          >
+            <span>Use tool</span>
+            <svg
+              width="16"
+              height="14"
+              viewBox="0 0 8 7"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.39836 1.03621C7.41836 0.816208 7.25622 0.621643 7.03621 0.601642L3.451 0.275714C3.23099 0.255713 3.03643 0.41785 3.01643 0.637857C2.99643 0.857864 3.15856 1.05243 3.37857 1.07243L6.56543 1.36214L6.27571 4.549C6.25571 4.76901 6.41785 4.96357 6.63786 4.98357C6.85786 5.00357 7.05243 4.84144 7.07243 4.62143L7.39836 1.03621ZM1.25607 6.30729L7.25607 1.30729L6.74393 0.692711L0.743926 5.69271L1.25607 6.30729Z"
+                fill="currentColor"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+      return e;
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      const search = e.target.value.toLowerCase();
+      var newTotalUses = 0;
+      if (search.length === 0) {
+        toolsContainer.innerHTML = "";
+        for (const tool of tools) {
+          toolsContainer.appendChild(
+            createTool(
+              tool.url.split("/")[tool.url.split("/").length - 1],
+              tool.name,
+              tool.description,
+              tool.url,
+              `Go to ${tool.name}`,
+              tool.uses
+            )
+          );
+          newTotalUses += parseInt(tool.uses);
+          totalUses.textContent = `Total uses: ${newTotalUses}`;
+        }
+        return;
+      }
+      const filtered_tools = tools.filter(
+        (tool) =>
+          tool.name.toLowerCase().includes(search) ||
+          tool.description.toLowerCase().includes(search)
+      );
+      toolsContainer.innerHTML = "";
+      toolsContainer.classList.remove("hidden");
+      for (const hide of hideWhenSearch) {
+        hide.classList.add("hidden");
+      }
+      if (filtered_tools.length === 0) {
+        toolsContainer.innerHTML = `<p id="not-found" class="text-lg text-red-500">No tools found</p>`;
+        return;
+      }
+      for (const tool of filtered_tools) {
+        toolsContainer.appendChild(
+          createTool(
+            tool.url.split("/")[tool.url.split("/").length - 1],
+            tool.name,
+            tool.description,
+            tool.url,
+            `Go to ${tool.name}`,
+            tool.uses
+          )
+        );
+        newTotalUses += parseInt(tool.uses);
+      }
+      totalUses.textContent = `Total uses: ${newTotalUses}`;
+    });
+  });
+</script>
+
 <title>Browse | Tim's Tools</title>
 <meta
   name="description"
@@ -68,9 +171,17 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
 <Layout current="/tools">
   <section class="mt-20 max-w-4xl mx-auto px-6">
     <h1 class="font-bold text-4xl text-center mb-4">Browse tools</h1>
-    <p class="text-center">Total uses: {totalUses}</p>
+    <p class="text-center mb-4" id="total-uses">Total uses: {totalUses}</p>
+    <BaseInput
+      id="search"
+      type="text"
+      placeholder="Search for a tool"
+      autocomplete="off"
+      fullWidth
+    />
   </section>
   <section
+    id="search-tools"
     class="mt-10 mb-16 max-w-4xl mx-auto px-6 grid md:grid-cols-2 grid-rows-1 gap-4"
   >
     {
@@ -112,3 +223,28 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
     }
   </section>
 </Layout>
+
+<style>
+  .card:hover .card-b {
+    opacity: 1;
+  }
+
+  .card-b {
+    content: "";
+    height: 100%;
+    left: 0px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    transition: opacity 500ms;
+    width: 100%;
+  }
+
+  .card-b {
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+  }
+</style>

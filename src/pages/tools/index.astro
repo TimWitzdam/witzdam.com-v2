@@ -42,7 +42,7 @@ await fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/use-stats`)
     function createTool(id, name, description, url, label, uses) {
       const e = document.createElement("div");
       e.innerHTML = `
-        <div id="tool-${id}" class="relative group/card card hover:scale-[1.02] transition-transform p-8">
+        <div id="tool-${id}" class="h-full relative group/card card hover:scale-[1.02] transition-transform p-8">
       <div class="card-b rounded-[2rem]"></div>
       <div
         class="card-background absolute -inset-[1px] -z-10 p-2 border border-white border-opacity-30 rounded-[2rem] bg-gradient-to-b from-[#252525] to-[#1B1B1B]"

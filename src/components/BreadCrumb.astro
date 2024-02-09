@@ -1,0 +1,50 @@
+---
+interface Props {
+  urls: {
+    name: string | undefined;
+    url: string | undefined;
+  }[];
+}
+
+const { urls } = Astro.props;
+---
+
+<ol
+  vocab="https://schema.org/"
+  typeof="BreadcrumbList"
+  class="flex items-center gap-2"
+>
+  {
+    urls.map(
+      (url, index) =>
+        (index < urls.length - 1 && (
+          <>
+            <li property="itemListElement" typeof="ListItem">
+              <a
+                property="item"
+                typeof="WebPage"
+                href={url.url}
+                class="opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <span property="name">{url.name}</span>
+              </a>
+              <meta property="position" content={(index + 1).toString()} />
+              <span class="opacity-60"> › </span>
+            </li>
+          </>
+        )) || (
+          <li property="itemListElement" typeof="ListItem">
+            <a
+              property="item"
+              typeof="WebPage"
+              href={url.url}
+              class="opacity-60 hover:opacity-100 transition-opacity"
+            >
+              <span property="name">{url.name}</span>
+            </a>
+            <meta property="position" content={(index + 1).toString()} />
+          </li>
+        )
+    )
+  }
+</ol>

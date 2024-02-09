@@ -8,6 +8,8 @@ import DeleteCrossIcon from "../../../../../public/icons/delete-cross.svg?raw";
 import ConfirmedCheckmarkIcon from "../../../../../public/icons/confirmed-checkmark.svg?raw";
 import DownloadIcon from "../../../../../public/icons/download.svg?raw";
 import UploadIconSmall from "../../../../../public/icons/upload-small.svg?raw";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
@@ -371,7 +373,8 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
-    <div class="text-center mb-10">
+    <BreadCrumb urls={buildBreadcrumb("convert", "image")} />
+    <div class="text-center mb-10 mt-4">
       <h1 class="text-5xl font-bold mb-4">JPG To WEBP Image Converter</h1>
       <p class="text-lg md:w-2/3 mx-auto">
         Converts one or multiple JPG images to WEBP images.

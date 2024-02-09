@@ -123,3 +123,17 @@ export const tools: Tool[] = [
     url: "/tools/coding/generator/random-id-generator",
   },
 ];
+
+export function buildBreadcrumb(category: string, subcategory: string) {
+  // find the category and subcategory by it's slug and return the data like that: [{ name: "Tools", url: "/tools" }, { name: category, url: `/tools/categories/${category}` }, { name: subcategory, url: `/tools/browse?cat=${category}&sub=${subcategory}` }];
+  let cat = tool_categories.find((c) => c.slug === category);
+  let sub = cat?.sub_categories.find((s) => s.slug === subcategory);
+  return [
+    { name: "Tools", url: "/tools" },
+    { name: cat?.name, url: `/tools/categories/${category}` },
+    {
+      name: sub?.name,
+      url: `/tools/browse?cat=${category}&sub=${subcategory}`,
+    },
+  ];
+}

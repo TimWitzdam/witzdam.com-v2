@@ -1,7 +1,9 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
 import BaseInput from "../../../../components/BaseInput.astro";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
 import BaseButton from "../../../../components/BaseButton.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
@@ -83,7 +85,8 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
-    <div class="text-center mb-10">
+    <BreadCrumb urls={buildBreadcrumb("web", "seo")} />
+    <div class="text-center mb-10 mt-10">
       <h1 class="text-5xl font-bold mb-4">Website Word Counter</h1>
       <p class="text-lg md:w-2/3 mx-auto">Count the words on a website/page.</p>
     </div>

@@ -28,13 +28,6 @@ if (!fromOption || !toOption) {
   return Astro.redirect("/tools");
 }
 
-{
-  import.meta.env.MODE === "production" &&
-    fetch(`${api_address}/tools/${from}-to-${to}`, {
-      method: "POST",
-    }).catch((err) => console.log(err));
-}
-
 function getName(direction: string, small?: boolean) {
   if (!fromOption || !toOption) return "";
   if (direction === "from") {

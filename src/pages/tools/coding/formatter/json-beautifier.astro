@@ -4,15 +4,6 @@ import BaseButton from "../../../../components/BaseButton.astro";
 import ArrowIcon from "../../../../../public/icons/link-arrow.svg?raw";
 import { buildBreadcrumb } from "../../../../glob_vars";
 import BreadCrumb from "../../../../components/BreadCrumb.astro";
-
-const api_address = import.meta.env.PUBLIC_API_ADDRESS;
-
-{
-  import.meta.env.MODE === "production" &&
-    fetch(`${api_address}/tools/json-beautifier`, {
-      method: "POST",
-    }).catch((err) => console.log(err));
-}
 ---
 
 <script>
@@ -48,6 +39,9 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         indent_size: 4,
       });
       result.setValue(beautified);
+      fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/json-beautifier`, {
+        method: "POST",
+      }).catch((err) => console.log(err));
     });
 
     document.getElementById("copy")?.addEventListener("click", () => {

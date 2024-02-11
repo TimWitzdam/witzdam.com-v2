@@ -122,6 +122,11 @@ export const tools: Tool[] = [
     description: "Generate a unique and random ID",
     url: "/tools/coding/generator/random-id-generator",
   },
+  {
+    name: "JSON Beautifier",
+    description: "Format and prettify your JSON object",
+    url: "/tools/coding/formatter/json-beautifier",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

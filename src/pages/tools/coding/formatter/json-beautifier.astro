@@ -9,7 +9,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 
 {
   import.meta.env.MODE === "production" &&
-    fetch(`${api_address}/tools/js-beautifier`, {
+    fetch(`${api_address}/tools/json-beautifier`, {
       method: "POST",
     }).catch((err) => console.log(err));
 }
@@ -18,14 +18,14 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 <script>
   import { js_beautify } from "js-beautify";
   import * as ace from "ace-builds/src-min-noconflict/ace";
-  import "ace-builds/src-min-noconflict/mode-javascript";
+  import "ace-builds/src-min-noconflict/mode-json";
   import "ace-builds/src-min-noconflict/theme-chaos";
-  import "ace-builds/src-min-noconflict/worker-javascript";
+  import "ace-builds/src-min-noconflict/worker-json";
 
   document.addEventListener("DOMContentLoaded", () => {
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/chaos");
-    editor.session.setMode("ace/mode/javascript");
+    editor.session.setMode("ace/mode/json");
     editor.session.setUseWrapMode(true);
     editor.setOptions({
       fontSize: "14px",
@@ -34,7 +34,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 
     var result = ace.edit("result");
     result.setTheme("ace/theme/chaos");
-    result.session.setMode("ace/mode/javascript");
+    result.session.setMode("ace/mode/json");
     result.session.setUseWrapMode(true);
     result.setReadOnly(true);
     result.setOptions({
@@ -66,28 +66,28 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
   });
 </script>
 
-<title>Online Javascript Beautifier - Tim's Tools</title>
+<title>Online JSON Beautifier - Tim's Tools</title>
 <meta
   name="description"
-  content="Javascript Beautifier is a tool that helps you format your Javascript code to make it more readable."
+  content="JSON Beautifier is a tool that helps you format your JSON object to make it more readable."
 />
-<meta name="og:title" content="Online Javascript Beautifier - Tim's Tools" />
+<meta name="og:title" content="Online JSON Beautifier - Tim's Tools" />
 <meta
   name="og:description"
-  content="Javascript Beautifier is a tool that helps you format your Javascript code to make it more readable."
+  content="JSON Beautifier is a tool that helps you format your JSON object to make it more readable."
 />
 <Layout current="/tools">
   <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
     <BreadCrumb urls={buildBreadcrumb("coding", "formatter")} />
     <div class="text-center mb-10 mt-4">
-      <h1 class="text-5xl font-bold mb-4">Javascript Beautifier</h1>
+      <h1 class="text-5xl font-bold mb-4">JSON Beautifier</h1>
       <p class="text-lg md:w-2/3 mx-auto">
-        Formats and prettifies your JS code.
+        Formats and prettifies your JSON object.
       </p>
     </div>
     <div class="flex flex-col gap-4">
       <div class="w-full h-full mb-6 md:mb-0">
-        <p class="font-bold text-xl mb-4">Input Javascript</p>
+        <p class="font-bold text-xl mb-4">Input JSON</p>
         <div id="editor" class="w-full rounded-xl h-[400px]"></div>
       </div>
       <div class="my-6">
@@ -105,7 +105,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         </div>
       </div>
       <div class="w-full h-full">
-        <p class="font-bold text-xl mb-4">Output Javascript</p>
+        <p class="font-bold text-xl mb-4">Output JSON</p>
         <div id="result" class="w-full rounded-xl h-[400px]"></div>
       </div>
     </div>

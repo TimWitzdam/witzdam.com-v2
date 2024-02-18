@@ -1,0 +1,31 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+import TheTailwindGridGenerator from "../../../../components/TheTailwindGridGenerator";
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+---
+
+<title>Tailwind Grid Generator - Tim's Tools</title>
+<meta
+  name="description"
+  content="The Tailwind Grid Generator creates a grid for you to use in your Tailwind CSS projects. Generate a grid with the number of rows and columns you need."
+/>
+<meta name="og:title" content="Tailwind Grid Generator - Tim's Tools" />
+<meta
+  name="og:description"
+  content="The Tailwind Grid Generator creates a grid for you to use in your Tailwind CSS projects. Generate a grid with the number of rows and columns you need."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("coding", "generator")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">Tailwind Grid Generator</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Create a Tailwind CSS Grid for your needs.
+      </p>
+    </div>
+    <TheTailwindGridGenerator apiAddress={api_address} client:only />
+  </div>
+</Layout>

@@ -127,6 +127,11 @@ export const tools: Tool[] = [
     description: "Format and prettify your JSON object",
     url: "/tools/coding/formatter/json-beautifier",
   },
+  {
+    name: "Tailwind Grid Generator",
+    description: "Generate a Tailwind CSS grid",
+    url: "/tools/coding/generator/tailwind-grid-generator",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

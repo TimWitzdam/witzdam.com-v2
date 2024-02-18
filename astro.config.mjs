@@ -1,14 +1,15 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-
 import node from "@astrojs/node";
+
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [tailwind(), react()],
   output: "server",
   adapter: node({
-    mode: "standalone",
+    mode: "standalone"
   }),
   redirects: {
     "/tools/png-to-webp": "/tools/convert/image/png-to-webp",
@@ -19,6 +20,6 @@ export default defineConfig({
     "/tools/hex-to-bin": "/tools/convert/number/hex-to-bin",
     "/tools/website-word-counter": "/tools/web/seo/website-word-counter",
     "/tools/random-id-generator": "/tools/coding/generator/random-id-generator",
-    "/tools/js-beautifier": "/tools/coding/formatter/js-beautifier",
-  },
+    "/tools/js-beautifier": "/tools/coding/formatter/js-beautifier"
+  }
 });

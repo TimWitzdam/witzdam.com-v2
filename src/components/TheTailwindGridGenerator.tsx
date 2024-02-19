@@ -25,6 +25,9 @@ export default function TheTailwindGridGenerator(props: {
   );
   const [itemSize, setItemSize] = useState({ width: 0, height: 0 });
   const [use, setUse] = useState(false);
+  const [codeBlockLanguage, setCodeBlockLanguage] = useState<"html" | "jsx">(
+    "html"
+  );
 
   const rootGrid = useRef<HTMLDivElement>(null);
   const overlay = useRef(null);
@@ -375,9 +378,27 @@ export default function TheTailwindGridGenerator(props: {
           {renderGrid()}
         </div>
       </div>
+      <div className="flex gap-4">
+        <button
+          onClick={() => setCodeBlockLanguage("html")}
+          className={`p-4 w-fit rounded-lg rounded-b-none border-2 border-b-0 border-transparent transition-colors ${
+            codeBlockLanguage === "html" ? "bg-[#444444]" : "!border-[#444444]"
+          }`}
+        >
+          HTML
+        </button>
+        <button
+          onClick={() => setCodeBlockLanguage("jsx")}
+          className={`p-4 w-fit rounded-lg rounded-b-none border-2 border-b-0 border-transparent transition-colors ${
+            codeBlockLanguage === "jsx" ? "bg-[#444444]" : "!border-[#444444]"
+          }`}
+        >
+          JSX
+        </button>
+      </div>
 
-      <div className="overflow-x-auto">
-        <div className="mb-10">{renderCodeBlock("html")}</div>
+      <div className="overflow-x-auto bg-[#444444] p-4 rounded-lg rounded-tl-none">
+        {renderCodeBlock(codeBlockLanguage)}
       </div>
 
       <style>

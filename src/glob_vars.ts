@@ -37,6 +37,11 @@ export const tool_categories: ToolCategory[] = [
         description: "SEO Tools",
         slug: "seo",
       },
+      {
+        name: "Technical",
+        description: "Technical Tools",
+        slug: "technical",
+      },
     ],
   },
   {
@@ -131,6 +136,16 @@ export const tools: Tool[] = [
     name: "Tailwind Grid Generator",
     description: "Generate a Tailwind CSS grid",
     url: "/tools/coding/generator/tailwind-grid-generator",
+  },
+  {
+    name: "URL Decoder",
+    description: "Decode a URL",
+    url: "/tools/web/technical/url-decode",
+  },
+  {
+    name: "URL Encoder",
+    description: "Encode a URL",
+    url: "/tools/web/technical/url-encode",
   },
 ];
 

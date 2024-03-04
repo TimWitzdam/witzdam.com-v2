@@ -62,8 +62,14 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       resultText.textContent = randomId;
       result.classList.remove("hidden");
 
-      fetch(`${api_address}/tools/random-id-generator`, {
+      fetch(`${api_address}/tools/inc`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tool: "random-id-generator",
+        }),
       });
     });
 

@@ -39,8 +39,14 @@ import BreadCrumb from "../../../../components/BreadCrumb.astro";
         indent_size: 4,
       });
       result.setValue(beautified);
-      fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/js-beautifier`, {
+      fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/inc`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tool: "js-beautifier",
+        }),
       }).catch((err) => console.log(err));
     });
 

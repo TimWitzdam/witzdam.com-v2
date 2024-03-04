@@ -68,8 +68,14 @@ export default function TheTailwindGridGenerator(props: {
   function apiIncrement() {
     if (!use) {
       setUse(true);
-      fetch(`${props.apiAddress}/tools/tailwind-grid-generator`, {
+      fetch(`${props.apiAddress}/tools/inc`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tool: "tailwind-grid-generator",
+        }),
       });
     }
   }

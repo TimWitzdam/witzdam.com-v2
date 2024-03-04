@@ -43,8 +43,12 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         decodeURL(e.target.value);
       }
       if (firstTime) {
-        fetch(`${api_address}/tools/url-decode`, {
+        fetch(`${api_address}/tools/inc`, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ tool: "url-decode" }),
         });
         firstTime = false;
       }

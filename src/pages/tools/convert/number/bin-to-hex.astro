@@ -63,8 +63,14 @@ function getName(direction: string, small?: boolean) {
 
     inputValue.addEventListener("input", (e) => {
       if (!first) {
-        fetch(`${api_address}/tools/${from}-to-${to}`, {
+        fetch(`${api_address}/tools/inc`, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tool: `${from}-to-${to}`,
+          }),
         }).catch((err) => console.log(err));
         first = true;
       }

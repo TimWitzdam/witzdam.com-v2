@@ -1,0 +1,110 @@
+---
+title: Website Word Counter API
+description: An API to count the words on a website
+---
+
+import { Code } from "astro:components";
+
+## Information
+
+The Website Word Counter API allows you to count the words on a website. This tool also works with websites, that rely on Javascript to load their content.
+
+## Endpoint
+
+<div class="flex items-center gap-2">
+  <div class="bg-red-500 py-2 px-4 text-sm rounded-lg w-fit text-white font-bold">
+    POST
+  </div>
+  <span>https://api.witzdam.com/tools/website-word-counter</span>
+</div>
+
+## Request body
+
+Note: The request can take quite some time, depending on how fast the website you enter loads.
+
+To use the API you must provide the following data as JSON inside the body:
+
+<Code
+  lang="json"
+  code={`{
+    url: "https://witzdam.com"
+}`}
+/>
+
+## Responses
+
+Here's a list of all the responses you can get and an explanation for each of them.
+
+### Success
+
+You can expect this response, when a valid URL is entered.
+
+<Code
+  lang="json"
+  code={`{
+    status: "ok",
+    data: {
+        "visible_words": 120,
+        "total_words": 122,
+        "top_words": [{
+                "word": "Tim",
+                "count": 4
+            },
+            {
+                "word": "for",
+                "count": 3
+            }
+        ]
+    }
+}`}
+/>
+
+### Error
+
+When a request fails for different reasons, you'll generally receive a `status: "error"` with a message attatched.
+
+Possible errors are:
+
+#### Some unexpected error
+
+This means, that something internally went wrong. This probably isn't your fault. Please contact me when this happens (contact@witzdam.com).
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "Something went wrong"
+}`}
+/>
+
+#### Invalid data provided
+
+This happens, when you send invalid data inside the body. You can get one of these 3 responses:
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "Invalid URL provided" // Syntax check failed
+}`}
+/>
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "No URL provided in request" // URL missing inside request body
+}`}
+/>
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "No data provided in request" // Request body is empty
+}`}
+/>
+
+## Request limit
+
+This endpoint is limited to `100 requests per hour`.

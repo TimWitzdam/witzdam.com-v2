@@ -2,12 +2,16 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
-
 import starlight from "@astrojs/starlight";
+import mdx from "@astrojs/mdx";
+
+import expressiveCode from "astro-expressive-code";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    expressiveCode(),
+    mdx(),
     tailwind(),
     react(),
     starlight({
@@ -16,10 +20,24 @@ export default defineConfig({
       sidebar: [
         {
           label: "Start here",
-          // link: "/",
           items: [
-            { label: "Getting started", link: "/docs" },
-            { label: "Usage limits", link: "/docs/usage-limits" },
+            {
+              label: "Getting started",
+              link: "/docs",
+            },
+            {
+              label: "Usage",
+              link: "/docs/usage",
+            },
+          ],
+        },
+        {
+          label: "API Collection",
+          items: [
+            {
+              label: "Website Word Counter",
+              link: "/docs/api-collection/website-word-counter",
+            },
           ],
         },
       ],

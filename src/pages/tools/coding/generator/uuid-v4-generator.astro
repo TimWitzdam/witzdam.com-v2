@@ -57,9 +57,8 @@ const initialUuid = uuidv4();
     e.preventDefault();
     const amount = parseInt(amountInput?.value);
     if (amount) {
-      const uuids = [];
+      const uuids: string[] = [];
       for (let i = 0; i < amount; i++) {
-        const uuids: string[] = [];
         uuids.push(uuidv4());
       }
       resultDiv.classList.remove("hidden");

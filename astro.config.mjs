@@ -38,6 +38,10 @@ export default defineConfig({
               label: "Website Word Counter",
               link: "/docs/api-collection/website-word-counter",
             },
+            {
+              label: "UUID Generator",
+              link: "/docs/api-collection/uuid-generator",
+            },
           ],
         },
       ],

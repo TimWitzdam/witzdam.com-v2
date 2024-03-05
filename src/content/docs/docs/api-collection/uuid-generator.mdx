@@ -1,0 +1,87 @@
+---
+title: UUID Generator
+description: An API to generate Version 1, 4, 6 and 7 UUIDs.
+---
+
+import { Code } from "astro:components";
+
+## Information
+
+The UUID Generator allows you to generate up to 1000 random UUIDs in one API call.
+
+You can generate Version 1, 4, 6 and 7 UUIDs.
+The generated UUIDs of Version 1 and 4 are [RFC4122](https://datatracker.ietf.org/doc/html/rfc4122) conform.
+Version 6 and 7 are based on the [IETF draft](https://github.com/uuid6/uuid6-ietf-draft?tab=readme-ov-file).
+
+## Endpoint
+
+<div class="flex items-center gap-2">
+  <div class="bg-green-500 py-2 px-4 text-sm rounded-lg w-fit text-white font-bold">
+    GET
+  </div>
+  <span>https://api.witzdam.com/tools/uuid-generator</span>
+</div>
+
+## URL Parameters
+
+| Name    | Description                                     | Valid inputs | Default value |
+| ------- | ----------------------------------------------- | ------------ | ------------- |
+| count   | The amout of UUIDs you want to generate.        | 1-1000       | 1             |
+| version | The version of UUID you want to be genenerated. | 1, 4, 6, 7   | 4             |
+
+### Examples:
+
+https://api.witzdam.com/tools/uuid-generator \
+https://api.witzdam.com/tools/uuid-generator?count=3 \
+https://api.witzdam.com/tools/uuid-generator?version=6 \
+https://api.witzdam.com/tools/uuid-generator?count=3&version=6
+
+## Responses
+
+Here's a list of all the responses you can get and an explanation for each of them.
+
+### Success
+
+You can expect this response, when no or a valid input for count and version is entered.
+
+<Code
+  lang="json"
+  code={`{
+    status: "ok",
+    data: ["018e0f16-d1a9-7f8c-8a4b-fea57b7c9928"]
+}`}
+/>
+
+### Error
+
+When a request fails for different reasons, you'll generally receive a `status: "error"` with a message attatched.
+
+Possible errors are:
+
+#### Invalid count parameter
+
+This means, that the value of the count URL parameter isn't in the valid range. Please check the table a few headings up.
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "Count cannot be greater than 1000"
+}`}
+/>
+
+#### Invalid version parameter
+
+This means, that the value of the version URL parameter isn't valid. Please check the table a few headings up to see a list of the supported versions.
+
+<Code
+  lang="json"
+  code={`{
+    status: "error",
+    message: "Invalid UUID version"
+}`}
+/>
+
+## Request limit
+
+This endpoint is limited to `1000 requests per hour`.

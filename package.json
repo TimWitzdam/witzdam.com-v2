@@ -18,6 +18,7 @@
     "@astrojs/tailwind": "^5.0.3",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
+    "@types/uuid": "^9.0.8",
     "ace-builds": "^1.32.3",
     "astro": "^4.0.4",
     "astro-expressive-code": "^0.33.4",
@@ -26,7 +27,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/js-beautify": "^1.14.3"

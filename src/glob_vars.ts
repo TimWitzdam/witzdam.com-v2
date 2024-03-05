@@ -147,6 +147,11 @@ export const tools: Tool[] = [
     description: "Encode a URL",
     url: "/tools/web/technical/url-encode",
   },
+  {
+    name: "UUID Generator",
+    description: "Generate one or multiple UUIDs.",
+    url: "/tools/coding/generator/uuid-v4-generator",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

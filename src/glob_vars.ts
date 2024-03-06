@@ -59,6 +59,11 @@ export const tool_categories: ToolCategory[] = [
         description: "Generator",
         slug: "generator",
       },
+      {
+        name: "Calculator",
+        description: "Calculator",
+        slug: "calculator",
+      },
     ],
   },
 ];
@@ -151,6 +156,11 @@ export const tools: Tool[] = [
     name: "UUID Generator",
     description: "Generate one or multiple UUIDs.",
     url: "/tools/coding/generator/uuid-v4-generator",
+  },
+  {
+    name: "Signed Binary Calculator",
+    description: "Calculate the signed binary representation of a number",
+    url: "/tools/coding/calculator/signed-binary-calculator",
   },
 ];
 

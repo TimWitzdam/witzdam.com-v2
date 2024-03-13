@@ -64,6 +64,11 @@ export const tool_categories: ToolCategory[] = [
         description: "Calculator",
         slug: "calculator",
       },
+      {
+        name: "Converter",
+        description: "Converter",
+        slug: "converter",
+      },
     ],
   },
 ];
@@ -161,6 +166,16 @@ export const tools: Tool[] = [
     name: "Signed Binary Calculator",
     description: "Calculate the signed binary representation of a number",
     url: "/tools/coding/calculator/signed-binary-calculator",
+  },
+  {
+    name: "String to Hex Converter",
+    description: "Convert String to Hex",
+    url: "/tools/coding/converter/string-to-hex",
+  },
+  {
+    name: "Hex to String Converter",
+    description: "Convert Hex to String",
+    url: "/tools/coding/converter/hex-to-string",
   },
 ];
 

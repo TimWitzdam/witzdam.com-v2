@@ -17,6 +17,7 @@ const { name, image, size } = Astro.props;
     alt={image.alt}
     width={size}
     class="group-hover:-translate-y-4 transition-transform -mb-2 mx-auto"
+    loading="lazy"
   />
   <p class="opacity-0 group-hover:opacity-100 transition-opacity text-center">
     {name}

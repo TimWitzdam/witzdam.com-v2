@@ -177,6 +177,11 @@ export const tools: Tool[] = [
     description: "Convert Hex to String",
     url: "/tools/coding/converter/hex-to-string",
   },
+  {
+    name: "UTM Tag Builder",
+    description: "Build UTM tags for your URLs",
+    url: "/tools/web/technical/utm-tag-builder",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

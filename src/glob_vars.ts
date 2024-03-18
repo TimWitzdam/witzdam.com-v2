@@ -187,6 +187,26 @@ export const tools: Tool[] = [
     description: "Add, substract, multiply and divide binary numbers",
     url: "/tools/coding/calculator/binary-calculator",
   },
+  {
+    name: "Base64 to Hex Converter",
+    description: "Convert Base64 to Hex",
+    url: "/tools/coding/converter/base64-to-hex",
+  },
+  {
+    name: "Base64 to String Converter",
+    description: "Convert Base64 to String",
+    url: "/tools/coding/converter/base64-to-string",
+  },
+  {
+    name: "String to Base64 Converter",
+    description: "Convert String to Base64",
+    url: "/tools/coding/converter/string-to-base64",
+  },
+  {
+    name: "Hex to Base64 Converter",
+    description: "Convert Hex to Base64",
+    url: "/tools/coding/converter/hex-to-base64",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

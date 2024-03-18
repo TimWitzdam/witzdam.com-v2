@@ -77,12 +77,19 @@ function getName(direction: string, small?: boolean) {
         first = true;
       }
       let value = e.target.value;
+      if (!value.startsWith("0x")) {
+        value = "0x" + value;
+      }
+      value = value.replace(/[^0-9a-fA-Fx]/g, "");
+
+      e.target.value = value;
 
       if (value.length > 0) {
-        const hex = Array.from(value)
-          .map((char) => char.charCodeAt(0).toString(16))
+        firstValue.value = value
+          .slice(2)
+          .match(/.{2}/g)
+          .map((x) => String.fromCharCode(parseInt(x, 16)))
           .join("");
-        firstValue.value = `0x${hex}`;
       } else {
         firstValue.value = "";
       }
@@ -193,7 +200,13 @@ function getName(direction: string, small?: boolean) {
         >{getName("from")} value</label
       >
       <div class="mt-2 flex flex-col gap-4 mb-4 md:flex-row">
-        <BaseInput id="input-value" type="text" fullWidth autocomplete="off" />
+        <BaseInput
+          id="input-value"
+          type="text"
+          fullWidth
+          value="0x"
+          autocomplete="off"
+        />
       </div>
       <div class="mb-10 flex flex-col items-center gap-4 sm:flex-row">
         <BaseButton text="Reset" id="reset-button" fullWidth icon>

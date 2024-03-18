@@ -77,12 +77,14 @@ function getName(direction: string, small?: boolean) {
         first = true;
       }
       let value = e.target.value;
+      value = value.replace(/[^A-Za-z0-9+/=]/g, "");
+      e.target.value = value;
 
       if (value.length > 0) {
-        const hex = Array.from(value)
+        firstValue.value = value
+          .split("")
           .map((char) => char.charCodeAt(0).toString(16))
           .join("");
-        firstValue.value = `0x${hex}`;
       } else {
         firstValue.value = "";
       }
@@ -147,8 +149,8 @@ function getName(direction: string, small?: boolean) {
         {getName("from")} To {getName("to")} Converter
       </h1>
       <p class="text-lg md:w-2/3 mx-auto">
-        Convert {getName("from", true)} to
-        {getName("to", true)}.
+        Convert {getName("from")} to
+        {getName("to")}.
       </p>
     </div>
 

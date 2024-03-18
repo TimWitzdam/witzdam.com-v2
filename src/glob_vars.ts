@@ -182,6 +182,11 @@ export const tools: Tool[] = [
     description: "Build UTM tags for your URLs",
     url: "/tools/web/technical/utm-tag-builder",
   },
+  {
+    name: "Binary Calculator",
+    description: "Add, substract, multiply and divide binary numbers",
+    url: "/tools/coding/calculator/binary-calculator",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

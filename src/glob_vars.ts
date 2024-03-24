@@ -207,6 +207,16 @@ export const tools: Tool[] = [
     description: "Convert Hex to Base64",
     url: "/tools/coding/converter/hex-to-base64",
   },
+  {
+    name: "JPEG To PNG Converter",
+    description: "Convert JPEG images to PNG",
+    url: "/tools/convert/image/jpeg-to-png",
+  },
+  {
+    name: "JPG To PNG Converter",
+    description: "Convert JPG images to PNG",
+    url: "/tools/convert/image/jpg-to-png",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {

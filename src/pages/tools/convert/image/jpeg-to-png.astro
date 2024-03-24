@@ -306,7 +306,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         formData.append("image", file);
 
         fetchPromises.push(
-          fetch(api_address + "/tools/webp-to-png", {
+          fetch(api_address + "/tools/jpeg-to-png", {
             method: "POST",
             body: formData,
           })

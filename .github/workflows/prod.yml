@@ -14,7 +14,7 @@ jobs:
       - name: Remove unused Docker image
         run: docker rmi witzdam.com || true
       - name: Delete old website folder
-        run: rm -rf witzdam.com
+        run: rm -rf witzdam.com-v2
 
   clone-repo:
     name: Clone Repo
@@ -42,7 +42,7 @@ jobs:
           directory: witzdam.com-v2
       - name: Docker build
         run: |
-          cd witzdam.com
+          cd witzdam.com-v2
           docker build -t witzdam.com .
       - name: Docker run
         run: |

@@ -39,7 +39,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_PUBLIC_API_ADDRESS: "https://api.witzdam.com"
-          directory: witzdam.com
+          directory: witzdam.com-v2
       - name: Docker build
         run: |
           cd witzdam.com

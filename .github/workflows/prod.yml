@@ -1,0 +1,49 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  remove-old-website:
+    name: Remove old docker and website files
+    runs-on:
+      labels: self-hosted
+    steps:
+      - name: Stop old witzdam.com container
+        run: docker stop witzdam.com || true
+      - name: Delete old witzdam.com container
+        run: docker rm witzdam.com || true
+      - name: Remove unused Docker image
+        run: docker rmi witzdam.com || true
+      - name: Delete old website folder
+        run: rm -rf witzdam.com
+
+  clone-repo:
+    name: Clone Repo
+    runs-on:
+      labels: self-hosted
+    needs: remove-old-website
+    steps:
+      - name: Clone Repo
+        uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+        with:
+          owner: "TimWitzdam"
+          repository: "witzdam.com-v2"
+          branch: "master"
+
+  deploy-website:
+    name: Deploy Website
+    runs-on:
+      labels: self-hosted
+    needs: clone-repo
+    steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_PUBLIC_API_ADDRESS: "https://api.witzdam.com"
+          directory: witzdam.com
+      - name: Docker build
+        run: |
+          cd witzdam.com
+          docker build -t witzdam.com .
+      - name: Docker run
+        run: |
+          docker run -d -p 4321:4321 --name witzdam.com witzdam.com

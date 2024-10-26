@@ -1,0 +1,480 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+import BaseInput from "../../../../components/BaseInput.astro";
+
+const permissions = {
+  general: [
+    {
+      name: "Administrator",
+      value: 0x8,
+      requireTwoFactor: true,
+    },
+    {
+      name: "View Audit Log",
+      value: 0x80,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Server",
+      value: 0x20,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Manage Roles",
+      value: 0x10000000,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Manage Channels",
+      value: 0x10,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Kick Members",
+      value: 0x2,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Ban Members",
+      value: 0x4,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Create Instant Invite",
+      value: 0x1,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Change Nickname",
+      value: 0x4000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Nicknames",
+      value: 0x8000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Expressions",
+      value: 0x40000000,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Create Expressions",
+      value: 0x80000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Webhooks",
+      value: 0x20000000,
+      requireTwoFactor: true,
+    },
+    {
+      name: "View Channels",
+      value: 0x400,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Events",
+      value: 0x200000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Create Events",
+      value: 0x100000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Moderate Members",
+      value: 0x10000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "View Server Insights",
+      value: 0x80000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "View Server Subscription Insights",
+      value: 0x20000000000,
+      requireTwoFactor: false,
+    },
+  ],
+  text: [
+    {
+      name: "Send Messages",
+      value: 0x800,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Create Public Threads",
+      value: 0x800000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Create Private Threads",
+      value: 0x1000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Send Messages in Threads",
+      value: 0x4000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Send TTS Messages",
+      value: 0x1000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Manage Messages",
+      value: 0x2000,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Manage Threads",
+      value: 0x400000000,
+      requireTwoFactor: true,
+    },
+    {
+      name: "Embed Links",
+      value: 0x4000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Attach Files",
+      value: 0x8000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Read Message History",
+      value: 0x10000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Mention Everyone",
+      value: 0x20000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use External Emojis",
+      value: 0x40000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use External Stickers",
+      value: 0x2000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Add Reactions",
+      value: 0x40,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use Slash Commands",
+      value: 0x80000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use External Apps",
+      value: 0x4000000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Create Polls",
+      value: 0x2000000000000,
+      requireTwoFactor: false,
+    },
+  ],
+  voice: [
+    {
+      name: "Connect",
+      value: 0x100000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Speak",
+      value: 0x200000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Video",
+      value: 0x200,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Mute Members",
+      value: 0x400000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Deafen Members",
+      value: 0x800000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Move Members",
+      value: 0x1000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use Voice Activity",
+      value: 0x2000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Priority Speaker",
+      value: 0x100,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Request To Speak",
+      value: 0x100000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use Embedded Activities",
+      value: 0x8000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use Soundboard",
+      value: 0x40000000000,
+      requireTwoFactor: false,
+    },
+    {
+      name: "Use External Sounds",
+      value: 0x200000000000,
+      requireTwoFactor: false,
+    },
+  ],
+};
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const permissionNumber = document.getElementById(
+      "permission-number"
+    ) as HTMLInputElement;
+    const checkboxes = document.querySelectorAll(
+      "input[type=checkbox]"
+    ) as NodeListOf<HTMLInputElement>;
+    let first = true;
+
+    function disableAll() {
+      for (const checkbox of checkboxes) {
+        checkbox.disabled = true;
+        checkbox.parentElement?.parentElement?.classList.remove("opacity-100");
+        checkbox.parentElement?.parentElement?.classList.add("opacity-50");
+      }
+    }
+
+    function enableAll() {
+      for (const checkbox of checkboxes) {
+        checkbox.disabled = false;
+        checkbox.parentElement?.parentElement?.classList.remove("opacity-50");
+        checkbox.parentElement?.parentElement?.classList.add("opacity-100");
+      }
+    }
+
+    function sendCountRequest() {
+      if (first) {
+        fetch(`${import.meta.env.PUBLIC_API_ADDRESS}/tools/inc`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tool: "permissions-calculator",
+          }),
+        }).catch((err) => console.log(err));
+        first = false;
+      }
+    }
+
+    for (const checkbox of checkboxes) {
+      checkbox.addEventListener("change", () => {
+        enableAll();
+        sendCountRequest();
+        let permissions = 0;
+        for (const checkbox of checkboxes) {
+          if (checkbox.parentElement?.parentElement) {
+            if (checkbox.checked) {
+              if (checkbox.value === "8") {
+                disableAll();
+                checkbox.parentElement.parentElement.classList.add(
+                  "opacity-100"
+                );
+                checkbox.parentElement.parentElement.classList.remove(
+                  "opacity-50"
+                );
+                checkbox.parentElement.parentElement.classList.remove(
+                  "opacity-70"
+                );
+                checkbox.disabled = false;
+                permissions = 0x8;
+                break;
+              }
+
+              checkbox.parentElement.parentElement.classList.remove(
+                "opacity-70"
+              );
+              checkbox.parentElement.parentElement.classList.add("opacity-100");
+              permissions += parseInt(checkbox.value);
+            } else {
+              checkbox.parentElement.parentElement.classList.remove(
+                "opacity-100"
+              );
+              checkbox.parentElement.parentElement.classList.add("opacity-70");
+            }
+          }
+        }
+        permissionNumber.value = permissions.toString();
+      });
+    }
+  });
+</script>
+
+<title>Discord Permissions Calculator - Tim's Tools</title>
+<meta
+  name="description"
+  content="The Discord Permissions Calculator helps you generate the permissions number for your Discord bot."
+/>
+<meta name="og:title" content="Discord Permissions Calculator - Tim's Tools" />
+<meta
+  name="og:description"
+  content="The Discord Permissions Calculator helps you generate the permissions number for your Discord bot."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("coding", "discord")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">Discord Permissions Calculator</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Generate your Discord bot permissions number.
+      </p>
+    </div>
+    <div
+      class="grid lg:grid-cols-3 gap-10 mb-8 md:grid-cols-1"
+      id="permissions-form"
+    >
+      <div>
+        <h2 class="text-lg font-bold mb-2">General Permissions</h2>
+        <div class="flex flex-col gap-2">
+          {
+            permissions.general.map((permission) => (
+              <div class="flex items-center gap-2 opacity-70 transition-opacity hover:opacity-100">
+                <label class="checkBox shrink-0">
+                  <input
+                    id={permission.name}
+                    value={permission.value}
+                    type="checkbox"
+                  />
+                  <div class="transition" />
+                </label>
+                <label for={permission.name} class="text-lg cursor-pointer">
+                  {permission.name}
+                </label>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold mb-2">Text Permissions</h2>
+        <div class="flex flex-col gap-2">
+          {
+            permissions.text.map((permission) => (
+              <div class="flex items-center gap-2 opacity-70 transition-opacity hover:opacity-100">
+                <label class="checkBox shrink-0">
+                  <input
+                    id={permission.name}
+                    value={permission.value}
+                    type="checkbox"
+                  />
+                  <div class="transition" />
+                </label>
+                <label for={permission.name} class="text-lg cursor-pointer">
+                  {permission.name}
+                </label>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold mb-2">Voice Permissions</h2>
+        <div class="flex flex-col gap-2">
+          {
+            permissions.voice.map((permission) => (
+              <div class="flex items-center gap-2 opacity-70 transition-opacity hover:opacity-100">
+                <label class="checkBox shrink-0">
+                  <input
+                    id={permission.name}
+                    value={permission.value}
+                    type="checkbox"
+                  />
+                  <div class="transition" />
+                </label>
+                <label for={permission.name} class="text-lg cursor-pointer">
+                  {permission.name}
+                </label>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <p class="uppercase text-sm mb-1">Permission number:</p>
+    <BaseInput
+      id="permission-number"
+      type="text"
+      value="0"
+      disabled
+      fullWidth
+    />
+  </div>
+</Layout>
+
+<style>
+  .checkBox {
+    display: block;
+    cursor: pointer;
+    width: 19px;
+    height: 19px;
+    border: 4px solid rgba(255, 255, 255, 0);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 1px #fff;
+  }
+
+  .checkBox div {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    top: -52px;
+    left: -52px;
+    position: absolute;
+    transform: rotateZ(45deg);
+    z-index: 100;
+  }
+
+  .checkBox input[type="checkbox"]:checked + div {
+    left: -10px;
+    top: -10px;
+  }
+
+  .checkBox input[type="checkbox"] {
+    position: absolute;
+    left: 50px;
+    visibility: hidden;
+  }
+
+  .transition {
+    transition: 300ms ease;
+  }
+</style>

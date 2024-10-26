@@ -69,6 +69,11 @@ export const tool_categories: ToolCategory[] = [
         description: "Converter",
         slug: "converter",
       },
+      {
+        name: "Discord",
+        description: "Discord",
+        slug: "discord",
+      },
     ],
   },
 ];
@@ -216,6 +221,11 @@ export const tools: Tool[] = [
     name: "JPG To PNG Converter",
     description: "Convert JPG images to PNG",
     url: "/tools/convert/image/jpg-to-png",
+  },
+  {
+    name: "Discord Permissions Calculator",
+    description: "Calculate Discord Permissions number",
+    url: "/tools/coding/discord/permissions-calculator",
   },
 ];
 

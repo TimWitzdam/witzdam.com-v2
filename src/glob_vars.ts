@@ -227,10 +227,14 @@ export const tools: Tool[] = [
     description: "Calculate Discord Permissions number",
     url: "/tools/coding/discord/permissions-calculator",
   },
+  {
+    name: "Manchester Encoder & Decoder",
+    description: "Encode and decode Manchester code",
+    url: "/tools/coding/converter/manchester-encoding",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory: string) {
-  // find the category and subcategory by it's slug and return the data like that: [{ name: "Tools", url: "/tools" }, { name: category, url: `/tools/categories/${category}` }, { name: subcategory, url: `/tools/browse?cat=${category}&sub=${subcategory}` }];
   let cat = tool_categories.find((c) => c.slug === category);
   let sub = cat?.sub_categories.find((s) => s.slug === subcategory);
   return [

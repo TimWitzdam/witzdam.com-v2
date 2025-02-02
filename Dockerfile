@@ -13,6 +13,8 @@ RUN npm install --production=false
 
 FROM build-deps AS build
 COPY . .
+ARG PUBLIC_API_ADDRESS
+ENV PUBLIC_API_ADDRESS=${PUBLIC_API_ADDRESS}
 RUN npm run build
 
 FROM base AS runtime

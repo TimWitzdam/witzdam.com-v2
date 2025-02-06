@@ -1,0 +1,37 @@
+---
+title: How to set up SMB share
+---
+import { Steps } from '@astrojs/starlight/components';
+
+
+## How to set up SMB share
+<Steps>
+1. Navigate to Settings > Storage
+2. Change the "Default location" to "SMB share"
+3. Enter the required details
+</Steps>
+
+## If you're getting a connection error:
+
+### Make sure the address is correct
+It must not start with / or \
+It must end with the name of the share. E.g. `192.168.1.1/backups`
+
+### Check your credentials again
+Check the credentials. Maybe you've made a mistake there.
+
+### Check the server connection
+Try to ping your SMB server from inside the docker container like this:
+
+:::caution
+Check if the container name (GitSave) is correct in your case. Also change the IP of the SMB server.
+:::
+<div class="not-content">
+```bash mark="GitSave"
+docker exec GitSave ping 192.168.1.1
+```
+</div>
+
+### If you're still getting the error
+Open an <a href="https://github.com/TimWitzdam/GitSave/issues" target="_blank" rel="noopener">issue</a> on GitHub.
+

@@ -1,0 +1,14 @@
+---
+title: How to disable authentication
+---
+import { Steps } from '@astrojs/starlight/components';
+
+:::note
+It's recommended to first complete the setup, then disable authentication. Otherwise it will make it impossible to return to GitSave's built in authentication.
+:::
+
+<Steps>
+1. Setup your own authentication before disabling the existing one
+2. Set the environment variable: `DISABLE_AUTH=true`
+3. Restart the container
+</Steps>

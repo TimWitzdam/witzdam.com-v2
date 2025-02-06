@@ -15,32 +15,60 @@ export default defineConfig({
     tailwind(),
     react(),
     starlight({
-      title: "Tim's API Documentation",
+      title: "Tim's Docs",
       disable404Route: true,
+      favicon: "/images/pfp.ico",
       sidebar: [
         {
-          label: "Start here",
+          label: "Welcome",
           items: [
             {
               label: "Getting started",
               link: "/docs",
             },
-            {
-              label: "Usage",
-              link: "/docs/usage",
-            },
           ],
         },
         {
           label: "API Collection",
+          collapsed: true,
           items: [
             {
-              label: "Website Word Counter",
-              link: "/docs/api-collection/website-word-counter",
+              label: "Usage",
+              link: "/docs/api-collection",
             },
             {
-              label: "UUID Generator",
-              link: "/docs/api-collection/uuid-generator",
+              label: "APIs",
+              items: [
+                {
+                  label: "Website Word Counter",
+                  link: "/docs/api-collection/website-word-counter",
+                },
+                {
+                  label: "UUID Generator",
+                  link: "/docs/api-collection/uuid-generator",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: "GitSave",
+          items: [
+            {
+              label: "How to create a GitHub access token",
+              link: "/docs/gitsave/how-to-create-a-github-access-token",
+            },
+            {
+              label: "How to disable authentication",
+              link: "/docs/gitsave/how-to-disable-authentication",
+            },
+            {
+              label: "How to update",
+              link: "/docs/gitsave/how-to-update",
+            },
+            {
+              label: "How to set up SMB share",
+              link: "/docs/gitsave/how-to-set-up-smb-share",
             },
           ],
         },

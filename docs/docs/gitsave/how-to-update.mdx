@@ -1,0 +1,33 @@
+---
+title: How to update
+---
+import { Code } from '@astrojs/starlight/components';
+
+## 1. Backup gitsave volume
+Since this application is still in early development I highly suggest creating a backup of the `gitsave` volume like so:
+<div class="not-content">
+```bash
+docker run --rm -i -t -v gitsave:/origin -v gitsave-backup:/destination alpine sh -c "cp -avr /origin/* /destination"
+```
+</div>
+
+## 2. Store JWT_SECRET (if not already done)
+Before deleting the old container, make sure to copy the `JWT_SECRET` environment variable. Losing this, means you'll have trouble logging in.
+<div class="not-content">
+```bash
+# This command simply prints out the JWT_SECRET env variable of the docker container
+docker exec GitSave env | grep JWT_SECRET | cut -d'=' -f2
+```
+</div>
+
+## 3. Actual update process
+Now we can begin the update process:
+<div class="not-content">
+```bash
+docker pull timwitzdam/gitsave:latest
+docker stop GitSave
+docker rm GitSave
+# Default run command. Make sure to change the JWT_SECRET and possibly the backups folder path.
+docker run -d --restart=always -p 3000:3000 -v gitsave:/app/data -v ./backups:/app/backups -e JWT_SECRET={YOUR_SECRET_HERE} -e DISABLE_AUTH=false --name GitSave timwitzdam/gitsave:latest
+```
+</div>

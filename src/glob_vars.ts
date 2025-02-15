@@ -2,7 +2,7 @@ interface ToolCategory {
   name: string;
   description: string;
   slug: string;
-  sub_categories: {
+  sub_categories?: {
     name: string;
     description: string;
     slug: string;
@@ -76,6 +76,11 @@ export const tool_categories: ToolCategory[] = [
       },
     ],
   },
+  {
+    name: "University",
+    description: "University",
+    slug: "uni",
+  },
 ];
 
 interface Tool {
@@ -135,7 +140,7 @@ export const tools: Tool[] = [
     name: "Inodes Calculator",
     description:
       "Calculates inodes for the exercises of University Essen Duisburg",
-    url: "/tools/inodes",
+    url: "/tools/uni/inodes",
   },
   {
     name: "Random ID Generator",
@@ -232,17 +237,25 @@ export const tools: Tool[] = [
     description: "Encode and decode Manchester code",
     url: "/tools/coding/converter/manchester-encoding",
   },
+  {
+    name: "Lewintan Stats Extractor",
+    description: "Extract stats from Lewintan exam results PDF",
+    url: "/tools/uni/lewintan-stats-extractor",
+  },
 ];
 
-export function buildBreadcrumb(category: string, subcategory: string) {
+export function buildBreadcrumb(category: string, subcategory?: string) {
   let cat = tool_categories.find((c) => c.slug === category);
-  let sub = cat?.sub_categories.find((s) => s.slug === subcategory);
-  return [
+  let sub = cat?.sub_categories?.find((s) => s.slug === subcategory);
+  let result = [
     { name: "Tools", url: "/tools" },
     { name: cat?.name, url: `/tools/categories/${category}` },
-    {
-      name: sub?.name,
-      url: `/tools/browse?cat=${category}&sub=${subcategory}`,
-    },
   ];
+  if (sub) {
+    result.push({
+      name: sub.name,
+      url: `/tools/browse?cat=${category}&sub=${subcategory}`,
+    });
+  }
+  return result;
 }

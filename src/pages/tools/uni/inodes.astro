@@ -1,6 +1,6 @@
 ---
-import BaseButton from "../../components/BaseButton.astro";
-import Layout from "../../layouts/Layout.astro";
+import BaseButton from "../../../components/BaseButton.astro";
+import Layout from "../../../layouts/Layout.astro";
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
@@ -13,7 +13,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     const addresses = document.querySelector("#addresses");
     const maxFileSizeOneBlock = document.querySelector("#maxFileSizeOneBlock");
     const maxFileSizeTwoBlocks = document.querySelector(
-      "#maxFileSizeTwoBlocks"
+      "#maxFileSizeTwoBlocks",
     );
 
     // Input: Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.
@@ -52,7 +52,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 
       if (numbers.length !== 4) {
         alert(
-          "Please paste in the exercise description! (e.g. Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.)"
+          "Please paste in the exercise description! (e.g. Ein Unix-Dateisystem belegt vollständig eine 128 GiB große Festplatte und verwaltet diese mit inodes. Ein inode speichert die Adressen von 16 Datenblöcken und dazu Verweise auf bis zu zweifach indirekte Verwaltungsblöcke. Die Blockgröße der Verwaltungsblöcke sowie der Datenblöcke beträgt 2 KiB. Die Blöcke der Platte werden mit 32 Bit großen Adressen angesprochen.)",
         );
         return;
       }
@@ -79,7 +79,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       // a) Berechnen Sie, wie viele Adressen ein Verwaltungsblock aufnehmen kann.
       const addressesPerBlockA = calculateAddressesPerBlock(
         blockgroesse * 1024,
-        adressgroesse
+        adressgroesse,
       );
 
       // b) 1. Es steht nur ein einfach indirekter Verwaltungsblock zur Verfügung (in MiB)

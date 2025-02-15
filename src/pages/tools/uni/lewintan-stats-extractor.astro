@@ -1,0 +1,321 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BaseButton from "../../../components/BaseButton.astro";
+import UploadIcon from "../../../../public/icons/upload.svg?raw";
+import ShareIcon from "../../../../public/icons/share.svg?raw";
+import LinkArrowIcon from "../../../../public/icons/link-arrow.svg?raw";
+import { buildBreadcrumb } from "../../../glob_vars";
+import BreadCrumb from "../../../components/BreadCrumb.astro";
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+
+const resultID = Astro.url.searchParams.get("id");
+const response = await fetch(
+  `${api_address}/tools/lewintan-stats-extractor?id=${resultID}`,
+);
+const data = await response.json();
+if (data.status !== "ok") {
+  return Astro.redirect("/tools/uni/lewintan-stats-extractor");
+}
+---
+
+<script
+  define:vars={{
+    api_address,
+    resultID,
+  }}
+>
+  document.addEventListener("DOMContentLoaded", () => {
+    function shareResult(resultId) {
+      const shareLink =
+        window.location.origin +
+        "/tools/uni/lewintan-stats-extractor/?id=" +
+        resultId;
+      if (navigator.share) {
+        navigator.share({
+          title: "Lewintan Stats Extractor - Tim's Tools",
+          text: "Check out the stats I extracted from Lewintan's exam results PDF!",
+          url: shareLink,
+        });
+      } else {
+        navigator.clipboard.writeText(shareLink);
+        alert("Link copied to clipboard!");
+      }
+    }
+
+    if (resultID) {
+      document
+        .querySelector("#share-result")
+        .addEventListener("click", () => shareResult(resultID));
+
+      return;
+    }
+    const controlsElement = document.querySelector("#controls");
+    const filesElement = document.querySelector("#files");
+    const fileSelector = document.querySelector("input[type=file]");
+    const dragDropArea = document.querySelector("#dragDropArea");
+
+    function dragenter(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragDropArea.classList.add("border-green-500");
+    }
+
+    function dragover(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragDropArea.classList.add("border-green-500");
+    }
+
+    function dragLeave(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragDropArea.classList.remove("border-green-500");
+    }
+
+    function setDragDrop(area) {
+      area.addEventListener("dragenter", dragenter, false);
+      area.addEventListener("dragover", dragover, false);
+      area.addEventListener("dragleave", dragLeave, false);
+      area.addEventListener("drop", drop, false);
+    }
+
+    setDragDrop(document.documentElement);
+
+    async function fileSelectorChanged() {
+      await apiProcessFile(fileSelector.files[0]);
+      fileSelector.value = "";
+    }
+
+    fileSelector.addEventListener("change", fileSelectorChanged);
+
+    async function apiProcessFile(file) {
+      controlsElement.classList.remove("hidden");
+      controlsElement.classList.add("flex");
+      filesElement.classList.remove("hidden");
+      dragDropArea.classList.add("hidden");
+      document.querySelector("#loading").classList.remove("hidden");
+
+      let formData = new FormData();
+      formData.append("pdf", file);
+
+      const response = await fetch(
+        api_address + "/tools/lewintan-stats-extractor",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      const data = await response.json();
+      document.querySelector("#loading").classList.add("hidden");
+      if (data.status === "error") {
+        alert(data.message);
+        return;
+      }
+      document
+        .querySelector("#share-result")
+        .addEventListener("click", () => shareResult(data.data.result_id));
+      const tableBody = document.querySelector("tbody");
+      tableBody.parentElement.classList.remove("hidden");
+      tableBody.innerHTML = `
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Not taken part</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.not_taken}</td>
+                    </tr>
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Failed</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.failed}</td>
+                    </tr>
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Passed</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.passed}</td>
+                    </tr>
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Total</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.total}</td>
+                    </tr>
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Failed percentage</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.failed_percentage}%</td>
+                    </tr>
+                    <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                      <td class="border-white border-opacity-60 p-2">Failed percentage (with not taken part)</td>
+                      <td class="border-white border-opacity-60 p-2">${data.data.failed_percentage_with_not_taken}%</td>
+                    </tr>
+                `;
+    }
+
+    async function drop(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragDropArea.classList.remove("border-green-500");
+      await apiProcessFile(e.dataTransfer.files[0]);
+    }
+  });
+</script>
+
+<title>Lewintan Stats Extractor - Tim's Tools</title>
+<meta
+  name="description"
+  content="Extract stats from Lewintan's exam results PDF."
+/>
+<meta name="og:title" content="Lewintan Stats Extractor - Tim's Tools" />
+<meta
+  name="og:description"
+  content="Extract stats from Lewintan's exam results PDF."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("uni")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">Lewintan Stats Extractor</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Extract stats from Lewintan's exam results PDF.
+      </p>
+    </div>
+    <div
+      class={`${!resultID ? "hidden" : "flex"} items-center gap-4 flex-col md:flex-row-reverse md:justify-between whitespace-nowrap mb-6`}
+      id="controls"
+    >
+      <div class="w-full md:w-fit">
+        <BaseButton id="share-result" text="Share result" fullWidth icon>
+          <Fragment set:html={ShareIcon} slot="before-icon" />
+        </BaseButton>
+      </div>
+      {
+        resultID && (
+          <a href="/tools/uni/lewintan-stats-extractor" class="w-full md:w-fit">
+            <BaseButton text="Extract results yourself" fullWidth icon>
+              <Fragment set:html={LinkArrowIcon} slot="before-icon" />
+            </BaseButton>
+          </a>
+        )
+      }
+    </div>
+    {
+      resultID ? (
+        <div class="mb-6">
+          <table class="w-full table-fixed break-words">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="text-start font-bold border-b border-white border-opacity-60 p-2 opacity-80"
+                >
+                  Statistic
+                </th>
+                <th
+                  scope="col"
+                  class="text-start font-bold border-b border-white border-opacity-60 p-2 opacity-80"
+                >
+                  Value
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">
+                  Not taken part
+                </td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.not_taken}
+                </td>
+              </tr>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">Failed</td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.failed}
+                </td>
+              </tr>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">Passed</td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.passed}
+                </td>
+              </tr>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">Total</td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.total}
+                </td>
+              </tr>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">
+                  Failed percentage
+                </td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.failed_percentage}%
+                </td>
+              </tr>
+              <tr class="bg-white odd:bg-opacity-5 even:bg-opacity-20">
+                <td class="border-white border-opacity-60 p-2">
+                  Failed percentage (with not taken part)
+                </td>
+                <td class="border-white border-opacity-60 p-2">
+                  {data.data.failed_percentage_with_not_taken}%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>
+          <div id="files" class="hidden mb-6">
+            <div id="files-content">
+              <table class="hidden w-full table-fixed break-words">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      class="text-start font-bold border-b border-white border-opacity-60 p-2 opacity-80"
+                    >
+                      Statistic
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-start font-bold border-b border-white border-opacity-60 p-2 opacity-80"
+                    >
+                      Value
+                    </th>
+                  </tr>
+                </thead>
+                <tbody> </tbody>
+              </table>
+            </div>
+
+            <div id="loading" class="hidden my-6">
+              <div class="flex justify-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-white" />
+              </div>
+            </div>
+          </div>
+
+          <label
+            for="fileInput"
+            class="bg-[#444444] border-2 border-dashed border-white rounded-xl p-10 flex flex-col items-center justify-center gap-4 cursor-pointer mb-6"
+            id="dragDropArea"
+          >
+            <input
+              type="file"
+              id="fileInput"
+              style="display: none;"
+              accept="application/pdf"
+            />
+            <Fragment set:html={UploadIcon} />
+            <p class="text-center">Drag & Drop or Click to Select PDF</p>
+          </label>
+          <span>
+            Note: When this tool starts producing wrong results, please contact
+            me via{" "}
+            <a
+              class="text-blue-400 hover:underline"
+              href="mailto:tim@witzdam.com"
+            >
+              tim@witzdam.com
+            </a>
+          </span>
+        </div>
+      )
+    }
+  </div>
+</Layout>

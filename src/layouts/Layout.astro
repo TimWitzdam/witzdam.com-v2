@@ -1,9 +1,13 @@
 ---
 interface Props {
   current?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
 
-const { current } = Astro.props;
+const { current, image }: Props = Astro.props;
 const routes: {
   name: String;
   path: string;
@@ -35,8 +39,10 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
     <meta name="og:image" content="https://witzdam.com/images/pfp.webp" />
   </head>
   <body>
-    <header class="pt-4 px-6 max-w-6xl mx-auto">
-      <div class="flex justify-center items-center gap-4">
+    <header class="pt-4 px-6 max-w-6xl mx-auto relative">
+      <div
+        class={`flex justify-center items-center gap-4 max-w-fit mx-auto ${image && "bg-[#2E2E2E] rounded-lg p-2"}`}
+      >
         {
           routes.map((route) =>
             route.path === current ? (
@@ -51,14 +57,27 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
                 href={route.path}
                 class="rounded-lg py-1 px-4 group hover:bg-[#2E2E2E] transition-colors"
               >
-                <span class="opacity-60 group-hover:opacity-100 transition-opacity">
+                <span class="text-[#8a8a8a] group-hover:text-white transition-colors">
                   {route.name}
                 </span>
               </a>
-            )
+            ),
           )
         }
       </div>
+      {
+        image && (
+          <div class="absolute top-0 left-0 right-0 bottom-0 -z-10">
+            <div class="relative gradient">
+              <img
+                src={image.src}
+                alt={image.alt}
+                class="w-full h-80 rounded-lg mb-6 object-cover object-top"
+              />
+            </div>
+          </div>
+        )
+      }
     </header>
     <main class="min-h-screen mb-36">
       <slot />
@@ -99,5 +118,19 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
   html {
     background-color: #161616;
     overflow-x: hidden;
+  }
+
+  .gradient::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(22, 22, 22, 0.2) 0%,
+      rgba(22, 22, 22, 1) 100%
+    );
   }
 </style>

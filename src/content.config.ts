@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { glob } from "astro/loaders";
 
@@ -12,7 +12,7 @@ function parseDate(str: string) {
   return new Date(
     parseInt(parts[2]), // year
     parseInt(parts[1]) - 1, // month (0-based)
-    parseInt(parts[0]) // day
+    parseInt(parts[0]), // day
   );
 }
 
@@ -47,6 +47,14 @@ export const collections = {
         }),
       image: z.string().optional(),
       tags: z.array(z.string()),
+      category: reference("blogCategories"),
+    }),
+  }),
+  blogCategories: defineCollection({
+    loader: glob({ pattern: "**/[^_]*.json", base: "./blogCategories" }),
+    schema: z.object({
+      name: z.string(),
+      slug: z.string(),
     }),
   }),
 };

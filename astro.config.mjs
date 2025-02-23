@@ -4,6 +4,7 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
 import mdx from "@astrojs/mdx";
+import { remarkReadingTime } from "./plugins/remark-reading-time.mjs";
 
 import expressiveCode from "astro-expressive-code";
 
@@ -79,6 +80,9 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+  },
   redirects: {
     "/tools/png-to-webp": "/tools/convert/image/png-to-webp",
     "/tools/jpg-to-webp": "/tools/convert/image/jpg-to-webp",
@@ -89,5 +93,6 @@ export default defineConfig({
     "/tools/website-word-counter": "/tools/web/seo/website-word-counter",
     "/tools/random-id-generator": "/tools/coding/generator/random-id-generator",
     "/tools/js-beautifier": "/tools/coding/formatter/js-beautifier",
+    "/tools/inodes": "/tools/uni/inodes",
   },
 });

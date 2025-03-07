@@ -11,12 +11,13 @@ docker run --rm -i -t -v gitsave:/origin -v gitsave-backup:/destination alpine s
 ```
 </div>
 
-## 2. Store JWT_SECRET (if not already done)
+## 2. Store JWT_SECRET and ENCRYPTION_SECRET (if not already done)
 Before deleting the old container, make sure to copy the `JWT_SECRET` environment variable. Losing this, means you'll have trouble logging in.
 <div class="not-content">
 ```bash
-# This command simply prints out the JWT_SECRET env variable of the docker container
+# These commands simply print out the JWT_SECRET and ENCRYPTION_SECRET env variables of the docker container
 docker exec GitSave env | grep JWT_SECRET | cut -d'=' -f2
+docker exec GitSave env | grep ENCRYPTION_SECRET | cut -d'=' -f2
 ```
 </div>
 
@@ -27,7 +28,7 @@ Now we can begin the update process:
 docker pull timwitzdam/gitsave:latest
 docker stop GitSave
 docker rm GitSave
-# Default run command. Make sure to change the JWT_SECRET and possibly the backups folder path.
-docker run -d --restart=always -p 3000:3000 -v gitsave:/app/data -v ./backups:/app/backups -e JWT_SECRET={YOUR_SECRET_HERE} -e DISABLE_AUTH=false --name GitSave timwitzdam/gitsave:latest
+# Default run command. Make sure to change the JWT_SECRET, ENCRYPTION_SECRET and possibly the backups folder path.
+docker run -d --restart=always -p 3000:3000 -v gitsave:/app/data -v ./backups:/app/backups -e JWT_SECRET={YOUR_SECRET_HERE} -e ENCRYPTION_SECRET={YOUR_SECRET_HERE_32_CHARACTERS} -e DISABLE_AUTH=false --name GitSave timwitzdam/gitsave:latest
 ```
 </div>

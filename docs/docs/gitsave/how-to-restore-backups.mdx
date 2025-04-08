@@ -1,0 +1,10 @@
+---
+title: How to restore backups
+---
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+1. Go into the backup directory (by default `./backups`) and find the repository you want to restore.
+2. In it's directory you'll find other directories named after the timestamp of the backups.
+3. Now you can use `git clone <timestamp> restored_backup` to restore the backup. It will be saved in a new directory called `restored_backup`.
+</Steps>

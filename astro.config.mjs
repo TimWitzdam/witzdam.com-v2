@@ -56,6 +56,10 @@ export default defineConfig({
           label: "GitSave",
           items: [
             {
+              label: "How to restore backups",
+              link: "/docs/gitsave/how-to-restore-backups",
+            },
+            {
               label: "How to create a GitHub access token",
               link: "/docs/gitsave/how-to-create-a-github-access-token",
             },

@@ -9,6 +9,7 @@ interface Props {
   link?: {
     url: string;
     label: string;
+    newTab?: boolean;
   };
 }
 
@@ -58,6 +59,7 @@ const { animated, spotify, noPadding, lessRounded, rounded1, noRounded, link } =
         href={link.url}
         class="absolute w-full h-full top-0 left-0 z-10"
         aria-label={link.label}
+        target={link.newTab ? "_blank" : "_self"}
       />
     )
   }

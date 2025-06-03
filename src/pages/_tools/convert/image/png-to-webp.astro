@@ -382,7 +382,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
     </div>
     <div class="flex items-center gap-2 mb-6">
       <label class="lock-container hover:scale-110 transition-transform">
-        <input type="checkbox" id="privacy-checkbox" />
+        <input type="checkbox" id="privacy-checkbox" checked/>
         <div class="lock-open">
           <Fragment set:html={LockOpenIcon} />
         </div>
@@ -390,7 +390,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
           <Fragment set:html={LockIcon} />
         </div>
       </label>
-      <p id="privacy-text">Privacy Mode off</p>
+      <p id="privacy-text">Privacy Mode on</p>
     </div>
     <div
       id="privacy-mode-disclaimer"

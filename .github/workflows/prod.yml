@@ -46,4 +46,4 @@ jobs:
           docker build -t witzdam.com .
       - name: Docker run
         run: |
-          docker run -d -p 4321:4321 --name witzdam.com witzdam.com
+          docker run -d -p 4321:4321 --name witzdam.com --restart unless-stopped witzdam.com

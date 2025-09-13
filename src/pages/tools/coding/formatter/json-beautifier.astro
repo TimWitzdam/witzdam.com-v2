@@ -1,0 +1,110 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BaseButton from "../../../../components/BaseButton.astro";
+import ArrowIcon from "../../../../../public/icons/link-arrow.svg?raw";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+---
+
+<script>
+  import { js_beautify } from "js-beautify";
+  import * as ace from "ace-builds/src-min-noconflict/ace";
+  import "ace-builds/src-min-noconflict/mode-json";
+  import "ace-builds/src-min-noconflict/theme-chaos";
+  import "ace-builds/src-min-noconflict/worker-json";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chaos");
+    editor.session.setMode("ace/mode/json");
+    editor.session.setUseWrapMode(true);
+    editor.setOptions({
+      fontSize: "14px",
+      showPrintMargin: false,
+    });
+
+    var result = ace.edit("result");
+    result.setTheme("ace/theme/chaos");
+    result.session.setMode("ace/mode/json");
+    result.session.setUseWrapMode(true);
+    result.setReadOnly(true);
+    result.setOptions({
+      fontSize: "14px",
+      showPrintMargin: false,
+    });
+
+    document.getElementById("beautify")?.addEventListener("click", () => {
+      const code = editor.getValue();
+      const beautified = js_beautify(code, {
+        indent_size: 4,
+      });
+      result.setValue(beautified);
+    });
+
+    document.getElementById("copy")?.addEventListener("click", () => {
+      const tempInput = document.createElement("input");
+      tempInput.value = result.getValue();
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+    });
+
+    document.getElementById("clear")?.addEventListener("click", () => {
+      editor.setValue("");
+      result.setValue("");
+    });
+  });
+</script>
+
+<title>Online JSON Beautifier - Tim's Tools</title>
+<meta
+  name="description"
+  content="JSON Beautifier is a tool that helps you format your JSON object to make it more readable."
+/>
+<meta name="og:title" content="Online JSON Beautifier - Tim's Tools" />
+<meta
+  name="og:description"
+  content="JSON Beautifier is a tool that helps you format your JSON object to make it more readable."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("coding", "formatter")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">JSON Beautifier</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Formats and prettifies your JSON object.
+      </p>
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="w-full h-full mb-6 md:mb-0">
+        <p class="font-bold text-xl mb-4">Input JSON</p>
+        <div id="editor" class="w-full rounded-xl h-[400px]"></div>
+      </div>
+      <div class="my-6">
+        <BaseButton id="beautify" text="Format/Beautify" fullWidth>
+          <div slot="before-icon" class="rotate-[129.81deg]">
+            <Fragment set:html={ArrowIcon} />
+          </div>
+          <div slot="after-icon" class="rotate-[129.81deg]">
+            <Fragment set:html={ArrowIcon} />
+          </div>
+        </BaseButton>
+        <div class="flex items-center gap-4 mt-4">
+          <BaseButton id="copy" text="Copy output" fullWidth />
+          <BaseButton id="clear" text="Clear text" fullWidth />
+        </div>
+      </div>
+      <div class="w-full h-full">
+        <p class="font-bold text-xl mb-4">Output JSON</p>
+        <div id="result" class="w-full rounded-xl h-[400px]"></div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style is:inline>
+  .ace-chaos * {
+    font-family: monospace !important;
+  }
+</style>

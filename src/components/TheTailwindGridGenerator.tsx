@@ -13,9 +13,7 @@ interface OverlayGridItem {
   rowSpan: number;
 }
 
-export default function TheTailwindGridGenerator(props: {
-  apiAddress: string;
-}) {
+export default function TheTailwindGridGenerator() {
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);
   const [gap, setGap] = useState(4);
@@ -65,40 +63,22 @@ export default function TheTailwindGridGenerator(props: {
     12: " gap-12",
   };
 
-  function apiIncrement() {
-    if (!use) {
-      setUse(true);
-      fetch(`${props.apiAddress}/tools/inc`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tool: "tailwind-grid-generator",
-        }),
-      });
-    }
-  }
-
   function setRowsSafe(e: number) {
     if (e < 1) e = 1;
     if (e > 12) e = 12;
     setRows(e);
-    apiIncrement();
   }
 
   function setColsSafe(e: number) {
     if (e < 1) e = 1;
     if (e > 12) e = 12;
     setCols(e);
-    apiIncrement();
   }
 
   function setGapSafe(e: number) {
     if (e < 0) e = 0;
     if (e > 12) e = 12;
     setGap(e);
-    apiIncrement();
   }
 
   useEffect(() => {
@@ -135,7 +115,6 @@ export default function TheTailwindGridGenerator(props: {
       rowSpan: 1,
     });
     setOverlayGridItems(arr);
-    apiIncrement();
   }
 
   function calculateItemPosition(item: OverlayGridItem, index: number) {

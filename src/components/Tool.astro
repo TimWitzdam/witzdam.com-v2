@@ -6,10 +6,9 @@ interface Props {
   name: string;
   url: string;
   description: string;
-  uses: string;
 }
 
-const { name, url, description, uses } = Astro.props;
+const { name, url, description } = Astro.props;
 ---
 
 <Card
@@ -25,7 +24,6 @@ const { name, url, description, uses } = Astro.props;
   </h2>
   <p>{description}</p>
   <div class="mt-2 flex items-center justify-between">
-    <span class="opacity-60">{uses} uses</span>
     <div
       class="flex items-center gap-2 opacity-60 group-hover/card:opacity-100 transition-all"
     >

@@ -1,0 +1,234 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BaseInput from "../../../../components/BaseInput.astro";
+import BaseButton from "../../../../components/BaseButton.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlInput = document.getElementById(
+      "url-input"
+    ) as HTMLInputElement | null;
+    const result = document.getElementById("result");
+    const resultText = document.getElementById("result-text");
+    const copyButton = document.getElementById("copy");
+    const utmSourceInput = document.getElementById(
+      "utm-source-input"
+    ) as HTMLInputElement | null;
+    const utmMediumInput = document.getElementById(
+      "utm-medium-input"
+    ) as HTMLInputElement | null;
+    const utmCampaignInput = document.getElementById(
+      "utm-campaign-input"
+    ) as HTMLInputElement | null;
+    const utmTermInput = document.getElementById(
+      "utm-term-input"
+    ) as HTMLInputElement | null;
+    const utmContentInput = document.getElementById(
+      "utm-content-input"
+    ) as HTMLInputElement | null;
+
+    console.log(result);
+
+    if (
+      !urlInput ||
+      !result ||
+      !resultText ||
+      !copyButton ||
+      !utmSourceInput ||
+      !utmMediumInput ||
+      !utmCampaignInput ||
+      !utmTermInput ||
+      !utmContentInput
+    )
+      return;
+
+    copyButton.addEventListener("click", () => {
+      const el = document.createElement("textarea");
+      el.value = resultText.textContent ?? "";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+
+      const copyButtonSpan = copyButton.querySelector("span");
+      if (!copyButtonSpan) return;
+      copyButtonSpan.textContent = "Copied!";
+      setTimeout(() => {
+        copyButtonSpan.textContent = "Copy";
+      }, 2500);
+    });
+
+    function updateResult() {
+      if (
+        !urlInput ||
+        !result ||
+        !resultText ||
+        !copyButton ||
+        !utmSourceInput ||
+        !utmMediumInput ||
+        !utmCampaignInput ||
+        !utmTermInput ||
+        !utmContentInput
+      )
+        return;
+      const url = urlInput.value;
+      const utmSource = utmSourceInput.value;
+      const utmMedium = utmMediumInput.value;
+      const utmCampaign = utmCampaignInput.value;
+      const utmTerm = utmTermInput.value;
+      const utmContent = utmContentInput.value;
+
+      if (url && utmSource && utmMedium && utmCampaign) {
+        const utmParams = new URLSearchParams();
+        utmParams.set("utm_source", utmSource);
+        utmParams.set("utm_medium", utmMedium);
+        utmParams.set("utm_campaign", utmCampaign);
+
+        if (utmTerm) {
+          utmParams.set("utm_term", utmTerm);
+        }
+
+        if (utmContent) {
+          utmParams.set("utm_content", utmContent);
+        }
+
+        const urlRegex =
+          /^(http:\/\/|https:\/\/)?([a-zA-Z0-9]+([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[a-zA-Z0-9]+([a-zA-Z0-9-]*[a-zA-Z0-9])?)?(\/)?(\?[a-zA-Z0-9]+=[a-zA-Z0-9_]+(&[a-zA-Z0-9]+=[a-zA-Z0-9_]+)*)?$/;
+        if (!urlRegex.test(url)) {
+          result.classList.add("hidden");
+          return;
+        }
+        let newUrl = url;
+        if (newUrl.includes("?")) {
+          newUrl += `&${utmParams.toString()}`;
+        } else {
+          newUrl += `?${utmParams.toString()}`;
+        }
+
+        if (newUrl.includes("http://") || newUrl.includes("https://")) {
+          newUrl = newUrl;
+        } else {
+          newUrl = `https://${newUrl}`;
+        }
+
+        resultText.textContent = newUrl;
+        result.classList.remove("hidden");
+      } else {
+        result.classList.add("hidden");
+      }
+    }
+
+    urlInput.addEventListener("input", updateResult);
+    utmSourceInput.addEventListener("input", updateResult);
+    utmMediumInput.addEventListener("input", updateResult);
+    utmCampaignInput.addEventListener("input", updateResult);
+    utmTermInput.addEventListener("input", updateResult);
+    utmContentInput.addEventListener("input", updateResult);
+
+    urlInput.addEventListener("input", () => {
+      updateResult();
+    });
+  });
+</script>
+
+<title>UTM URL Builder - Tim's Tools</title>
+<meta
+  name="description"
+  content="Create UTM parameters and tags for your URLs to track your marketing campaigns."
+/>
+<meta name="og:title" content="UTM URL Builder - Tim's Tools" />
+<meta
+  name="og:description"
+  content="Create UTM parameters and tags for your URLs to track your marketing campaigns."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("web", "technical")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">UTM Tag Builder</h1>
+      <p class="text-lg md:w-2/3 mx-auto">Create UTM tags for your URLs</p>
+    </div>
+
+    <form>
+      <div class="mb-6">
+        <label for="url-input" class="text-xl font-bold"
+          >Website URL <span class="text-red-500">*</span></label
+        >
+        <div class="mt-4 mb-2">
+          <BaseInput
+            id="url-input"
+            type="text"
+            placeholder="Enter the URL"
+            fullWidth
+          />
+        </div>
+        <p class="opacity-60 text-sm">
+          The URL to which you want to add UTM parameters
+        </p>
+      </div>
+      <div class="mb-6">
+        <label for="utm-source-input" class="text-xl font-bold"
+          >UTM Source <span class="text-red-500">*</span></label
+        >
+        <div class="mt-4 mb-2">
+          <BaseInput id="utm-source-input" type="text" fullWidth />
+        </div>
+        <p class="opacity-60 text-sm">
+          Source of the traffic, e.g. Google, Newsletter, Facebook
+        </p>
+      </div>
+      <div class="mb-6">
+        <label for="utm-medium-input" class="text-xl font-bold"
+          >UTM Medium <span class="text-red-500">*</span></label
+        >
+        <div class="mt-4 mb-2">
+          <BaseInput id="utm-medium-input" type="text" fullWidth />
+        </div>
+        <p class="opacity-60 text-sm">
+          Marketing medium, e.g. cpc, banner, email
+        </p>
+      </div>
+      <div class="mb-6">
+        <label for="utm-campaign-input" class="text-xl font-bold"
+          >UTM Campaign <span class="text-red-500">*</span></label
+        >
+        <div class="mt-4 mb-2">
+          <BaseInput id="utm-campaign-input" type="text" fullWidth />
+        </div>
+        <p class="opacity-60 text-sm">
+          Name of the campaign, e.g. 10-percent-off, summer-sale
+        </p>
+      </div>
+      <div class="mb-6">
+        <label for="utm-term-input" class="text-xl font-bold">UTM Term</label>
+        <div class="mt-4 mb-2">
+          <BaseInput id="utm-term-input" type="text" fullWidth />
+        </div>
+        <p class="opacity-60 text-sm">Identify paid keywords</p>
+      </div>
+      <div class="mb-10">
+        <label for="utm-content-input" class="text-xl font-bold"
+          >UTM Content</label
+        >
+        <div class="mt-4 mb-2">
+          <BaseInput id="utm-content-input" type="text" fullWidth />
+        </div>
+        <p class="opacity-60 text-sm">CTAs or headlines for example</p>
+      </div>
+    </form>
+
+    <div>
+      <p class="text-center text-sm opacity-60">
+        Note: Fields marked with <span class="text-red-500">*</span> are required
+      </p>
+    </div>
+    <div id="result" class="mt-10 p-6 rounded-xl border-2 border-white hidden">
+      <h2 class="font-bold text-2xl mb-2">Result</h2>
+      <p id="result-text" class="mb-4 text-center font-bold text-xl"></p>
+      <BaseButton id="copy" text="Copy" fullWidth />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,93 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BaseInput from "../../../../components/BaseInput.astro";
+import BaseButton from "../../../../components/BaseButton.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlInput = document.getElementById(
+      "url-input"
+    ) as HTMLInputElement | null;
+    const result = document.getElementById("result");
+    const resultText = document.getElementById("result-text");
+    const copyButton = document.getElementById("copy");
+
+    if (!urlInput || !result || !resultText || !copyButton) return;
+
+    function decodeURL(url: string) {
+      const decodedURL = decodeURIComponent(url);
+      resultText!.textContent = decodedURL;
+      result!.classList.remove("hidden");
+    }
+
+    copyButton.addEventListener("click", () => {
+      const el = document.createElement("textarea");
+      el.value = resultText.textContent ?? "";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+
+      const copyButtonSpan = copyButton.querySelector("span");
+      if (!copyButtonSpan) return;
+      copyButtonSpan.textContent = "Copied!";
+      setTimeout(() => {
+        copyButtonSpan.textContent = "Copy";
+      }, 2500);
+    });
+
+    urlInput.addEventListener("input", () => {
+      const value = urlInput ? urlInput.value : "";
+      if (!value) {
+        result.classList.add("hidden");
+      } else {
+        decodeURL(value);
+      }
+    });
+  });
+</script>
+
+<title>URL Decoder Online - Tim's Tools</title>
+<meta
+  name="description"
+  content="Decode any URL that's been encoded with special characters like %20."
+/>
+<meta name="og:title" content="URL Decoder Online - Tim's Tools" />
+<meta
+  name="og:description"
+  content="Decode any URL that's been encoded with special characters like %20."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("web", "technical")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">URL Decoder</h1>
+      <p class="text-lg md:w-2/3 mx-auto">Decode a URL</p>
+    </div>
+
+    <form>
+      <label for="length-input" class="text-xl font-bold">URL</label>
+      <div class="mt-4 mb-2">
+        <BaseInput
+          id="url-input"
+          type="text"
+          placeholder="Enter the URL"
+          fullWidth
+        />
+      </div>
+      <p class="opacity-60 text-sm">
+        The result will show up automatically as soon as you start to enter
+        something
+      </p>
+    </form>
+
+    <div id="result" class="mt-10 hidden">
+      <h2 class="font-bold text-2xl mb-2">Result</h2>
+      <p id="result-text" class="mb-4 text-center font-bold text-xl"></p>
+      <BaseButton id="copy" text="Copy" fullWidth />
+    </div>
+  </div>
+</Layout>

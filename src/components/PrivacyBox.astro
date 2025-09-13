@@ -1,0 +1,77 @@
+---
+import LockIcon from "../../public/icons/lock.svg?raw";
+---
+
+<div class="flex items-center gap-2 mb-6">
+  <label class="lock-container hover:scale-110 transition-transform">
+    <input type="checkbox" id="privacy-checkbox" checked disabled />
+    <div class="lock">
+      <Fragment set:html={LockIcon} />
+    </div>
+  </label>
+  <p id="privacy-text">Privacy Mode on</p>
+</div>
+<div
+  id="privacy-mode-disclaimer"
+  class="w-full border-2 border-white rounded-xl p-4 mb-6"
+>
+  <p>
+    <strong>Privacy Mode</strong> is a feature that allows you to convert images
+    without uploading them to a server. This means that your images never leave your
+    computer.
+  </p>
+  <br />
+  <p>
+    <strong>Privacy Mode</strong> may not work in your browser. If you're experiencing
+    issues, try switching browsers.
+  </p>
+</div>
+
+<style>
+  .lock-container {
+    --color: white;
+    --size: 20px;
+    width: var(--size);
+    height: var(--size) * 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--size);
+    fill: var(--color);
+  }
+
+  .lock-container .lock-open {
+    animation: keyframes-fill 0.5s;
+  }
+
+  .lock-container .lock {
+    display: none;
+    animation: keyframes-fill 0.5s;
+  }
+
+  .lock-container input:checked ~ .lock-open {
+    display: none;
+  }
+
+  .lock-container input:checked ~ .lock {
+    display: block;
+  }
+
+  .lock-container input {
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+
+  @keyframes keyframes-fill {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    50% {
+      transform: scale(1.2);
+    }
+  }
+</style>

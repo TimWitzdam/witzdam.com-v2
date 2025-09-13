@@ -33,11 +33,6 @@ export const tool_categories: ToolCategory[] = [
     slug: "web",
     sub_categories: [
       {
-        name: "SEO",
-        description: "SEO Tools",
-        slug: "seo",
-      },
-      {
         name: "Technical",
         description: "Technical Tools",
         slug: "technical",
@@ -76,11 +71,6 @@ export const tool_categories: ToolCategory[] = [
       },
     ],
   },
-  {
-    name: "University",
-    description: "University",
-    slug: "uni",
-  },
 ];
 
 interface Tool {
@@ -92,12 +82,6 @@ interface Tool {
 }
 
 export const tools: Tool[] = [
-  {
-    name: "Website Word Counter",
-    description: "Count the words on a website",
-    url: "/tools/web/seo/website-word-counter",
-    popular: true,
-  },
   {
     name: "PNG To WEBP Converter",
     description: "Convert PNG images to WEBP",
@@ -135,12 +119,6 @@ export const tools: Tool[] = [
     description: "Format and prettify your JS code",
     url: "/tools/coding/formatter/js-beautifier",
     popular: true,
-  },
-  {
-    name: "Inodes Calculator",
-    description:
-      "Calculates inodes for the exercises of University Essen Duisburg",
-    url: "/tools/uni/inodes",
   },
   {
     name: "Random ID Generator",
@@ -236,11 +214,6 @@ export const tools: Tool[] = [
     name: "Manchester Encoder & Decoder",
     description: "Encode and decode Manchester code",
     url: "/tools/coding/converter/manchester-encoding",
-  },
-  {
-    name: "Lewintan Stats Extractor",
-    description: "Extract stats from Lewintan exam results PDF",
-    url: "/tools/uni/lewintan-stats-extractor",
   },
 ];
 

@@ -1,0 +1,173 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BaseInput from "../../../../components/BaseInput.astro";
+import BaseButton from "../../../../components/BaseButton.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+---
+
+<script>
+  const binary1 = document.getElementById("binary1") as HTMLInputElement;
+  const binary2 = document.getElementById("binary2") as HTMLInputElement;
+  const action = document.getElementById("action") as HTMLSelectElement;
+  const calculateButton = document.getElementById(
+    "calculate"
+  ) as HTMLButtonElement;
+  const resultDiv = document.getElementById("result-div") as HTMLDivElement;
+  const resultEl = document.getElementById("result") as HTMLDivElement;
+
+  function validateBinary(num: string) {
+    if (typeof num !== "string" || num.length > 16 || !/^[01]+$/.test(num)) {
+      return "0";
+    }
+    return num;
+  }
+
+  function add(a: string, b: string) {
+    a = validateBinary(a);
+    b = validateBinary(b);
+    const sum = parseInt(a, 2) + parseInt(b, 2);
+    return sum.toString(2);
+  }
+
+  function subtract(a: string, b: string) {
+    a = validateBinary(a);
+    b = validateBinary(b);
+    const difference = parseInt(a, 2) - parseInt(b, 2);
+    return difference.toString(2);
+  }
+
+  function multiply(a: string, b: string) {
+    a = validateBinary(a);
+    b = validateBinary(b);
+    const product = parseInt(a, 2) * parseInt(b, 2);
+    return product.toString(2);
+  }
+
+  function divide(a: string, b: string) {
+    a = validateBinary(a);
+    b = validateBinary(b);
+    if (parseInt(b, 2) === 0) {
+      throw new Error("Division by zero is not allowed.");
+    }
+    const quotient = Math.floor(parseInt(a, 2) / parseInt(b, 2));
+    return quotient.toString(2);
+  }
+
+  function filterBinaryInput(e: Event) {
+    const target = e.target as HTMLInputElement | null;
+    if (!target) return;
+    let value = target.value ?? "";
+    value = value.replace(/[^01]/g, ""); // replace anything that isn't 0 or 1 with ''
+
+    if (value.length > 16) {
+      value = value.substring(0, 16);
+    }
+
+    target.value = value;
+  }
+
+  binary1.addEventListener("input", (e) => {
+    filterBinaryInput(e);
+  });
+
+  binary2.addEventListener("input", (e) => {
+    filterBinaryInput(e);
+  });
+
+  calculateButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (!binary1.value || !binary2.value) {
+      return;
+    }
+
+    let result;
+    switch (action.value) {
+      case "add":
+        result = add(binary1.value, binary2.value);
+        break;
+      case "subtract":
+        result = subtract(binary1.value, binary2.value);
+        break;
+      case "multiply":
+        result = multiply(binary1.value, binary2.value);
+        break;
+      case "divide":
+        try {
+          result = divide(binary1.value, binary2.value);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            resultEl.textContent = error.message;
+          } else {
+            resultEl.textContent = String(error);
+          }
+          resultDiv.classList.remove("hidden");
+          return;
+        }
+        break;
+      default:
+        result = null;
+        break;
+    }
+    resultDiv.classList.remove("hidden");
+    resultEl.textContent = result;
+  });
+</script>
+
+<title>Binary Calculator - Tim's Tools</title>
+<meta
+  name="description"
+  content="The Binary Calculator allows you to add, subtract, multiply and divide binary numbers."
+/>
+<meta name="og:title" content="Binary Calculator - Tim's Tools" />
+<meta
+  name="og:description"
+  content="The Binary Calculator allows you to add, subtract, multiply and divide binary numbers."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("coding", "calculator")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">Binary Calculator</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Add, subtract, multiply and divide binary numbers.
+      </p>
+    </div>
+    <div>
+      <form class="mb-8">
+        <div
+          class="flex flex-col items-center gap-6 md:flex-row md:justify-center mb-10"
+        >
+          <BaseInput
+            id="binary1"
+            type="text"
+            placeholder="First binary number"
+            fullWidth
+          />
+          <select
+            name="action"
+            id="action"
+            class="bg-transparent p-4 border-2 border-white rounded-xl"
+          >
+            <option value="add">Add (+)</option>
+            <option value="subtract">Subtract (-)</option>
+            <option value="multiply">Multiply (*)</option>
+            <option value="divide">Divide (/)</option>
+          </select>
+          <BaseInput
+            id="binary2"
+            type="text"
+            placeholder="Second binary number"
+            fullWidth
+          />
+        </div>
+        <BaseButton text="Calculate" id="calculate" fullWidth />
+      </form>
+      <div id="result-div" class="hidden">
+        <h2 class="font-bold text-2xl mb-4">Result</h2>
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+</Layout>

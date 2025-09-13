@@ -1,0 +1,89 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { buildBreadcrumb } from "../../../../glob_vars";
+import BreadCrumb from "../../../../components/BreadCrumb.astro";
+import BaseInput from "../../../../components/BaseInput.astro";
+import BaseButton from "../../../../components/BaseButton.astro";
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const manchesterCode = document.getElementById(
+      "manchester-code"
+    ) as HTMLInputElement;
+    const binaryInput = document.getElementById(
+      "binary-input"
+    ) as HTMLInputElement;
+    const encodeButton = document.querySelector(
+      "button:nth-of-type(1)"
+    ) as HTMLButtonElement;
+    const decodeButton = document.querySelector(
+      "button:nth-of-type(2)"
+    ) as HTMLButtonElement;
+
+    encodeButton.addEventListener("click", () => {
+      const binary = binaryInput.value.replace(/[^01]/g, "");
+      if (!binary) return;
+      manchesterCode.value = binary
+        .split("")
+        .map((bit) => (bit === "1" ? "10" : "01"))
+        .join("");
+    });
+
+    decodeButton.addEventListener("click", () => {
+      const manchester = manchesterCode.value;
+      if (!manchester) return;
+      const pairs = manchester.match(/.{2}/g) || [];
+      binaryInput.value = pairs
+        .map((bit) => (bit === "10" ? "1" : "0"))
+        .join("");
+    });
+
+    binaryInput.addEventListener("input", (e) => {
+      binaryInput.value = binaryInput.value.replace(/[^01]/g, "");
+    });
+
+    manchesterCode.addEventListener("input", (e) => {
+      manchesterCode.value = manchesterCode.value.replace(/[^01]/g, "");
+    });
+  });
+</script>
+
+<title>Online Manchester Encoder & Decoder - Tim's Tools</title>
+<meta
+  name="description"
+  content="This tool allows you to encode and decode binary data Manchester code."
+/>
+<meta
+  name="og:title"
+  content="Online Manchester Encoder & Decoder - Tim's Tools"
+/>
+<meta
+  name="og:description"
+  content="This tool allows you to encode and decode binary data Manchester code."
+/>
+<Layout current="/tools">
+  <div class="mt-20 mb-16 max-w-4xl mx-auto px-6">
+    <BreadCrumb urls={buildBreadcrumb("coding", "converter")} />
+    <div class="text-center mb-10 mt-4">
+      <h1 class="text-5xl font-bold mb-4">Manchester Encoder & Decoder</h1>
+      <p class="text-lg md:w-2/3 mx-auto">
+        Encode and decode binary data Manchester code.
+      </p>
+    </div>
+    <div>
+      <label for="manchester-code" class="block mb-2 text-xl font-bold"
+        >Manchester Code (to decode)</label
+      >
+      <BaseInput id="manchester-code" type="text" fullWidth />
+      <div class="flex items-center gap-4 my-6">
+        <BaseButton text="Encode ↑" />
+        <BaseButton text="Decode ↓" />
+      </div>
+      <label for="binary-input" class="block mb-2 text-xl font-bold"
+        >Binary input (to encode)</label
+      >
+      <BaseInput id="binary-input" type="text" fullWidth />
+    </div>
+  </div>
+</Layout>

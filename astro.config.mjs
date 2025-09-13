@@ -30,29 +30,6 @@ export default defineConfig({
           ],
         },
         {
-          label: "API Collection",
-          collapsed: true,
-          items: [
-            {
-              label: "Usage",
-              link: "/docs/api-collection",
-            },
-            {
-              label: "APIs",
-              items: [
-                {
-                  label: "Website Word Counter",
-                  link: "/docs/api-collection/website-word-counter",
-                },
-                {
-                  label: "UUID Generator",
-                  link: "/docs/api-collection/uuid-generator",
-                },
-              ],
-            },
-          ],
-        },
-        {
           label: "GitSave",
           items: [
             {

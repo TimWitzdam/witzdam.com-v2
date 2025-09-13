@@ -25,14 +25,22 @@ function getFiltered() {
 }
 ---
 
-<script define:vars={{ tools }} lang="ts">
+<script>
+  import { tools } from "../../glob_vars";
   document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const toolsContainer = document.getElementById("search-tools");
     const hideWhenSearch = document.querySelectorAll(".hide-when-search");
-    const totalUses = document.getElementById("total-uses");
 
-    function createTool(id, name, description, url, label) {
+    if (!searchInput || !toolsContainer || !hideWhenSearch) return;
+
+    function createTool(
+      id: string,
+      name: string,
+      description: string,
+      url: string,
+      label: string
+    ) {
       const e = document.createElement("div");
       e.innerHTML = `
         <div id="tool-${id}" class="h-full relative group/card card hover:scale-[1.02] transition-transform p-8">
@@ -74,8 +82,9 @@ function getFiltered() {
     }
 
     searchInput.addEventListener("input", (e) => {
-      const search = e.target.value.toLowerCase();
-      var newTotalUses = 0;
+      if (!e.target) return;
+      const target = e.target as HTMLInputElement;
+      const search = target.value.toLowerCase();
       if (search.length === 0) {
         toolsContainer.innerHTML = "";
         for (const tool of tools) {
@@ -88,8 +97,6 @@ function getFiltered() {
               `Go to ${tool.name}`
             )
           );
-          newTotalUses += parseInt(tool.uses);
-          totalUses.textContent = `Total uses: ${newTotalUses}`;
         }
         return;
       }
@@ -114,13 +121,10 @@ function getFiltered() {
             tool.name,
             tool.description,
             tool.url,
-            `Go to ${tool.name}`,
-            tool.uses
+            `Go to ${tool.name}`
           )
         );
-        newTotalUses += parseInt(tool.uses);
       }
-      totalUses.textContent = `Total uses: ${newTotalUses}`;
     });
   });
 </script>

@@ -170,7 +170,6 @@ import ArrowIcon from "../../../public/icons/link-arrow.svg?raw";
                 name={tool.name}
                 description={tool.description}
                 url={tool.url}
-                uses={tool.uses?.toString() || "0"}
               />
             )
         )
@@ -179,20 +178,6 @@ import ArrowIcon from "../../../public/icons/link-arrow.svg?raw";
     <a href="/tools/browse" class="mx-auto w-fit block mt-8">
       <BaseButton text="View all" />
     </a>
-  </section>
-  <section class="mt-20">
-    <Card noPadding noRounded>
-      <div class="max-w-4xl mx-auto px-6 py-10 text-center">
-        <h2 class="font-bold text-4xl mb-4">APIs needed?</h2>
-        <p class="md:w-1/2 mx-auto text-lg">
-          If you need any of these tools as an API or want to explore more of
-          what I do, check out my API collection.
-        </p>
-        <a href="/docs" class="mx-auto w-fit block mt-8">
-          <BaseButton text="Explore API Documentation" />
-        </a>
-      </div>
-    </Card>
   </section>
 </Layout>
 

@@ -215,6 +215,11 @@ export const tools: Tool[] = [
     description: "Encode and decode Manchester code",
     url: "/tools/coding/converter/manchester-encoding",
   },
+  {
+    name: "JWT Secret Generator",
+    description: "Generate a secure JWT secret",
+    url: "/tools/coding/generator/jwt-secret-generator",
+  },
 ];
 
 export function buildBreadcrumb(category: string, subcategory?: string) {

@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
@@ -8,12 +7,13 @@ import { remarkReadingTime } from "./plugins/remark-reading-time.mjs";
 
 import expressiveCode from "astro-expressive-code";
 
+import tailwindcss from "@tailwindcss/vite";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     expressiveCode(),
     mdx(),
-    tailwind(),
     react(),
     starlight({
       title: "Tim's Docs",
@@ -57,13 +57,17 @@ export default defineConfig({
       ],
     }),
   ],
+
   output: "server",
+
   adapter: node({
     mode: "standalone",
   }),
+
   markdown: {
     remarkPlugins: [remarkReadingTime],
   },
+
   redirects: {
     "/tools/png-to-webp": "/tools/convert/image/png-to-webp",
     "/tools/jpg-to-webp": "/tools/convert/image/jpg-to-webp",
@@ -75,5 +79,9 @@ export default defineConfig({
     "/tools/random-id-generator": "/tools/coding/generator/random-id-generator",
     "/tools/js-beautifier": "/tools/coding/formatter/js-beautifier",
     "/tools/inodes": "/tools/uni/inodes",
+  },
+
+  vite: {
+    plugins: [tailwindcss()],
   },
 });

@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 interface Props {
   current?: string;
   image?: {
@@ -61,7 +63,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
                   {route.name}
                 </span>
               </a>
-            ),
+            )
           )
         }
       </div>
@@ -85,7 +87,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
     <footer class="bg-[#252525]">
       <div class="max-w-6xl mx-auto p-6">
         <p class="text-center">
-          Copyright © 2024 Tim Witzdam. All rights reserved.
+          Copyright © {new Date().getFullYear()} Tim Witzdam. All rights reserved.
         </p>
       </div>
     </footer>
@@ -109,9 +111,6 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
       Segoe UI Emoji,
       Segoe UI Symbol,
       Noto Color Emoji;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     color: white;
   }
